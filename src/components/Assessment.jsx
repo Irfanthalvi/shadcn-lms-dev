@@ -17,11 +17,11 @@ const Chapter1Test = () => {
   const [loading, setLoading] = useState(true);
   const topRef = useRef(null);
 
-  useEffect(() => {
-    document.title = "Start Test";
-    const timer = setTimeout(() => setLoading(false), 1000);
-    return () => clearTimeout(timer);
-  }, []);
+  // useEffect(() => {
+  //   document.title = "Start Test";
+  //   const timer = setTimeout(() => setLoading(false), 1000);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   const handleOptionChange = (qIndex, option) => {
     if (!submitted) {
