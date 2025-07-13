@@ -6,10 +6,9 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from "@/components/ui/radio-group";
-import { useParams } from "react-router-dom";
+import { toast } from "sonner";
 
 const Chapter1Test = () => {
-   const { id } = useParams();
   const [answers, setAnswers] = useState(Array(questions.length).fill(null));
   const [submitted, setSubmitted] = useState(false);
   const [startTime] = useState(Date.now());
@@ -31,11 +30,9 @@ const Chapter1Test = () => {
     }
   };
 
-   console.log("id----->>>",id)
-
   const handleSubmit = () => {
     if (answers.includes(null)) {
-      alert("Please answer all questions before submitting!");
+    toast.warning("❗ Please answer all questions before submitting!");
       return;
     }
 
