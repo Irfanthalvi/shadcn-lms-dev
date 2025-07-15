@@ -15,7 +15,7 @@ import { Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const SubjectChapters = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // subjectId
   const navigate = useNavigate();
 
   const [chapters, setChapters] = useState([]);
@@ -47,11 +47,11 @@ const SubjectChapters = () => {
     }, 800); // Simulated loading time
   }, [id]);
 
-  // console.log("id----->>>",id)
-
-  const handleChapterSelect = (path) => {
-    navigate(path);
+  const handleAssessment = (chapter) => {
+    const chapterId = chapter.path.split("/").pop(); // e.g. "chapter1"
+    navigate(`/assessment/${id}/${chapterId}`);
   };
+
 
   if (loading) {
     return (
@@ -62,21 +62,13 @@ const SubjectChapters = () => {
     );
   }
 
-  const handleAssessment=(chapter)=>{
-    console.log(chapter)
-    console.log(`chapter${chapter.path}`)
-    navigate(`/chapter${chapter.path}`)
-//  handleChapterSelect(`chapter${chapter.path}`)
-
-  }
-
   return (
     <div className="min-h-screen bg-background text-foreground px-4 py-10">
       <div className="space-y-3">
         {chapters.map((chapter, idx) => (
           <div
             key={idx}
-            onClick={()=>handleAssessment(chapter)}
+            onClick={() => handleAssessment(chapter)}
             className="bg-card text-card-foreground border border-border rounded-lg flex items-center justify-between p-4 cursor-pointer hover:shadow-sm transition"
           >
             <div className="flex items-center gap-3">
@@ -89,7 +81,7 @@ const SubjectChapters = () => {
                 </div>
               </div>
             </div>
-            <Button >Start</Button>
+            <Button>Start</Button>
           </div>
         ))}
       </div>

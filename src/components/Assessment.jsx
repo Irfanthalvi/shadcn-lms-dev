@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
-import { chapter1 as questions } from "./questions";
+import { useParams } from "react-router-dom";
+import { loadQuestions } from "@/components/questions";
 import { Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,19 +9,30 @@ import {
 } from "@/components/ui/radio-group";
 import { toast } from "sonner";
 
-const Chapter1Test = () => {
-  const [answers, setAnswers] = useState(Array(questions.length).fill(null));
+const ChapterAssessment = () => {
+  const { subject, chapterId } = useParams(); // e.g. /assessment/english/chapter1
+  const [questions, setQuestions] = useState([]);
+  const [answers, setAnswers] = useState([]);
   const [submitted, setSubmitted] = useState(false);
-  const [startTime] = useState(Date.now());
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [startTime] = useState(Date.now());
   const topRef = useRef(null);
 
   useEffect(() => {
-    document.title = "Start Test";
-    const timer = setTimeout(() => setLoading(false), 1000);
-    return () => clearTimeout(timer);
-  }, []);
+    const fetchQuestions = async () => {
+      const q = await loadQuestions(subject, chapterId);
+      if (!q) {
+        toast.error("❌ No questions found for this chapter");
+        return;
+      }
+      setQuestions(q);
+      setAnswers(Array(q.length).fill(null));
+      setLoading(false);
+    };
+
+    fetchQuestions();
+  }, [subject, chapterId]);
 
   const handleOptionChange = (qIndex, option) => {
     if (!submitted) {
@@ -32,7 +44,7 @@ const Chapter1Test = () => {
 
   const handleSubmit = () => {
     if (answers.includes(null)) {
-    toast.warning("❗ Please answer all questions before submitting!");
+      toast.warning("❗ Answer all questions before submitting");
       return;
     }
 
@@ -41,9 +53,10 @@ const Chapter1Test = () => {
     }, 0);
 
     const endTime = Date.now();
-    const timeTakenMs = endTime - startTime;
-    const minutes = Math.floor(timeTakenMs / 60000);
-    const seconds = Math.floor((timeTakenMs % 60000) / 1000);
+    const timeTaken = Math.floor((endTime - startTime) / 1000);
+    const minutes = Math.floor(timeTaken / 60);
+    const seconds = timeTaken % 60;
+
     const score = ((correctCount / questions.length) * 100).toFixed(0);
 
     setSubmitted(true);
@@ -58,7 +71,7 @@ const Chapter1Test = () => {
 
     setTimeout(() => {
       topRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+    }, 200);
   };
 
   if (loading) {
@@ -78,7 +91,7 @@ const Chapter1Test = () => {
         <div className="p-6 rounded-xl space-y-4 border border-border">
           <h2 className="text-xl font-semibold text-destructive">🎉 Well Done!</h2>
           <p className="text-muted-foreground">
-            You've completed the assessment for <strong>"The Saviour of Mankind"</strong>.
+            You completed the assessment for <strong>{subject} {chapterId}</strong>
           </p>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
@@ -94,7 +107,7 @@ const Chapter1Test = () => {
             </div>
             <div className="p-4 rounded-lg border border-border">
               <p className="text-sm text-muted-foreground">Attempts</p>
-              <p className="text-lg font-semibold">{result.attempts}</p>
+              <p className="text-lg font-semibold">1</p>
             </div>
             <div className="p-4 rounded-lg border border-border">
               <p className="text-sm text-muted-foreground">Time Taken</p>
@@ -105,7 +118,7 @@ const Chapter1Test = () => {
       )}
 
       <div className="space-y-1">
-        <h1 className="text-2xl font-semibold text-left">English Chapter 1 – The Saviour of Mankind</h1>
+        <h1 className="text-2xl font-semibold text-left capitalize">{subject} {chapterId.replace("chapter", "Chapter ")}</h1>
         <p className="text-left text-sm text-muted-foreground">📝 35 Marks &nbsp;&nbsp; ⏱ 35 Minutes</p>
       </div>
 
@@ -121,19 +134,16 @@ const Chapter1Test = () => {
                   {qIndex + 1}. {question.text}
                 </h2>
                 {submitted && (
-                  <span
-                    className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                      isCorrect
-                        ? "bg-green-100 text-green-800 border border-green-300"
-                        : "bg-red-100 text-red-800 border border-red-300"
-                    }`}
-                  >
+                  <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
+                    isCorrect
+                      ? "bg-green-100 text-green-800 border border-green-300"
+                      : "bg-red-100 text-red-800 border border-red-300"
+                  }`}>
                     {isCorrect ? "Correct ✅" : "Wrong ❌"}
                   </span>
                 )}
               </div>
 
-              {/* ✅ SHADCN RADIO GROUP */}
               <RadioGroup
                 value={userAnswer || ""}
                 onValueChange={(value) => handleOptionChange(qIndex, value)}
@@ -178,13 +188,11 @@ const Chapter1Test = () => {
 
       {!submitted && (
         <div className="text-right">
-          <Button onClick={handleSubmit}>
-            Submit
-          </Button>
+          <Button onClick={handleSubmit}>Submit</Button>
         </div>
       )}
     </div>
   );
 };
 
-export default Chapter1Test;
+export default ChapterAssessment;

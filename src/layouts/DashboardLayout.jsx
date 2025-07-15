@@ -3,7 +3,6 @@ import { Link, NavLink } from "react-router-dom";
 import {
     BookOpenCheck,
     User,
-    SquareStack,
     LogOut,
     Settings,
     Loader,
@@ -89,13 +88,13 @@ const DashboardLayout = ({ children }) => {
                         to="/subjects"
                         className={({ isActive }) =>
                             `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium transition-colors
-              ${isActive
+                               ${isActive
                                 ? "bg-accent text-accent-foreground"
                                 : "hover:bg-muted hover:text-foreground"
                             }`
                         }
                     >
-                        <BookOpenCheck size={20} />
+                        <BookOpenCheck size={25} />
                         {isSidebarOpen && "Subjects"}
                     </NavLink>
                 </nav>
@@ -108,14 +107,14 @@ const DashboardLayout = ({ children }) => {
             >
                 {/* Topbar */}
                 <header className="flex items-center justify-between h-[75px] px-4 border-b border-border bg-background">
-                    <div className="flex items-center gap-4 min-w-0">
+                    <div className="flex items-center justify-center gap-4 min-w-0">
                         <button
                             onClick={toggleSidebar}
-                            className="w-10 h-10 flex items-center justify-center border border-border rounded-md hover:bg-muted transition shrink-0"
+                            className="w-10 h-10 flex items-center justify-center border border-border rounded-md  transition shrink-0"
                         >
                             ☰
                         </button>
-                        <div className="flex items-center h-10 translate-y-[1px] overflow-hidden">
+                        <div className="flex items-center h-10 translate-y-[7px] overflow-hidden ">
                             <Breadcrumbs />
                         </div>
                     </div>

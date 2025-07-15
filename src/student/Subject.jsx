@@ -48,10 +48,9 @@ const Subject = () => {
             <div className="p-4 flex flex-col flex-1">
               <h2 className="text-base font-semibold mb-1 line-clamp-1">{subject.title}</h2>
               <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{subject.description}</p>
-              {/* <div className="mt-auto inline-flex items-center justify-center gap-1 bg-primary text-primary-foreground text-sm font-medium px-4 py-2 rounded-md hover:opacity-90 transition w-fit">
+              <Button className="mt-auto inline-flex items-center justify-center gap-1 bg-primary text-primary-foreground text-sm font-medium px-4 py-2 rounded-md hover:opacity-90 transition w-fit">
                 Continue Study <ArrowRight size={16} />
-              </div> */}
-              <Button>Continue Study <ArrowRight size={16}/></Button>
+              </Button>
             </div>
           </div>
         ))}
