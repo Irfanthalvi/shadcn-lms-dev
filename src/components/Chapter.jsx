@@ -20,6 +20,7 @@ const SubjectChapters = () => {
 
   const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(6); // Initial chapters to show
 
   useEffect(() => {
     const chapterMap = {
@@ -52,6 +53,12 @@ const SubjectChapters = () => {
     navigate(`/assessment/${id}/${chapterId}`);
   };
 
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + 6);
+  };
+
+  const visibleChapters = chapters.slice(0, visibleCount);
+  const hasMore = visibleCount < chapters.length;
 
   if (loading) {
     return (
@@ -65,7 +72,7 @@ const SubjectChapters = () => {
   return (
     <div className="min-h-screen bg-background text-foreground px-4 py-10">
       <div className="space-y-3">
-        {chapters.map((chapter, idx) => (
+        {visibleChapters.map((chapter, idx) => (
           <div
             key={idx}
             onClick={() => handleAssessment(chapter)}
@@ -85,6 +92,15 @@ const SubjectChapters = () => {
           </div>
         ))}
       </div>
+
+      {/* Load More Button */}
+      {hasMore && (
+        <div className="flex justify-center mt-6">
+          <Button onClick={handleLoadMore} className="bg-muted text-muted-foreground hover:bg-muted/80">
+            Load More
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

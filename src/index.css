@@ -118,3 +118,26 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* index.css */
+
+/* Show scrollbar only when needed (auto), slim style */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 100, 100, 0.3);
+  border-radius: 4px;
+}
+
+/* Firefox support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100, 100, 100, 0.3) transparent;
+}
