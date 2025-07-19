@@ -1,23 +1,152 @@
 export default [
   {
-    text: "What type of land is Arabia?",
+    text: "قدرتی وسائل کیا ہوتے ہیں؟ (What are natural resources?)",
     options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
+      "مشینیں اور گاڑیاں",
+      "انسانی محنت",
+      "قدرت کی دی ہوئی چیزیں (Things gifted by nature)",
+      "درآمد کی گئی اشیاء",
     ],
-    correct: "A land of unparalleled charm and beauty",
+    correct: "قدرت کی دی ہوئی چیزیں (Things gifted by nature)",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
+    text: "پاکستان کا سب سے اہم قدرتی ایندھن کون سا ہے؟ (What is the most important natural fuel of Pakistan?)",
     options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
+      "پٹرول",
+      "کوئلہ (Coal)",
+      "گیس",
+      "بجلی",
     ],
-    correct: "Because Arabic is a language of eloquence",
+    correct: "کوئلہ (Coal)",
   },
-  // Add more...
+  {
+    text: "سب سے زیادہ قدرتی گیس کہاں سے حاصل ہوتی ہے؟ (Where is most of Pakistan's natural gas extracted from?)",
+    options: [
+      "بلوچستان (Balochistan)",
+      "پنجاب",
+      "سندھ",
+      "خیبرپختونخوا",
+    ],
+    correct: "بلوچستان (Balochistan)",
+  },
+  {
+    text: "پاکستان میں پانی کا بڑا ذریعہ کیا ہے؟ (What is the main source of water in Pakistan?)",
+    options: [
+      "بارش",
+      "ندی نالے",
+      "دریائے سندھ (Indus River)",
+      "نلکیاں",
+    ],
+    correct: "دریائے سندھ (Indus River)",
+  },
+  {
+    text: "پاکستان میں سب سے بڑی بند کون سی ہے؟ (Which is the largest dam in Pakistan?)",
+    options: [
+      "تربیلا ڈیم (Tarbela Dam)",
+      "منگلا ڈیم",
+      "وارسا ڈیم",
+      "غازی بروتھا",
+    ],
+    correct: "تربیلا ڈیم (Tarbela Dam)",
+  },
+  {
+    text: "زراعت کے لیے سب سے ضروری وسیلہ کون سا ہے؟ (What is the most important resource for agriculture?)",
+    options: [
+      "زمین",
+      "بیج",
+      "کھاد",
+      "پانی (Water)",
+    ],
+    correct: "پانی (Water)",
+  },
+  {
+    text: "پاکستان میں سب سے زیادہ زرعی پیداوار کون دیتا ہے؟ (Which province contributes most to agricultural output?)",
+    options: [
+      "بلوچستان",
+      "سندھ",
+      "پنجاب (Punjab)",
+      "خیبرپختونخوا",
+    ],
+    correct: "پنجاب (Punjab)",
+  },
+  {
+    text: "قدرتی وسائل کو بہتر بنانے کے لیے کیا ضروری ہے؟ (What is essential to improve natural resources?)",
+    options: [
+      "درآمدات",
+      "تعلیم اور تحقیق (Education & Research)",
+      "غیرملکی مدد",
+      "کاروبار",
+    ],
+    correct: "تعلیم اور تحقیق (Education & Research)",
+  },
+  {
+    text: "پاکستان میں معدنیات کہاں زیادہ پائی جاتی ہیں؟ (Where are minerals mostly found in Pakistan?)",
+    options: [
+      "لاہور",
+      "چترال",
+      "چاغی بلوچستان (Chagai, Balochistan)",
+      "کراچی",
+    ],
+    correct: "چاغی بلوچستان (Chagai, Balochistan)",
+  },
+  {
+    text: "پاکستان میں لوہا (Iron) کہاں سے نکلتا ہے؟ (Where is iron found in Pakistan?)",
+    options: [
+      "سوات",
+      "لاہور",
+      "کوئٹہ",
+      "کالا باغ (Kala Bagh)",
+    ],
+    correct: "کالا باغ (Kala Bagh)",
+  },
+  {
+    text: "پاکستان میں تیل سب سے پہلے کہاں دریافت ہوا؟ (Where was oil first discovered in Pakistan?)",
+    options: [
+      "سندھ",
+      "اٹک (Attock)",
+      "گجرات",
+      "سکھر",
+    ],
+    correct: "اٹک (Attock)",
+  },
+  {
+    text: "پاکستان میں کتنے بڑے دریا ہیں؟ (How many major rivers are there in Pakistan?)",
+    options: [
+      "2",
+      "3",
+      "5 (پانچ)",
+      "6",
+    ],
+    correct: "5 (پانچ)",
+  },
+  {
+    text: "پاکستان کا سب سے اہم زرعی ذریعہ کیا ہے؟ (What is the most important agricultural resource of Pakistan?)",
+    options: [
+      "زمین (Land)",
+      "پٹرول",
+      "درآمد شدہ بیج",
+      "نمک",
+    ],
+    correct: "زمین (Land)",
+  },
+  {
+    text: "پاکستان میں شمسی توانائی کہاں سے حاصل کی جاتی ہے؟ (Where is solar energy generated in Pakistan?)",
+    options: [
+      "چترال",
+      "لاہور",
+      "بھاولپور (Bahawalpur)",
+      "کوہاٹ",
+    ],
+    correct: "بھاولپور (Bahawalpur)",
+  },
+  {
+    text: "قدرتی وسائل کے ضیاع کو کیا کہتے ہیں؟ (What is the wastage of natural resources called?)",
+    options: [
+      "استعمال",
+      "ضیاع (Wastage)",
+      "استحصال",
+      "سرمایہ کاری",
+    ],
+    correct: "ضیاع (Wastage)",
+  },
 ];

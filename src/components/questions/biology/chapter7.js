@@ -1,23 +1,77 @@
 export default [
   {
-    text: "What type of land is Arabia?",
-    options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
-    ],
-    correct: "A land of unparalleled charm and beauty",
+    text: "Kingdom Protista includes mostly:",
+    options: ["Prokaryotic organisms", "Multicellular plants", "Unicellular eukaryotes", "Fungi-like bacteria"],
+    correct: "Unicellular eukaryotes",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
-    options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
-    ],
-    correct: "Because Arabic is a language of eloquence",
+    text: "Which of the following is a protozoan?",
+    options: ["Amoeba", "Spirogyra", "Paramecium", "Both Amoeba and Paramecium"],
+    correct: "Both Amoeba and Paramecium",
   },
-  // Add more...
+  {
+    text: "Euglena shows characteristics of:",
+    options: ["Plants", "Animals", "Both plants and animals", "Fungi"],
+    correct: "Both plants and animals",
+  },
+  {
+    text: "Which protist has cilia for movement?",
+    options: ["Amoeba", "Euglena", "Paramecium", "Plasmodium"],
+    correct: "Paramecium",
+  },
+  {
+    text: "Amoeba moves by:",
+    options: ["Cilia", "Flagella", "Pseudopodia", "Contractile vacuole"],
+    correct: "Pseudopodia",
+  },
+  {
+    text: "Which protist causes malaria?",
+    options: ["Euglena", "Paramecium", "Plasmodium", "Trypanosoma"],
+    correct: "Plasmodium",
+  },
+  {
+    text: "The contractile vacuole in protists helps in:",
+    options: ["Movement", "Nutrition", "Osmoregulation", "Photosynthesis"],
+    correct: "Osmoregulation",
+  },
+  {
+    text: "Which of the following is autotrophic?",
+    options: ["Amoeba", "Paramecium", "Euglena", "Plasmodium"],
+    correct: "Euglena",
+  },
+  {
+    text: "Which disease is caused by Trypanosoma?",
+    options: ["Malaria", "Sleeping sickness", "Dysentery", "Typhoid"],
+    correct: "Sleeping sickness",
+  },
+  {
+    text: "Protists reproduce by:",
+    options: ["Binary fission", "Spore formation", "Budding", "All of these"],
+    correct: "All of these",
+  },
+  {
+    text: "Slime molds belong to:",
+    options: ["Plant-like protists", "Fungi-like protists", "Animal-like protists", "Bacteria"],
+    correct: "Fungi-like protists",
+  },
+  {
+    text: "Which structure is used by Euglena for movement?",
+    options: ["Cilia", "Pseudopodia", "Flagella", "Vacuole"],
+    correct: "Flagella",
+  },
+  {
+    text: "Protists that are similar to fungi are called:",
+    options: ["Protozoans", "Slime molds", "Algae", "Dinoflagellates"],
+    correct: "Slime molds",
+  },
+  {
+    text: "Protists are placed in a separate kingdom because they:",
+    options: ["Are prokaryotic", "Have both plant and animal characteristics", "Are multicellular", "Lack nuclei"],
+    correct: "Have both plant and animal characteristics",
+  },
+  {
+    text: "The body of most protists is:",
+    options: ["Multicellular", "Prokaryotic", "Unicellular", "Colonial"],
+    correct: "Unicellular",
+  },
 ];

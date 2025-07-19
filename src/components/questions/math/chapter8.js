@@ -1,23 +1,122 @@
 export default [
   {
-    text: "What type of land is Arabia?",
+    text: "The principle of mathematical induction is used to prove:",
     options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
+      "Algebraic identities",
+      "Inequalities",
+      "Geometric formulas",
+      "Statements for all natural numbers",
     ],
-    correct: "A land of unparalleled charm and beauty",
+    correct: "Statements for all natural numbers",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
+    text: "What is the first step in mathematical induction?",
     options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
+      "Assume true for all values",
+      "Prove for n = k + 1",
+      "Verify for n = 1",
+      "Multiply both sides",
     ],
-    correct: "Because Arabic is a language of eloquence",
+    correct: "Verify for n = 1",
   },
-  // Add more...
+  {
+    text: "If a statement is true for n = k, and true for n = k+1, then:",
+    options: [
+      "It’s true only for even numbers",
+      "It’s true for all real numbers",
+      "It’s true for all natural numbers",
+      "It’s false for n = 1",
+    ],
+    correct: "It’s true for all natural numbers",
+  },
+  {
+    text: "What is the general form of the binomial expansion of (a + b)^n?",
+    options: [
+      "a^n + b^n",
+      "Sum of coefficients",
+      "nC0 a^n + nC1 a^{n-1}b + ... + nCn b^n",
+      "a^n b^n",
+    ],
+    correct: "nC0 a^n + nC1 a^{n-1}b + ... + nCn b^n",
+  },
+  {
+    text: "What is the coefficient of x^3 in the expansion of (1 + x)^5?",
+    options: ["5", "10", "20", "30"],
+    correct: "10",
+  },
+  {
+    text: "nC0 is equal to:",
+    options: ["0", "n", "1", "n!"],
+    correct: "1",
+  },
+  {
+    text: "What is the middle term in the expansion of (x + 1)^4?",
+    options: ["2nd term", "3rd term", "4th term", "5th term"],
+    correct: "3rd term",
+  },
+  {
+    text: "The total number of terms in the expansion of (a + b)^n is:",
+    options: ["n", "n+1", "2n", "n^2"],
+    correct: "n+1",
+  },
+  {
+    text: "The binomial theorem is valid for:",
+    options: [
+      "Only for n = 0",
+      "Only for prime n",
+      "All positive integers n",
+      "Only for even numbers",
+    ],
+    correct: "All positive integers n",
+  },
+  {
+    text: "What is the value of 6C2?",
+    options: ["12", "15", "20", "30"],
+    correct: "15",
+  },
+  {
+    text: "Which of the following is a binomial expression?",
+    options: [
+      "a^2 + b^2 + c^2",
+      "a + b",
+      "a - b + c",
+      "abc",
+    ],
+    correct: "a + b",
+  },
+  {
+    text: "The binomial coefficient nCr is always equal to:",
+    options: ["n! / (n - r)!", "r! / n!", "n! / [r!(n - r)!]", "nCr - 1"],
+    correct: "n! / [r!(n - r)!]",
+  },
+  {
+    text: "What is the 2nd term in (x + 3)^4?",
+    options: [
+      "x^4",
+      "12x^3",
+      "27x^2",
+      "81x",
+    ],
+    correct: "12x^3",
+  },
+  {
+    text: "The expansion of (1 - x)^3 is:",
+    options: [
+      "1 - 3x + 3x^2 - x^3",
+      "1 + 3x + 3x^2 + x^3",
+      "1 - x^3",
+      "1 + x^3",
+    ],
+    correct: "1 - 3x + 3x^2 - x^3",
+  },
+  {
+    text: "Which of the following terms has the maximum value in the expansion of (1 + x)^n?",
+    options: [
+      "The first term",
+      "The middle term",
+      "The last term",
+      "All are equal",
+    ],
+    correct: "The middle term",
+  }
 ];

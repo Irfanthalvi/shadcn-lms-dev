@@ -1,23 +1,77 @@
 export default [
   {
-    text: "What type of land is Arabia?",
-    options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
-    ],
-    correct: "A land of unparalleled charm and beauty",
+    text: "A matrix with only one row is called:",
+    options: ["Column matrix", "Row matrix", "Square matrix", "Null matrix"],
+    correct: "Row matrix",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
-    options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
-    ],
-    correct: "Because Arabic is a language of eloquence",
+    text: "A matrix with equal number of rows and columns is called:",
+    options: ["Square matrix", "Rectangular matrix", "Identity matrix", "Row matrix"],
+    correct: "Square matrix",
   },
-  // Add more...
+  {
+    text: "The order of a matrix with 3 rows and 2 columns is:",
+    options: ["2 × 3", "3 × 2", "3 + 2", "5"],
+    correct: "3 × 2",
+  },
+  {
+    text: "The matrix with all entries zero is called:",
+    options: ["Null matrix", "Identity matrix", "Square matrix", "Diagonal matrix"],
+    correct: "Null matrix",
+  },
+  {
+    text: "If A is a 2 × 2 matrix, how many elements does it have?",
+    options: ["2", "4", "6", "8"],
+    correct: "4",
+  },
+  {
+    text: "What is the transpose of a matrix?",
+    options: ["Swapping rows with columns", "Multiplying by identity", "Changing signs", "None"],
+    correct: "Swapping rows with columns",
+  },
+  {
+    text: "Which matrix has 1s on the diagonal and 0s elsewhere?",
+    options: ["Null matrix", "Identity matrix", "Row matrix", "Symmetric matrix"],
+    correct: "Identity matrix",
+  },
+  {
+    text: "The determinant of a matrix is defined only for:",
+    options: ["Row matrix", "Column matrix", "Square matrix", "Any matrix"],
+    correct: "Square matrix",
+  },
+  {
+    text: "If det(A) = 0, then the matrix A is:",
+    options: ["Singular", "Non-singular", "Orthogonal", "Diagonal"],
+    correct: "Singular",
+  },
+  {
+    text: "What is the value of determinant of identity matrix of order 2?",
+    options: ["0", "1", "2", "-1"],
+    correct: "1",
+  },
+  {
+    text: "Two matrices can be added if they have:",
+    options: ["Same number of columns", "Same number of rows", "Same order", "Any order"],
+    correct: "Same order",
+  },
+  {
+    text: "In matrix multiplication, if A is of order 2×3 and B is 3×2, what is the order of AB?",
+    options: ["2×2", "3×3", "2×3", "3×2"],
+    correct: "2×2",
+  },
+  {
+    text: "Matrix multiplication is:",
+    options: ["Commutative", "Associative", "Both", "None"],
+    correct: "Associative",
+  },
+  {
+    text: "If A is a matrix such that A = Aᵀ, then A is called:",
+    options: ["Skew-symmetric", "Diagonal", "Symmetric", "Identity"],
+    correct: "Symmetric",
+  },
+  {
+    text: "Which matrix has non-zero entries only on the main diagonal?",
+    options: ["Square matrix", "Identity matrix", "Diagonal matrix", "Zero matrix"],
+    correct: "Diagonal matrix",
+  }
 ];

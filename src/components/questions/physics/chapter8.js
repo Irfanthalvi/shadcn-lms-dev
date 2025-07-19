@@ -1,23 +1,152 @@
 export default [
   {
-    text: "What type of land is Arabia?",
+    text: "Which of the following is a mechanical wave?",
     options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
+      "Light wave",
+      "Radio wave",
+      "Sound wave",
+      "X-ray",
     ],
-    correct: "A land of unparalleled charm and beauty",
+    correct: "Sound wave",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
+    text: "Transverse waves have particle motion:",
     options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
+      "Parallel to wave direction",
+      "Opposite to wave direction",
+      "At an angle",
+      "Perpendicular to wave direction",
     ],
-    correct: "Because Arabic is a language of eloquence",
+    correct: "Perpendicular to wave direction",
   },
-  // Add more...
+  {
+    text: "Longitudinal waves are characterized by:",
+    options: [
+      "Compression and rarefaction",
+      "Crests and troughs",
+      "Magnetic field only",
+      "Circular motion",
+    ],
+    correct: "Compression and rarefaction",
+  },
+  {
+    text: "The speed of sound is highest in:",
+    options: [
+      "Air",
+      "Water",
+      "Vacuum",
+      "Steel",
+    ],
+    correct: "Steel",
+  },
+  {
+    text: "Which formula relates wave speed (v), frequency (f), and wavelength (λ)?",
+    options: [
+      "v = f / λ",
+      "v = f × λ",
+      "v = f + λ",
+      "v = f - λ",
+    ],
+    correct: "v = f × λ",
+  },
+  {
+    text: "In a wave, the distance between two consecutive crests is called:",
+    options: [
+      "Frequency",
+      "Amplitude",
+      "Wavelength",
+      "Time period",
+    ],
+    correct: "Wavelength",
+  },
+  {
+    text: "What is the SI unit of frequency?",
+    options: [
+      "Second",
+      "Meter",
+      "Hertz",
+      "Newton",
+    ],
+    correct: "Hertz",
+  },
+  {
+    text: "Sound waves are:",
+    options: [
+      "Transverse",
+      "Electromagnetic",
+      "Longitudinal",
+      "Both transverse and longitudinal",
+    ],
+    correct: "Longitudinal",
+  },
+  {
+    text: "Which of the following phenomena proves that light is a transverse wave?",
+    options: [
+      "Reflection",
+      "Refraction",
+      "Diffraction",
+      "Polarization",
+    ],
+    correct: "Polarization",
+  },
+  {
+    text: "The maximum displacement from mean position in a wave is called:",
+    options: [
+      "Frequency",
+      "Wavelength",
+      "Amplitude",
+      "Velocity",
+    ],
+    correct: "Amplitude",
+  },
+  {
+    text: "Which wave property determines its pitch in sound?",
+    options: [
+      "Wavelength",
+      "Amplitude",
+      "Speed",
+      "Frequency",
+    ],
+    correct: "Frequency",
+  },
+  {
+    text: "In a string wave, nodes are points of:",
+    options: [
+      "Maximum amplitude",
+      "Zero amplitude",
+      "Zero frequency",
+      "Maximum pressure",
+    ],
+    correct: "Zero amplitude",
+  },
+  {
+    text: "Beats are formed due to the interference of two waves having:",
+    options: [
+      "Same amplitude",
+      "Different wavelength",
+      "Slightly different frequencies",
+      "Same direction",
+    ],
+    correct: "Slightly different frequencies",
+  },
+  {
+    text: "When waves superimpose to give greater amplitude, the interference is:",
+    options: [
+      "Destructive",
+      "Constructive",
+      "Neutral",
+      "Reflective",
+    ],
+    correct: "Constructive",
+  },
+  {
+    text: "A wave that requires a medium to travel is called:",
+    options: [
+      "Electromagnetic wave",
+      "Mechanical wave",
+      "Transverse wave",
+      "Longitudinal wave",
+    ],
+    correct: "Mechanical wave",
+  },
 ];

@@ -31,7 +31,7 @@ const Subject = () => {
           ? Array.from({ length: 8 }).map((_, i) => (
               <div
                 key={i}
-                className="bg-card border border-border rounded-xl h-72 flex flex-col overflow-hidden"
+                className="bg-card border border-border rounded-xl h-72 flex flex-col "
               >
                 <Skeleton className="h-32 w-full" />
                 <div className="p-4 flex flex-col flex-1">
@@ -46,13 +46,13 @@ const Subject = () => {
               <div
                 key={index}
                 onClick={() => navigate(subject.slug)}
-                className="bg-card text-card-foreground border border-border rounded-xl h-72 flex flex-col overflow-hidden cursor-pointer hover:shadow-md transition"
+                className="bg-card text-card-foreground border border-border rounded-md flex flex-col gap-4  cursor-pointer hover:shadow-md transition"
               >
-                <div className="h-32 bg-gray-100">
+                <div className=" bg-gray-100 aspect-[320/200] rounded-md">
                   <img
                     src={subject.img}
                     alt={subject.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover rounded-t-md"
                     onError={(e) => {
                       e.currentTarget.onerror = null;
                       e.currentTarget.src = "/fallback-image.png";
@@ -77,10 +77,10 @@ const Subject = () => {
       {/* Load More Button */}
       {!loading && hasMore && (
         <div className="flex justify-center mt-8">
-          <Button
+          <Button variant="ghost"
             onClick={handleLoadMore}
             className="bg-muted text-muted-foreground hover:bg-muted/80 transition"
-          >
+          > 
             Load More
           </Button>
         </div>

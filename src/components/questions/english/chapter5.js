@@ -1,23 +1,152 @@
 export default [
   {
-    text: "What type of land is Arabia?",
+    text: "Who is the poet of 'Daffodils'?",
     options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
+      "John Keats",
+      "Robert Frost",
+      "William Wordsworth",
+      "William Shakespeare"
     ],
-    correct: "A land of unparalleled charm and beauty",
+    correct: "William Wordsworth",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
+    text: "What is the central theme of the poem?",
     options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
+      "Nature’s healing power",
+      "Love and loss",
+      "War and peace",
+      "Human relationships"
     ],
-    correct: "Because Arabic is a language of eloquence",
+    correct: "Nature’s healing power",
   },
-  // Add more...
+  {
+    text: "What did the poet see while wandering lonely?",
+    options: [
+      "A group of children",
+      "A field of daffodils",
+      "A river flowing",
+      "A mountain"
+    ],
+    correct: "A field of daffodils",
+  },
+  {
+    text: "What does the poet compare the daffodils to?",
+    options: [
+      "A line of soldiers",
+      "A group of stars",
+      "A stream of water",
+      "A dancing queen"
+    ],
+    correct: "A group of stars",
+  },
+  {
+    text: "Where were the daffodils growing?",
+    options: [
+      "On a mountain",
+      "In a garden",
+      "Along the lake beneath the trees",
+      "In the poet’s backyard"
+    ],
+    correct: "Along the lake beneath the trees",
+  },
+  {
+    text: "What was the poet's mood before seeing the daffodils?",
+    options: [
+      "Excited and happy",
+      "Lonely and aimless",
+      "Angry and disturbed",
+      "Energetic and hopeful"
+    ],
+    correct: "Lonely and aimless",
+  },
+  {
+    text: "How did the daffodils affect the poet?",
+    options: [
+      "They made him angry",
+      "They refreshed and delighted him",
+      "They reminded him of a friend",
+      "They confused him"
+    ],
+    correct: "They refreshed and delighted him",
+  },
+  {
+    text: "What does 'jocund company' mean in the poem?",
+    options: [
+      "A serious group",
+      "A happy and cheerful group",
+      "A business firm",
+      "A group of birds"
+    ],
+    correct: "A happy and cheerful group",
+  },
+  {
+    text: "How does the memory of daffodils help the poet later?",
+    options: [
+      "Makes him laugh",
+      "Gives him strength in war",
+      "Brings him joy in solitude",
+      "Reminds him of sadness"
+    ],
+    correct: "Brings him joy in solitude",
+  },
+  {
+    text: "Which poetic device is used when the daffodils are said to be 'fluttering and dancing in the breeze'?",
+    options: [
+      "Simile",
+      "Metaphor",
+      "Personification",
+      "Alliteration"
+    ],
+    correct: "Personification",
+  },
+  {
+    text: "What do the daffodils symbolize in the poem?",
+    options: [
+      "Sadness",
+      "Wealth",
+      "Nature’s beauty and peace",
+      "Loneliness"
+    ],
+    correct: "Nature’s beauty and peace",
+  },
+  {
+    text: "What fills the poet’s heart when he remembers the daffodils?",
+    options: [
+      "Pride",
+      "Regret",
+      "Pleasure",
+      "Fear"
+    ],
+    correct: "Pleasure",
+  },
+  {
+    text: "Which figure of speech is used in 'continuous as the stars that shine'?",
+    options: [
+      "Simile",
+      "Hyperbole",
+      "Irony",
+      "Metonymy"
+    ],
+    correct: "Simile",
+  },
+  {
+    text: "What is the tone of the poem?",
+    options: [
+      "Angry and rebellious",
+      "Melancholic and regretful",
+      "Joyful and reflective",
+      "Dark and mysterious"
+    ],
+    correct: "Joyful and reflective",
+  },
+  {
+    text: "Why is 'Daffodils' considered a romantic poem?",
+    options: [
+      "Because it describes a romantic relationship",
+      "Because it talks about war",
+      "Because it emphasizes love of nature and emotions",
+      "Because it uses romantic language"
+    ],
+    correct: "Because it emphasizes love of nature and emotions",
+  }
 ];

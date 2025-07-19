@@ -1,23 +1,152 @@
 export default [
   {
-    text: "What type of land is Arabia?",
+    text: "Physical optics mainly deals with the phenomenon of:",
     options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
+      "Reflection",
+      "Refraction",
+      "Wave nature of light",
+      "Dispersion",
     ],
-    correct: "A land of unparalleled charm and beauty",
+    correct: "Wave nature of light",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
+    text: "Interference of light proves that:",
     options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
+      "Light is a particle",
+      "Light travels in straight lines",
+      "Light is a wave",
+      "Light does not need a medium",
     ],
-    correct: "Because Arabic is a language of eloquence",
+    correct: "Light is a wave",
   },
-  // Add more...
+  {
+    text: "Young’s double-slit experiment is used to demonstrate:",
+    options: [
+      "Polarization",
+      "Diffraction",
+      "Interference",
+      "Reflection",
+    ],
+    correct: "Interference",
+  },
+  {
+    text: "The condition for constructive interference is:",
+    options: [
+      "Path difference = nλ",
+      "Path difference = (2n+1)λ/2",
+      "Phase difference = π",
+      "Amplitude = zero",
+    ],
+    correct: "Path difference = nλ",
+  },
+  {
+    text: "In interference, dark fringes occur due to:",
+    options: [
+      "Constructive interference",
+      "Refraction",
+      "Destructive interference",
+      "Reflection",
+    ],
+    correct: "Destructive interference",
+  },
+  {
+    text: "Fringe spacing in Young’s experiment depends on:",
+    options: [
+      "Distance between the slits and screen",
+      "Wavelength of light",
+      "Distance between the slits",
+      "All of the above",
+    ],
+    correct: "All of the above",
+  },
+  {
+    text: "Which of the following shows diffraction of light?",
+    options: [
+      "Straight shadow edges",
+      "Sharp image on screen",
+      "Bending of light around obstacle",
+      "None of the above",
+    ],
+    correct: "Bending of light around obstacle",
+  },
+  {
+    text: "In diffraction, the central maximum is:",
+    options: [
+      "Bright and narrow",
+      "Dark and wide",
+      "Bright and wide",
+      "Absent",
+    ],
+    correct: "Bright and wide",
+  },
+  {
+    text: "Which of the following proves that light has transverse wave nature?",
+    options: [
+      "Reflection",
+      "Diffraction",
+      "Polarization",
+      "Refraction",
+    ],
+    correct: "Polarization",
+  },
+  {
+    text: "Which wave property is changed during interference?",
+    options: [
+      "Wavelength",
+      "Amplitude",
+      "Frequency",
+      "Speed",
+    ],
+    correct: "Amplitude",
+  },
+  {
+    text: "Which color of light has the shortest wavelength?",
+    options: [
+      "Red",
+      "Green",
+      "Blue",
+      "Violet",
+    ],
+    correct: "Violet",
+  },
+  {
+    text: "Fringes in Young’s experiment are:",
+    options: [
+      "Equally spaced",
+      "Unequally spaced",
+      "Randomly placed",
+      "Always dark",
+    ],
+    correct: "Equally spaced",
+  },
+  {
+    text: "Diffraction is more pronounced when:",
+    options: [
+      "Wavelength is large and aperture is small",
+      "Wavelength is small and aperture is large",
+      "Wavelength and aperture both are large",
+      "Wavelength and aperture both are small",
+    ],
+    correct: "Wavelength is large and aperture is small",
+  },
+  {
+    text: "The angle at which light is diffracted is directly proportional to:",
+    options: [
+      "Frequency of light",
+      "Wavelength of light",
+      "Speed of light",
+      "Intensity of light",
+    ],
+    correct: "Wavelength of light",
+  },
+  {
+    text: "Which device uses diffraction of light?",
+    options: [
+      "Mirror",
+      "Prism",
+      "Grating",
+      "Lens",
+    ],
+    correct: "Grating",
+  },
 ];

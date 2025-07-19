@@ -1,23 +1,152 @@
 export default [
   {
-    text: "What type of land is Arabia?",
+    text: "What is the role of media in society?",
     options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
+      "To entertain only",
+      "To mislead people",
+      "To inform, educate, and entertain",
+      "To increase business only"
     ],
-    correct: "A land of unparalleled charm and beauty",
+    correct: "To inform, educate, and entertain",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
+    text: "What does the word 'media' refer to?",
     options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
+      "Only newspapers",
+      "Only TV",
+      "All communication channels",
+      "Books only"
     ],
-    correct: "Because Arabic is a language of eloquence",
+    correct: "All communication channels",
   },
-  // Add more...
+  {
+    text: "Which form of media is the fastest?",
+    options: [
+      "Radio",
+      "Newspapers",
+      "Television",
+      "Internet"
+    ],
+    correct: "Internet",
+  },
+  {
+    text: "What is a negative impact of media mentioned in the lesson?",
+    options: [
+      "Promotion of education",
+      "Spreading misinformation",
+      "Creating awareness",
+      "Broadcasting live events"
+    ],
+    correct: "Spreading misinformation",
+  },
+  {
+    text: "Why is media called the 'fourth pillar' of the state?",
+    options: [
+      "Because it entertains people",
+      "Because it controls the government",
+      "Because it shapes public opinion",
+      "Because it earns money"
+    ],
+    correct: "Because it shapes public opinion",
+  },
+  {
+    text: "How can media be used positively?",
+    options: [
+      "By hiding the truth",
+      "By spreading rumors",
+      "By providing authentic information",
+      "By promoting fear"
+    ],
+    correct: "By providing authentic information",
+  },
+  {
+    text: "What is the responsibility of media?",
+    options: [
+      "To misguide people",
+      "To entertain only",
+      "To report facts honestly",
+      "To take sides in politics"
+    ],
+    correct: "To report facts honestly",
+  },
+  {
+    text: "How does electronic media influence youth?",
+    options: [
+      "It makes them lazy",
+      "It informs and educates them",
+      "It cuts off their communication",
+      "It has no effect"
+    ],
+    correct: "It informs and educates them",
+  },
+  {
+    text: "Which one is a form of print media?",
+    options: [
+      "Radio",
+      "Newspaper",
+      "TV",
+      "Website"
+    ],
+    correct: "Newspaper",
+  },
+  {
+    text: "What should media avoid to remain trustworthy?",
+    options: [
+      "News reporting",
+      "Bias and sensationalism",
+      "Live coverage",
+      "Social campaigns"
+    ],
+    correct: "Bias and sensationalism",
+  },
+  {
+    text: "Which of the following is NOT a benefit of media?",
+    options: [
+      "Creating awareness",
+      "Spreading ignorance",
+      "Entertainment",
+      "Public opinion formation"
+    ],
+    correct: "Spreading ignorance",
+  },
+  {
+    text: "Why should media be free but responsible?",
+    options: [
+      "To enjoy entertainment",
+      "To increase profit",
+      "To maintain truth and ethics",
+      "To control the public"
+    ],
+    correct: "To maintain truth and ethics",
+  },
+  {
+    text: "Which media platform allows instant sharing worldwide?",
+    options: [
+      "Radio",
+      "TV",
+      "Internet",
+      "Magazine"
+    ],
+    correct: "Internet",
+  },
+  {
+    text: "How can media shape the minds of people?",
+    options: [
+      "Through lies and gossip",
+      "Through consistent education and awareness",
+      "By controlling schools",
+      "By banning TV"
+    ],
+    correct: "Through consistent education and awareness",
+  },
+  {
+    text: "What is the role of the viewer in media consumption?",
+    options: [
+      "To blindly trust everything",
+      "To be passive",
+      "To question and analyze content",
+      "To follow rumors"
+    ],
+    correct: "To question and analyze content",
+  }
 ];

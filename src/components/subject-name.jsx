@@ -94,8 +94,8 @@ export const chemistryChapters = [
   { title: "Chapter 8: Chemical Equilibrium", path: "/assessment/chapter8" },
   { title: "Chapter 9: Solutions", path: "/assessment/chapter9" },
   { title: "Chapter 10: Electrochemistry", path: "/assessment/chapter10" },
-  { title: "Chapter 11: Reaction Kinetics", path: "/assessment/chapter11" },
 ];
+
 
 export const biologyChapters = [
   { title: "Chapter 1: Introduction to Biology", path: "/assessment/chapter1" },

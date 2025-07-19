@@ -1,23 +1,77 @@
 export default [
   {
-    text: "What type of land is Arabia?",
-    options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
-    ],
-    correct: "A land of unparalleled charm and beauty",
+    text: "Which system is used for naming organisms scientifically?",
+    options: ["Binary coding", "Trinomial nomenclature", "Binomial nomenclature", "Formal naming"],
+    correct: "Binomial nomenclature",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
-    options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
-    ],
-    correct: "Because Arabic is a language of eloquence",
+    text: "Who introduced the system of binomial nomenclature?",
+    options: ["Aristotle", "Darwin", "Linnaeus", "Pasteur"],
+    correct: "Linnaeus",
   },
-  // Add more...
+  {
+    text: "Which taxonomic category comes immediately below kingdom?",
+    options: ["Class", "Genus", "Phylum", "Family"],
+    correct: "Phylum",
+  },
+  {
+    text: "The scientific name of onion is:",
+    options: ["Solanum tuberosum", "Allium cepa", "Oryza sativa", "Pisum sativum"],
+    correct: "Allium cepa",
+  },
+  {
+    text: "Which kingdom includes multicellular autotrophs?",
+    options: ["Animalia", "Protista", "Fungi", "Plantae"],
+    correct: "Plantae",
+  },
+  {
+    text: "Viruses are classified as:",
+    options: ["Living organisms", "Prokaryotes", "Non-living particles", "Both living and non-living"],
+    correct: "Both living and non-living",
+  },
+  {
+    text: "Which of the following is the correct order of taxonomic hierarchy?",
+    options: ["Genus → Species → Family", "Phylum → Class → Order", "Class → Kingdom → Phylum", "Family → Phylum → Genus"],
+    correct: "Phylum → Class → Order",
+  },
+  {
+    text: "Which kingdom includes yeast and mushrooms?",
+    options: ["Protista", "Fungi", "Plantae", "Animalia"],
+    correct: "Fungi",
+  },
+  {
+    text: "Scientific name is always written in:",
+    options: ["English", "Bold letters", "Latin", "Greek"],
+    correct: "Latin",
+  },
+  {
+    text: "Which taxonomic rank contains the least number of organisms?",
+    options: ["Kingdom", "Genus", "Species", "Phylum"],
+    correct: "Species",
+  },
+  {
+    text: "Which group does not have a cell wall?",
+    options: ["Fungi", "Bacteria", "Animalia", "Plantae"],
+    correct: "Animalia",
+  },
+  {
+    text: "What is the term for organisms with backbone?",
+    options: ["Vertebrates", "Invertebrates", "Chordates", "Arthropods"],
+    correct: "Vertebrates",
+  },
+  {
+    text: "Which of these is a unicellular eukaryote?",
+    options: ["Amoeba", "Bacterium", "Virus", "Mushroom"],
+    correct: "Amoeba",
+  },
+  {
+    text: "Which of the following is a taxon?",
+    options: ["Classification", "Hierarchy", "Genus", "Nomenclature"],
+    correct: "Genus",
+  },
+  {
+    text: "The branch of biology dealing with classification is:",
+    options: ["Ecology", "Taxonomy", "Genetics", "Physiology"],
+    correct: "Taxonomy",
+  },
 ];

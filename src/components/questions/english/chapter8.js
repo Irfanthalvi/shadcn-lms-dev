@@ -1,23 +1,152 @@
 export default [
   {
-    text: "What type of land is Arabia?",
+    text: "Who is the poet of 'Stopping by Woods on a Snowy Evening'?",
     options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
+      "William Wordsworth",
+      "Robert Frost",
+      "John Keats",
+      "T.S. Eliot"
     ],
-    correct: "A land of unparalleled charm and beauty",
+    correct: "Robert Frost",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
+    text: "What is the setting of the poem?",
     options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
+      "A forest in spring",
+      "A snowy evening in the woods",
+      "A city park at night",
+      "A beach in the morning"
     ],
-    correct: "Because Arabic is a language of eloquence",
+    correct: "A snowy evening in the woods",
   },
-  // Add more...
+  {
+    text: "Why does the speaker stop by the woods?",
+    options: [
+      "To gather wood",
+      "To rest for the night",
+      "To enjoy the quiet beauty of the falling snow",
+      "To look for someone"
+    ],
+    correct: "To enjoy the quiet beauty of the falling snow",
+  },
+  {
+    text: "What time of day is it in the poem?",
+    options: [
+      "Morning",
+      "Midnight",
+      "Evening",
+      "Afternoon"
+    ],
+    correct: "Evening",
+  },
+  {
+    text: "Whose woods does the speaker mention?",
+    options: [
+      "His own",
+      "His friend’s",
+      "The village landlord’s",
+      "Someone he doesn’t know personally"
+    ],
+    correct: "Someone he doesn’t know personally",
+  },
+  {
+    text: "What does the speaker say about the owner of the woods?",
+    options: [
+      "He will catch the speaker",
+      "He is watching from the trees",
+      "He lives in the village",
+      "He is dead"
+    ],
+    correct: "He lives in the village",
+  },
+  {
+    text: "What is the reaction of the horse when the speaker stops?",
+    options: [
+      "It runs away",
+      "It lies down",
+      "It gives a shake of its harness bells",
+      "It neighs loudly"
+    ],
+    correct: "It gives a shake of its harness bells",
+  },
+  {
+    text: "What does the horse’s action suggest?",
+    options: [
+      "It is scared",
+      "It is confused by the stop",
+      "It wants to go into the woods",
+      "It is happy"
+    ],
+    correct: "It is confused by the stop",
+  },
+  {
+    text: "What is the tone of the poem?",
+    options: [
+      "Joyful and loud",
+      "Reflective and calm",
+      "Furious and angry",
+      "Mysterious and spooky"
+    ],
+    correct: "Reflective and calm",
+  },
+  {
+    text: "What is the poetic form of this poem?",
+    options: [
+      "Free verse",
+      "Haiku",
+      "Quatrain (four-line stanzas with rhyme)",
+      "Sonnet"
+    ],
+    correct: "Quatrain (four-line stanzas with rhyme)",
+  },
+  {
+    text: "What is the famous last line of the poem?",
+    options: [
+      "Snow falls silently on the ground",
+      "And miles to go before I sleep",
+      "Darkness covers the trees",
+      "The woods are lovely and deep"
+    ],
+    correct: "And miles to go before I sleep",
+  },
+  {
+    text: "What do the final lines of the poem suggest?",
+    options: [
+      "The speaker is ready to give up",
+      "The speaker remembers his responsibilities",
+      "The speaker wants to stay forever",
+      "The speaker is dreaming"
+    ],
+    correct: "The speaker remembers his responsibilities",
+  },
+  {
+    text: "What is the main theme of the poem?",
+    options: [
+      "Love and war",
+      "Struggle and victory",
+      "Temptation and duty",
+      "Adventure and heroism"
+    ],
+    correct: "Temptation and duty",
+  },
+  {
+    text: "What does the repetition of the last line emphasize?",
+    options: [
+      "The beauty of the woods",
+      "The speaker’s confusion",
+      "The heaviness of the speaker’s obligations",
+      "The weather condition"
+    ],
+    correct: "The heaviness of the speaker’s obligations",
+  },
+  {
+    text: "What literary device is used in 'The woods are lovely, dark and deep'?",
+    options: [
+      "Simile",
+      "Metaphor",
+      "Alliteration",
+      "Personification"
+    ],
+    correct: "Alliteration",
+  }
 ];

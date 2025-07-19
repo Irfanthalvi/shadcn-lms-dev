@@ -1,23 +1,152 @@
 export default [
   {
-    text: "What type of land is Arabia?",
+    text: "Which of the following quantities is not a vector?",
     options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
+      "Displacement",
+      "Velocity",
+      "Speed",
+      "Acceleration",
     ],
-    correct: "A land of unparalleled charm and beauty",
+    correct: "Speed",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
+    text: "The rate of change of velocity is called:",
     options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
+      "Speed",
+      "Displacement",
+      "Acceleration",
+      "Momentum",
     ],
-    correct: "Because Arabic is a language of eloquence",
+    correct: "Acceleration",
   },
-  // Add more...
+  {
+    text: "A body moving with constant velocity has:",
+    options: [
+      "Zero acceleration",
+      "Constant acceleration",
+      "Increasing speed",
+      "Decreasing speed",
+    ],
+    correct: "Zero acceleration",
+  },
+  {
+    text: "The unit of force in the SI system is:",
+    options: [
+      "Dyne",
+      "Newton",
+      "Kilogram",
+      "Watt",
+    ],
+    correct: "Newton",
+  },
+  {
+    text: "According to Newton's second law, Force equals:",
+    options: [
+      "mass × velocity",
+      "mass × acceleration",
+      "acceleration ÷ mass",
+      "mass ÷ acceleration",
+    ],
+    correct: "mass × acceleration",
+  },
+  {
+    text: "What is the inertia of an object?",
+    options: [
+      "Its tendency to resist acceleration",
+      "Its weight",
+      "Its force",
+      "Its acceleration",
+    ],
+    correct: "Its tendency to resist acceleration",
+  },
+  {
+    text: "Which law states: 'For every action there is an equal and opposite reaction'?",
+    options: [
+      "Newton's First Law",
+      "Newton's Second Law",
+      "Newton's Third Law",
+      "Law of Inertia",
+    ],
+    correct: "Newton's Third Law",
+  },
+  {
+    text: "The net force acting on a body at rest is:",
+    options: [
+      "Equal to its weight",
+      "Zero",
+      "Maximum",
+      "Minimum",
+    ],
+    correct: "Zero",
+  },
+  {
+    text: "Momentum is the product of:",
+    options: [
+      "Mass and acceleration",
+      "Mass and speed",
+      "Mass and velocity",
+      "Force and time",
+    ],
+    correct: "Mass and velocity",
+  },
+  {
+    text: "When the net external force on a body is zero, its momentum:",
+    options: [
+      "Increases",
+      "Decreases",
+      "Remains constant",
+      "Becomes zero",
+    ],
+    correct: "Remains constant",
+  },
+  {
+    text: "Which of the following is a correct equation of motion?",
+    options: [
+      "v = u + at",
+      "v = ut + ½at²",
+      "s = v² - u² / 2a",
+      "a = s/t",
+    ],
+    correct: "v = u + at",
+  },
+  {
+    text: "The impulse experienced by a body is equal to its:",
+    options: [
+      "Change in velocity",
+      "Change in momentum",
+      "Acceleration",
+      "Force",
+    ],
+    correct: "Change in momentum",
+  },
+  {
+    text: "If a body is moving in a circle at constant speed, its motion is:",
+    options: [
+      "Non-accelerated",
+      "Uniform linear",
+      "Uniform circular",
+      "Projectile",
+    ],
+    correct: "Uniform circular",
+  },
+  {
+    text: "The acceleration due to gravity near Earth's surface is approximately:",
+    options: [
+      "6.2 m/s²",
+      "8.0 m/s²",
+      "9.8 m/s²",
+      "10.5 m/s²",
+    ],
+    correct: "9.8 m/s²",
+  },
+  {
+    text: "Which of the following affects the momentum of a moving object?",
+    options: [
+      "Its shape",
+      "Its color",
+      "Its mass and velocity",
+      "Its surface area",
+    ],
+    correct: "Its mass and velocity",
+  },
 ];

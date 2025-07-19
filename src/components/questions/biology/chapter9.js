@@ -1,23 +1,77 @@
 export default [
   {
-    text: "What type of land is Arabia?",
-    options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
-    ],
-    correct: "A land of unparalleled charm and beauty",
+    text: "Kingdom Plantae includes:",
+    options: ["Autotrophic eukaryotes", "Heterotrophic eukaryotes", "Unicellular prokaryotes", "Fungi"],
+    correct: "Autotrophic eukaryotes",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
-    options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
-    ],
-    correct: "Because Arabic is a language of eloquence",
+    text: "The main photosynthetic pigment in plants is:",
+    options: ["Carotene", "Chlorophyll", "Xanthophyll", "Anthocyanin"],
+    correct: "Chlorophyll",
   },
-  // Add more...
+  {
+    text: "Bryophytes are also called:",
+    options: ["Vascular plants", "Seed plants", "Non-vascular plants", "Flowering plants"],
+    correct: "Non-vascular plants",
+  },
+  {
+    text: "Which of the following is a bryophyte?",
+    options: ["Moss", "Fern", "Pine", "Wheat"],
+    correct: "Moss",
+  },
+  {
+    text: "Which group of plants has true roots, stems, and leaves?",
+    options: ["Algae", "Bryophytes", "Pteridophytes", "Fungi"],
+    correct: "Pteridophytes",
+  },
+  {
+    text: "Which plant group produces seeds but not flowers?",
+    options: ["Angiosperms", "Bryophytes", "Gymnosperms", "Pteridophytes"],
+    correct: "Gymnosperms",
+  },
+  {
+    text: "Angiosperms are known for producing:",
+    options: ["Cones", "Spores", "Flowers and fruits", "Only leaves"],
+    correct: "Flowers and fruits",
+  },
+  {
+    text: "Which of these is a gymnosperm?",
+    options: ["Rose", "Pine", "Moss", "Liverwort"],
+    correct: "Pine",
+  },
+  {
+    text: "Vascular tissues in plants include:",
+    options: ["Xylem and phloem", "Epidermis and cortex", "Parenchyma and collenchyma", "Cuticle and stomata"],
+    correct: "Xylem and phloem",
+  },
+  {
+    text: "The main function of xylem is to transport:",
+    options: ["Food", "Oxygen", "Water and minerals", "Hormones"],
+    correct: "Water and minerals",
+  },
+  {
+    text: "The phloem in plants transports:",
+    options: ["Water", "Minerals", "Oxygen", "Food"],
+    correct: "Food",
+  },
+  {
+    text: "Which of the following plants belong to Pteridophytes?",
+    options: ["Moss", "Fern", "Sunflower", "Pine"],
+    correct: "Fern",
+  },
+  {
+    text: "Which part of the plant is responsible for photosynthesis?",
+    options: ["Root", "Leaf", "Stem", "Flower"],
+    correct: "Leaf",
+  },
+  {
+    text: "Plants without vascular tissues are classified as:",
+    options: ["Algae", "Pteridophytes", "Bryophytes", "Gymnosperms"],
+    correct: "Bryophytes",
+  },
+  {
+    text: "Which plant group is considered the most advanced?",
+    options: ["Algae", "Bryophytes", "Gymnosperms", "Angiosperms"],
+    correct: "Angiosperms",
+  },
 ];

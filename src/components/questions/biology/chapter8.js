@@ -1,23 +1,77 @@
 export default [
   {
-    text: "What type of land is Arabia?",
-    options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
-    ],
-    correct: "A land of unparalleled charm and beauty",
+    text: "Fungi are:",
+    options: ["Autotrophic", "Heterotrophic", "Both", "None"],
+    correct: "Heterotrophic",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
-    options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
-    ],
-    correct: "Because Arabic is a language of eloquence",
+    text: "The cell wall of fungi is made up of:",
+    options: ["Cellulose", "Peptidoglycan", "Chitin", "Pectin"],
+    correct: "Chitin",
   },
-  // Add more...
+  {
+    text: "The vegetative body of fungi is called:",
+    options: ["Mycelium", "Hyphae", "Spore", "Thallus"],
+    correct: "Mycelium",
+  },
+  {
+    text: "Fungi obtain nutrients by:",
+    options: ["Photosynthesis", "Absorption", "Ingestion", "Fermentation"],
+    correct: "Absorption",
+  },
+  {
+    text: "Which fungus is used in baking and brewing?",
+    options: ["Penicillium", "Yeast", "Rhizopus", "Aspergillus"],
+    correct: "Yeast",
+  },
+  {
+    text: "Which of the following is a filamentous fungus?",
+    options: ["Yeast", "Amoeba", "Rhizopus", "Paramecium"],
+    correct: "Rhizopus",
+  },
+  {
+    text: "Fungi that cause diseases in plants are called:",
+    options: ["Pathogenic fungi", "Saprophytic fungi", "Parasitic fungi", "Mutualistic fungi"],
+    correct: "Parasitic fungi",
+  },
+  {
+    text: "Which fungus is used to produce penicillin?",
+    options: ["Rhizopus", "Aspergillus", "Penicillium", "Mucor"],
+    correct: "Penicillium",
+  },
+  {
+    text: "Which type of reproduction occurs in fungi?",
+    options: ["Asexual", "Sexual", "Both", "None"],
+    correct: "Both",
+  },
+  {
+    text: "Fungi that feed on dead organic matter are called:",
+    options: ["Parasites", "Autotrophs", "Saprophytes", "Predators"],
+    correct: "Saprophytes",
+  },
+  {
+    text: "Which of the following is not a fungus?",
+    options: ["Mushroom", "Yeast", "Algae", "Mold"],
+    correct: "Algae",
+  },
+  {
+    text: "Mushrooms belong to which group of fungi?",
+    options: ["Basidiomycota", "Ascomycota", "Zygomycota", "Deuteromycota"],
+    correct: "Basidiomycota",
+  },
+  {
+    text: "Fungi reproduce asexually through:",
+    options: ["Spores", "Seeds", "Eggs", "Conjugation"],
+    correct: "Spores",
+  },
+  {
+    text: "Which structure helps fungi spread?",
+    options: ["Hyphae", "Roots", "Spores", "Leaves"],
+    correct: "Spores",
+  },
+  {
+    text: "Lichens are a symbiotic association of fungi and:",
+    options: ["Algae", "Bacteria", "Viruses", "Mosses"],
+    correct: "Algae",
+  },
 ];

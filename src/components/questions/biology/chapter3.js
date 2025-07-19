@@ -1,23 +1,107 @@
 export default [
   {
-    text: "What type of land is Arabia?",
+    text: "What are enzymes?",
     options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
+      "Carbohydrates that store energy",
+      "Lipids that store fat",
+      "Proteins that act as biological catalysts",
+      "Vitamins that boost immunity",
     ],
-    correct: "A land of unparalleled charm and beauty",
+    correct: "Proteins that act as biological catalysts",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
-    options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
-    ],
-    correct: "Because Arabic is a language of eloquence",
+    text: "Which of the following affects enzyme activity?",
+    options: ["Light", "Sound", "pH and temperature", "Color"],
+    correct: "pH and temperature",
   },
-  // Add more...
+  {
+    text: "What is the region on an enzyme where the substrate binds?",
+    options: ["Catalytic site", "Binding site", "Active site", "Enzyme pocket"],
+    correct: "Active site",
+  },
+  {
+    text: "Which model explains enzyme-substrate interaction?",
+    options: [
+      "Lock and key model",
+      "Fluid mosaic model",
+      "Sliding filament model",
+      "Molecular orbital model",
+    ],
+    correct: "Lock and key model",
+  },
+  {
+    text: "Which of the following can denature an enzyme?",
+    options: ["Cold temperature", "High pH", "Low substrate concentration", "High temperature"],
+    correct: "High temperature",
+  },
+  {
+    text: "What is a coenzyme?",
+    options: [
+      "A protein part of an enzyme",
+      "An inorganic ion required by enzymes",
+      "An organic molecule that assists enzyme function",
+      "A sugar attached to enzymes",
+    ],
+    correct: "An organic molecule that assists enzyme function",
+  },
+  {
+    text: "Enzymes speed up reactions by:",
+    options: [
+      "Increasing activation energy",
+      "Decreasing activation energy",
+      "Changing product structure",
+      "Breaking down ATP",
+    ],
+    correct: "Decreasing activation energy",
+  },
+  {
+    text: "Which of the following is an enzyme?",
+    options: ["Glucose", "Lipase", "Ribose", "ATP"],
+    correct: "Lipase",
+  },
+  {
+    text: "Enzyme activity is highest at:",
+    options: [
+      "Extremely low temperature",
+      "Very high pH",
+      "Optimum temperature and pH",
+      "When the substrate is absent",
+    ],
+    correct: "Optimum temperature and pH",
+  },
+  {
+    text: "What happens when an enzyme is denatured?",
+    options: [
+      "It becomes more active",
+      "It functions faster",
+      "It loses its shape and function",
+      "It binds more substrates",
+    ],
+    correct: "It loses its shape and function",
+  },
+  {
+    text: "Pepsin works best in:",
+    options: ["Basic pH", "Neutral pH", "Acidic pH", "Alkaline pH"],
+    correct: "Acidic pH",
+  },
+  {
+    text: "Which compound is often required by enzymes for activity?",
+    options: ["Oxygen", "Water", "Cofactor", "Fatty acid"],
+    correct: "Cofactor",
+  },
+  {
+    text: "The substance on which an enzyme acts is called:",
+    options: ["Reactant", "Receptor", "Substrate", "Ligand"],
+    correct: "Substrate",
+  },
+  {
+    text: "The name of enzymes usually ends with:",
+    options: ["-ose", "-ase", "-ine", "-ate"],
+    correct: "-ase",
+  },
+  {
+    text: "An enzyme used in the breakdown of hydrogen peroxide is:",
+    options: ["Lipase", "Amylase", "Catalase", "Pepsin"],
+    correct: "Catalase",
+  },
 ];

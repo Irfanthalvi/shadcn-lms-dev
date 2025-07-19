@@ -1,23 +1,77 @@
 export default [
   {
-    text: "What type of land is Arabia?",
-    options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
-    ],
-    correct: "A land of unparalleled charm and beauty",
+    text: "Animals are characterized by being:",
+    options: ["Autotrophic and unicellular", "Heterotrophic and multicellular", "Unicellular and autotrophic", "Photosynthetic"],
+    correct: "Heterotrophic and multicellular",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
-    options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
-    ],
-    correct: "Because Arabic is a language of eloquence",
+    text: "Which of the following phyla includes jellyfish and corals?",
+    options: ["Platyhelminthes", "Cnidaria", "Annelida", "Porifera"],
+    correct: "Cnidaria",
   },
-  // Add more...
+  {
+    text: "The simplest animals belong to the phylum:",
+    options: ["Mollusca", "Porifera", "Arthropoda", "Chordata"],
+    correct: "Porifera",
+  },
+  {
+    text: "Which phylum has animals with segmented bodies?",
+    options: ["Nematoda", "Annelida", "Cnidaria", "Echinodermata"],
+    correct: "Annelida",
+  },
+  {
+    text: "Which phylum includes insects?",
+    options: ["Chordata", "Arthropoda", "Mollusca", "Nematoda"],
+    correct: "Arthropoda",
+  },
+  {
+    text: "Which group of animals is exclusively marine?",
+    options: ["Mollusca", "Arthropoda", "Echinodermata", "Annelida"],
+    correct: "Echinodermata",
+  },
+  {
+    text: "Which of the following animals belongs to phylum Mollusca?",
+    options: ["Earthworm", "Octopus", "Starfish", "Housefly"],
+    correct: "Octopus",
+  },
+  {
+    text: "Animals with a notochord at some stage belong to phylum:",
+    options: ["Mollusca", "Arthropoda", "Chordata", "Echinodermata"],
+    correct: "Chordata",
+  },
+  {
+    text: "Which animal has an exoskeleton?",
+    options: ["Fish", "Snail", "Frog", "Cockroach"],
+    correct: "Cockroach",
+  },
+  {
+    text: "Flatworms belong to the phylum:",
+    options: ["Nematoda", "Platyhelminthes", "Annelida", "Cnidaria"],
+    correct: "Platyhelminthes",
+  },
+  {
+    text: "Which animal is radially symmetrical?",
+    options: ["Earthworm", "Frog", "Starfish", "Lizard"],
+    correct: "Starfish",
+  },
+  {
+    text: "Which animal is a vertebrate?",
+    options: ["Octopus", "Starfish", "Lizard", "Earthworm"],
+    correct: "Lizard",
+  },
+  {
+    text: "Roundworms are classified under phylum:",
+    options: ["Annelida", "Nematoda", "Platyhelminthes", "Cnidaria"],
+    correct: "Nematoda",
+  },
+  {
+    text: "Which of the following is a characteristic of Arthropods?",
+    options: ["Soft body", "Pseudopodia", "Jointed legs", "Tube feet"],
+    correct: "Jointed legs",
+  },
+  {
+    text: "Which of the following is a cold-blooded animal?",
+    options: ["Parrot", "Frog", "Cat", "Cow"],
+    correct: "Frog",
+  },
 ];

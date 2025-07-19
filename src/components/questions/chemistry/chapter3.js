@@ -1,23 +1,82 @@
 export default [
   {
-    text: "What type of land is Arabia?",
-    options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
-    ],
-    correct: "A land of unparalleled charm and beauty",
+    text: "Which law states that volume of a gas is directly proportional to temperature at constant pressure?",
+    options: ["Boyle's Law", "Charles's Law", "Avogadro's Law", "Dalton's Law"],
+    correct: "Charles's Law",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
-    options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
-    ],
-    correct: "Because Arabic is a language of eloquence",
+    text: "At constant volume, pressure of a gas is directly proportional to its:",
+    options: ["Mass", "Temperature", "Volume", "Density"],
+    correct: "Temperature",
   },
-  // Add more...
+  {
+    text: "Which of the following gases is least compressible?",
+    options: ["Hydrogen", "Carbon dioxide", "Oxygen", "Water vapor"],
+    correct: "Water vapor",
+  },
+  {
+    text: "Which instrument is used to measure gas pressure?",
+    options: ["Thermometer", "Manometer", "Barometer", "Hygrometer"],
+    correct: "Manometer",
+  },
+  {
+    text: "Ideal gas equation is:",
+    options: ["PV = nT", "PV = RT", "PV = nRT", "P = nRT/V"],
+    correct: "PV = nRT",
+  },
+  {
+    text: "What is the value of R in SI units?",
+    options: ["0.0821", "8.314 J mol⁻¹ K⁻¹", "1.66 × 10⁻²⁴", "6.022 × 10²³"],
+    correct: "8.314 J mol⁻¹ K⁻¹",
+  },
+  {
+    text: "Avogadro's Law states that equal volumes of gases at same temperature and pressure contain:",
+    options: ["Same mass", "Different particles", "Same number of molecules", "Same pressure"],
+    correct: "Same number of molecules",
+  },
+  {
+    text: "According to Boyle’s Law, if pressure increases, volume:",
+    options: ["Decreases", "Increases", "Remains constant", "Becomes zero"],
+    correct: "Decreases",
+  },
+  {
+    text: "Which of the following is NOT an assumption of the ideal gas?",
+    options: [
+      "Gases consist of small particles",
+      "No intermolecular forces exist",
+      "Collisions are elastic",
+      "Gases are incompressible",
+    ],
+    correct: "Gases are incompressible",
+  },
+  {
+    text: "Which gas deviates most from ideal behavior?",
+    options: ["Hydrogen", "Oxygen", "Ammonia", "Helium"],
+    correct: "Ammonia",
+  },
+  {
+    text: "The SI unit of pressure is:",
+    options: ["atm", "mmHg", "Torr", "Pascal"],
+    correct: "Pascal",
+  },
+  {
+    text: "The molar volume of an ideal gas at STP is:",
+    options: ["24.0 L", "22.4 L", "20.2 L", "23.5 L"],
+    correct: "22.4 L",
+  },
+  {
+    text: "Dalton’s Law of Partial Pressure applies to:",
+    options: ["Real gases only", "Single gases", "Mixtures of gases", "Liquids only"],
+    correct: "Mixtures of gases",
+  },
+  {
+    text: "Which of the following will diffuse the fastest?",
+    options: ["CO₂", "O₂", "NH₃", "Cl₂"],
+    correct: "NH₃",
+  },
+  {
+    text: "Graham’s law relates diffusion rate to:",
+    options: ["Temperature", "Pressure", "Molecular mass", "Volume"],
+    correct: "Molecular mass",
+  },
 ];

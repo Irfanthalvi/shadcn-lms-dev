@@ -1,23 +1,152 @@
 export default [
   {
-    text: "What type of land is Arabia?",
+    text: "What quality of Hazrat Muhammad (PBUH) is highlighted in this lesson?",
     options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
+      "His bravery in wars",
+      "His leadership in politics",
+      "His justice and fairness",
+      "His skill in trade"
     ],
-    correct: "A land of unparalleled charm and beauty",
+    correct: "His justice and fairness",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
+    text: "What did the Quraish decide when the Kaaba's construction was complete?",
     options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
+      "To paint it",
+      "To divide it into sections",
+      "To place Hajar-e-Aswad",
+      "To remove the Prophet (PBUH)"
     ],
-    correct: "Because Arabic is a language of eloquence",
+    correct: "To place Hajar-e-Aswad",
   },
-  // Add more...
+  {
+    text: "Why was there a dispute among the Quraish?",
+    options: [
+      "Over trade routes",
+      "Over tribal leadership",
+      "Over who should place the sacred stone",
+      "Over a stolen camel"
+    ],
+    correct: "Over who should place the sacred stone",
+  },
+  {
+    text: "How was the dispute resolved?",
+    options: [
+      "Through fighting",
+      "Through election",
+      "By asking the next person who entered the Kaaba",
+      "By leaving the stone untouched"
+    ],
+    correct: "By asking the next person who entered the Kaaba",
+  },
+  {
+    text: "How did the Prophet (PBUH) solve the issue of placing the sacred stone?",
+    options: [
+      "Placed it himself",
+      "Let the oldest person place it",
+      "Used a cloth and involved all tribal leaders",
+      "Called the King of Yemen"
+    ],
+    correct: "Used a cloth and involved all tribal leaders",
+  },
+  {
+    text: "What does this incident show about the Prophet (PBUH)?",
+    options: [
+      "He avoided responsibility",
+      "He created conflict",
+      "He had wisdom and fairness",
+      "He feared Quraish"
+    ],
+    correct: "He had wisdom and fairness",
+  },
+  {
+    text: "How was the Prophet (PBUH) known in Makkah before Prophethood?",
+    options: [
+      "A great soldier",
+      "As-Sadiq and Al-Ameen",
+      "A poet",
+      "A ruler"
+    ],
+    correct: "As-Sadiq and Al-Ameen",
+  },
+  {
+    text: "Why did people bring their disputes to the Prophet (PBUH)?",
+    options: [
+      "He was the chief of tribe",
+      "He was strict",
+      "He was wealthy",
+      "They trusted his justice"
+    ],
+    correct: "They trusted his justice",
+  },
+  {
+    text: "How did the Prophet (PBUH) treat the weak and poor in judgments?",
+    options: [
+      "Ignored them",
+      "Favored the rich",
+      "Treated everyone equally",
+      "Asked them to stay silent"
+    ],
+    correct: "Treated everyone equally",
+  },
+  {
+    text: "What principle did the Prophet (PBUH) follow while judging?",
+    options: [
+      "Tribal pressure",
+      "Personal interest",
+      "Fear of criticism",
+      "Justice and fairness"
+    ],
+    correct: "Justice and fairness",
+  },
+  {
+    text: "What did the Prophet (PBUH) say about justice in his last sermon?",
+    options: [
+      "Treat only Muslims with justice",
+      "No Arab is superior to a non-Arab",
+      "Only judges should be fair",
+      "Avoid judging others"
+    ],
+    correct: "No Arab is superior to a non-Arab",
+  },
+  {
+    text: "What does the lesson encourage us to adopt?",
+    options: [
+      "Cleverness in disputes",
+      "Avoiding problems",
+      "Justice in daily life",
+      "Fame through judgment"
+    ],
+    correct: "Justice in daily life",
+  },
+  {
+    text: "What did the Prophet (PBUH) never compromise on?",
+    options: [
+      "Trade",
+      "War",
+      "Wealth",
+      "Justice"
+    ],
+    correct: "Justice",
+  },
+  {
+    text: "What impact did his judgments have on society?",
+    options: [
+      "Created conflict",
+      "Established equality and peace",
+      "Promoted tribalism",
+      "Weakened the Quraish"
+    ],
+    correct: "Established equality and peace",
+  },
+  {
+    text: "Why is the Prophet’s (PBUH) role as a judge considered exemplary?",
+    options: [
+      "Because he was always strict",
+      "Because he ruled over many lands",
+      "Because of his fair, wise, and peaceful decisions",
+      "Because he avoided judgments"
+    ],
+    correct: "Because of his fair, wise, and peaceful decisions",
+  }
 ];

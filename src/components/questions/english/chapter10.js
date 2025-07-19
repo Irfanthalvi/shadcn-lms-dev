@@ -1,23 +1,152 @@
 export default [
   {
-    text: "What type of land is Arabia?",
+    text: "Who is the author of 'A Tale of Two Cities'?",
     options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
+      "Jane Austen",
+      "Charles Dickens",
+      "Thomas Hardy",
+      "William Shakespeare"
     ],
-    correct: "A land of unparalleled charm and beauty",
+    correct: "Charles Dickens",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
+    text: "What are the 'two cities' referred to in the title?",
     options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
+      "Paris and Berlin",
+      "London and Manchester",
+      "London and Paris",
+      "Rome and Paris"
     ],
-    correct: "Because Arabic is a language of eloquence",
+    correct: "London and Paris",
   },
-  // Add more...
+  {
+    text: "In which historical period is the story set?",
+    options: [
+      "American Revolution",
+      "French Revolution",
+      "Industrial Revolution",
+      "World War I"
+    ],
+    correct: "French Revolution",
+  },
+  {
+    text: "What is the famous opening line of the novel?",
+    options: [
+      "It was a dark and stormy night...",
+      "Call me Ishmael.",
+      "It was the best of times, it was the worst of times...",
+      "All happy families are alike..."
+    ],
+    correct: "It was the best of times, it was the worst of times...",
+  },
+  {
+    text: "Who is Charles Darnay?",
+    options: [
+      "A British soldier",
+      "A poor peasant",
+      "A French aristocrat who gives up his title",
+      "A lawyer in London"
+    ],
+    correct: "A French aristocrat who gives up his title",
+  },
+  {
+    text: "Why does Charles Darnay go to France?",
+    options: [
+      "To visit his family",
+      "To fight in the revolution",
+      "To help a friend in trouble",
+      "To escape the law"
+    ],
+    correct: "To help a friend in trouble",
+  },
+  {
+    text: "Who is Sydney Carton?",
+    options: [
+      "A drunk lawyer who redeems himself",
+      "A French revolutionary leader",
+      "Lucie's brother",
+      "A priest"
+    ],
+    correct: "A drunk lawyer who redeems himself",
+  },
+  {
+    text: "What is the relationship between Sydney Carton and Lucie Manette?",
+    options: [
+      "They are married",
+      "They are siblings",
+      "Sydney loves Lucie but she marries Charles Darnay",
+      "They are enemies"
+    ],
+    correct: "Sydney loves Lucie but she marries Charles Darnay",
+  },
+  {
+    text: "What is Dr. Manette’s profession?",
+    options: [
+      "Teacher",
+      "Shoemaker",
+      "Doctor",
+      "Lawyer"
+    ],
+    correct: "Doctor",
+  },
+  {
+    text: "What traumatic experience did Dr. Manette face?",
+    options: [
+      "He lost his family",
+      "He was imprisoned in the Bastille for 18 years",
+      "He was exiled from England",
+      "He lost his memory due to war"
+    ],
+    correct: "He was imprisoned in the Bastille for 18 years",
+  },
+  {
+    text: "What symbol is used in the novel to represent the chaos of revolution?",
+    options: [
+      "The guillotine",
+      "The Bastille",
+      "The flag",
+      "The crown"
+    ],
+    correct: "The guillotine",
+  },
+  {
+    text: "What is the name of Lucie’s father?",
+    options: [
+      "Charles Manette",
+      "Lucien Manette",
+      "Dr. Alexandre Manette",
+      "Sir John Manette"
+    ],
+    correct: "Dr. Alexandre Manette",
+  },
+  {
+    text: "What does Sydney Carton do at the end of the novel?",
+    options: [
+      "Escapes to England",
+      "Joins the revolution",
+      "Sacrifices his life to save Charles Darnay",
+      "Kills the villain"
+    ],
+    correct: "Sacrifices his life to save Charles Darnay",
+  },
+  {
+    text: "What is the central theme of the story?",
+    options: [
+      "War and conflict",
+      "Love and sacrifice",
+      "Adventure and survival",
+      "Power and wealth"
+    ],
+    correct: "Love and sacrifice",
+  },
+  {
+    text: "Which famous line is associated with Sydney Carton’s sacrifice?",
+    options: [
+      "To be or not to be...",
+      "It is a far, far better thing that I do, than I have ever done...",
+      "All men must die...",
+      "I wandered lonely as a cloud..."
+    ],
+    correct: "It is a far, far better thing that I do, than I have ever done...",
+  }
 ];

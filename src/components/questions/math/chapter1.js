@@ -1,23 +1,77 @@
 export default [
   {
-    text: "What type of land is Arabia?",
-    options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
-    ],
-    correct: "A land of unparalleled charm and beauty",
+    text: "Which of the following is a rational number?",
+    options: ["√2", "π", "3/4", "e"],
+    correct: "3/4",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
-    options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
-    ],
-    correct: "Because Arabic is a language of eloquence",
+    text: "The set of natural numbers is denoted by:",
+    options: ["N", "Z", "Q", "R"],
+    correct: "N",
   },
-  // Add more...
+  {
+    text: "Which of the following numbers is irrational?",
+    options: ["0.25", "1/3", "√5", "4"],
+    correct: "√5",
+  },
+  {
+    text: "Whole numbers include:",
+    options: ["Only positive integers", "All real numbers", "Zero and natural numbers", "Only even numbers"],
+    correct: "Zero and natural numbers",
+  },
+  {
+    text: "Which of these is not a real number?",
+    options: ["√-1", "π", "0", "2"],
+    correct: "√-1",
+  },
+  {
+    text: "The set of integers is denoted by:",
+    options: ["R", "Q", "Z", "N"],
+    correct: "Z",
+  },
+  {
+    text: "Which of the following is not a subset of real numbers?",
+    options: ["Natural numbers", "Whole numbers", "Complex numbers", "Integers"],
+    correct: "Complex numbers",
+  },
+  {
+    text: "A number which cannot be written as a ratio of two integers is called:",
+    options: ["Whole number", "Rational number", "Irrational number", "Integer"],
+    correct: "Irrational number",
+  },
+  {
+    text: "Which of the following represents a real number?",
+    options: ["√-9", "3 + 2i", "5", "i"],
+    correct: "5",
+  },
+  {
+    text: "The decimal expansion of a rational number is either:",
+    options: ["Repeating or terminating", "Non-terminating and non-repeating", "Only whole", "Only even"],
+    correct: "Repeating or terminating",
+  },
+  {
+    text: "Every natural number is also:",
+    options: ["Irrational", "Complex", "Whole", "Imaginary"],
+    correct: "Whole",
+  },
+  {
+    text: "Zero is an element of:",
+    options: ["Natural numbers", "Whole numbers", "Irrational numbers", "Negative numbers"],
+    correct: "Whole numbers",
+  },
+  {
+    text: "Real numbers include:",
+    options: ["Rational and irrational numbers", "Only integers", "Only fractions", "Only positive numbers"],
+    correct: "Rational and irrational numbers",
+  },
+  {
+    text: "Which of the following is both rational and an integer?",
+    options: ["5", "√3", "π", "0.333..."],
+    correct: "5",
+  },
+  {
+    text: "What is the square root of 0?",
+    options: ["0", "1", "Undefined", "Infinity"],
+    correct: "0",
+  }
 ];

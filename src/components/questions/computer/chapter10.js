@@ -1,23 +1,152 @@
 export default [
   {
-    text: "What type of land is Arabia?",
+    text: "Which symbol is used to end a statement in C?",
     options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
+      ":",
+      ";",
+      ".",
+      "/"
     ],
-    correct: "A land of unparalleled charm and beauty",
+    correct: ";",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
+    text: "Which of the following is the correct syntax to print in C?",
     options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
+      "echo('Hello');",
+      "cout << 'Hello';",
+      "print('Hello');",
+      "printf(\"Hello\");"
     ],
-    correct: "Because Arabic is a language of eloquence",
+    correct: "printf(\"Hello\");",
   },
-  // Add more...
+  {
+    text: "Which header file is required to use printf() function?",
+    options: [
+      "<stdlib.h>",
+      "<stdio.h>",
+      "<math.h>",
+      "<conio.h>"
+    ],
+    correct: "<stdio.h>",
+  },
+  {
+    text: "The execution of a C program starts from:",
+    options: [
+      "start()",
+      "begin()",
+      "main()",
+      "run()"
+    ],
+    correct: "main()",
+  },
+  {
+    text: "Which operator is used for addition in C?",
+    options: [
+      "*",
+      "+",
+      "&",
+      "/"
+    ],
+    correct: "+",
+  },
+  {
+    text: "Which data type is used to store whole numbers in C?",
+    options: [
+      "float",
+      "char",
+      "int",
+      "double"
+    ],
+    correct: "int",
+  },
+  {
+    text: "What is the result of 10 / 3 in C (integer division)?",
+    options: [
+      "3.33",
+      "3",
+      "3.0",
+      "Error"
+    ],
+    correct: "3",
+  },
+  {
+    text: "Which loop is used to repeat a block of code?",
+    options: [
+      "repeat",
+      "loop",
+      "while",
+      "again"
+    ],
+    correct: "while",
+  },
+  {
+    text: "Which keyword is used to define a constant?",
+    options: [
+      "final",
+      "fixed",
+      "const",
+      "define"
+    ],
+    correct: "const",
+  },
+  {
+    text: "What will `int x = 5 + 2 * 3;` evaluate to?",
+    options: [
+      "21",
+      "11",
+      "13",
+      "17"
+    ],
+    correct: "11",
+  },
+  {
+    text: "Which function is used to take input in C?",
+    options: [
+      "input()",
+      "read()",
+      "scanf()",
+      "get()"
+    ],
+    correct: "scanf()",
+  },
+  {
+    text: "Which of these is a valid identifier in C?",
+    options: [
+      "2value",
+      "value_2",
+      "value-2",
+      "value.2"
+    ],
+    correct: "value_2",
+  },
+  {
+    text: "What is the value of x after `x = 4 % 3;`?",
+    options: [
+      "0",
+      "1",
+      "2",
+      "3"
+    ],
+    correct: "1",
+  },
+  {
+    text: "Which of the following is a relational operator?",
+    options: [
+      "&&",
+      "||",
+      "==",
+      "++"
+    ],
+    correct: "==",
+  },
+  {
+    text: "Which of the following is used for multi-line comments in C?",
+    options: [
+      "// comment //",
+      "# comment #",
+      "/* comment */",
+      "-- comment"
+    ],
+    correct: "/* comment */",
+  }
 ];

@@ -1,23 +1,152 @@
 export default [
   {
-    text: "What type of land is Arabia?",
+    text: "Who wrote the poem 'All the World's a Stage'?",
     options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
+      "Robert Frost",
+      "William Wordsworth",
+      "William Shakespeare",
+      "John Keats"
     ],
-    correct: "A land of unparalleled charm and beauty",
+    correct: "William Shakespeare",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
+    text: "From which play is the poem 'All the World's a Stage' taken?",
     options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
+      "Hamlet",
+      "Romeo and Juliet",
+      "As You Like It",
+      "Macbeth"
     ],
-    correct: "Because Arabic is a language of eloquence",
+    correct: "As You Like It",
   },
-  // Add more...
+  {
+    text: "According to the poet, what is the world compared to?",
+    options: [
+      "A classroom",
+      "A battlefield",
+      "A theatre stage",
+      "A book"
+    ],
+    correct: "A theatre stage",
+  },
+  {
+    text: "How many stages of life are described in the poem?",
+    options: [
+      "Five",
+      "Seven",
+      "Nine",
+      "Three"
+    ],
+    correct: "Seven",
+  },
+  {
+    text: "What is the first stage of a man's life according to the poem?",
+    options: [
+      "Infant",
+      "Lover",
+      "Schoolboy",
+      "Old man"
+    ],
+    correct: "Infant",
+  },
+  {
+    text: "In the second stage, how is the schoolboy described?",
+    options: [
+      "Laughing and running",
+      "With a shining morning face and unwilling to go to school",
+      "Happy and excited",
+      "Very active"
+    ],
+    correct: "With a shining morning face and unwilling to go to school",
+  },
+  {
+    text: "What stage comes after the schoolboy?",
+    options: [
+      "Justice",
+      "Soldier",
+      "Lover",
+      "Infant again"
+    ],
+    correct: "Lover",
+  },
+  {
+    text: "What does the lover sigh for?",
+    options: [
+      "Money",
+      "Power",
+      "Fame",
+      "His beloved"
+    ],
+    correct: "His beloved",
+  },
+  {
+    text: "Which stage is known for being short-tempered and seeking reputation?",
+    options: [
+      "Old man",
+      "Soldier",
+      "Lover",
+      "Infant"
+    ],
+    correct: "Soldier",
+  },
+  {
+    text: "What is the fifth stage according to Shakespeare?",
+    options: [
+      "Lover",
+      "Justice",
+      "Infant",
+      "Schoolboy"
+    ],
+    correct: "Justice",
+  },
+  {
+    text: "How is the justice described?",
+    options: [
+      "With a beard of formal cut and full of wise sayings",
+      "With a sword",
+      "As lazy and careless",
+      "As a romantic person"
+    ],
+    correct: "With a beard of formal cut and full of wise sayings",
+  },
+  {
+    text: "What happens in the sixth stage?",
+    options: [
+      "The man becomes a soldier",
+      "The man becomes a child again",
+      "The man turns into a lean and slippered old person",
+      "The man becomes a schoolboy"
+    ],
+    correct: "The man turns into a lean and slippered old person",
+  },
+  {
+    text: "What is the last stage of life described in the poem?",
+    options: [
+      "Old age",
+      "Death",
+      "Second childishness and mere oblivion",
+      "Sleeping forever"
+    ],
+    correct: "Second childishness and mere oblivion",
+  },
+  {
+    text: "What is meant by 'mere oblivion'?",
+    options: [
+      "Complete forgetfulness and helplessness",
+      "Deep knowledge",
+      "Being powerful",
+      "A joyful life"
+    ],
+    correct: "Complete forgetfulness and helplessness",
+  },
+  {
+    text: "What theme does the poem strongly express?",
+    options: [
+      "Revenge",
+      "Love and nature",
+      "Stages of human life and inevitability of death",
+      "Glory and war"
+    ],
+    correct: "Stages of human life and inevitability of death",
+  }
 ];

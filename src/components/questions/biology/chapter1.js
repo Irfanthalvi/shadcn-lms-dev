@@ -1,23 +1,77 @@
 export default [
   {
-    text: "What type of land is Arabia?",
-    options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
-    ],
-    correct: "A land of unparalleled charm and beauty",
+    text: "Which branch of biology deals with the study of animals?",
+    options: ["Botany", "Zoology", "Mycology", "Ecology"],
+    correct: "Zoology",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
-    options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
-    ],
-    correct: "Because Arabic is a language of eloquence",
+    text: "Who is known as the father of biology?",
+    options: ["Aristotle", "Darwin", "Linnaeus", "Pasteur"],
+    correct: "Aristotle",
   },
-  // Add more...
+  {
+    text: "Which branch of biology deals with the study of heredity?",
+    options: ["Anatomy", "Genetics", "Ecology", "Histology"],
+    correct: "Genetics",
+  },
+  {
+    text: "The study of internal structure of organisms is called:",
+    options: ["Anatomy", "Morphology", "Taxonomy", "Embryology"],
+    correct: "Anatomy",
+  },
+  {
+    text: "Which level of biological organization includes all ecosystems?",
+    options: ["Biosphere", "Population", "Organism", "Community"],
+    correct: "Biosphere",
+  },
+  {
+    text: "A group of similar organisms that can interbreed is called:",
+    options: ["Community", "Species", "Population", "Family"],
+    correct: "Species",
+  },
+  {
+    text: "Which field applies biology to solve industrial problems?",
+    options: ["Biotechnology", "Environmental biology", "Molecular biology", "Physiology"],
+    correct: "Biotechnology",
+  },
+  {
+    text: "Micromolecules include all except:",
+    options: ["Water", "Salts", "Glucose", "Proteins"],
+    correct: "Proteins",
+  },
+  {
+    text: "Which discipline deals with naming and classification of organisms?",
+    options: ["Anatomy", "Taxonomy", "Physiology", "Ecology"],
+    correct: "Taxonomy",
+  },
+  {
+    text: "The sum of all chemical reactions in a living organism is:",
+    options: ["Digestion", "Respiration", "Metabolism", "Excretion"],
+    correct: "Metabolism",
+  },
+  {
+    text: "Which branch of biology studies the interaction of organisms with their environment?",
+    options: ["Morphology", "Ecology", "Anatomy", "Histology"],
+    correct: "Ecology",
+  },
+  {
+    text: "The study of fungi is called:",
+    options: ["Mycology", "Virology", "Bacteriology", "Botany"],
+    correct: "Mycology",
+  },
+  {
+    text: "Which branch of biology deals with viruses?",
+    options: ["Virology", "Pathology", "Microbiology", "Mycology"],
+    correct: "Virology",
+  },
+  {
+    text: "Who developed the binomial nomenclature system?",
+    options: ["Darwin", "Lamarck", "Linnaeus", "Pasteur"],
+    correct: "Linnaeus",
+  },
+  {
+    text: "The structural and functional unit of life is:",
+    options: ["Tissue", "Organ", "System", "Cell"],
+    correct: "Cell",
+  },
 ];

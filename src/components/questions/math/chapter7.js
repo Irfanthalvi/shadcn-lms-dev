@@ -1,23 +1,97 @@
 export default [
   {
-    text: "What type of land is Arabia?",
+    text: "Permutation is defined as:",
     options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
+      "Arrangement of objects without considering order",
+      "Selection of objects with replacement",
+      "Arrangement of objects in a specific order",
+      "Repetition of same object",
     ],
-    correct: "A land of unparalleled charm and beauty",
+    correct: "Arrangement of objects in a specific order",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
+    text: "What is the formula for permutation of n objects taken r at a time?",
     options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
+      "nCr = n! / (r!(n - r)!)",
+      "nPr = n! / (n - r)!",
+      "n! / r!",
+      "r! / n!",
     ],
-    correct: "Because Arabic is a language of eloquence",
+    correct: "nPr = n! / (n - r)!",
   },
-  // Add more...
+  {
+    text: "Combination is defined as:",
+    options: [
+      "Arrangement of objects",
+      "Selection of objects without considering order",
+      "Multiplication of values",
+      "Arrangement of values in order",
+    ],
+    correct: "Selection of objects without considering order",
+  },
+  {
+    text: "How many ways can 3 books be arranged on a shelf out of 5?",
+    options: ["10", "60", "120", "20"],
+    correct: "60",
+  },
+  {
+    text: "The number of combinations of 5 objects taken 2 at a time is:",
+    options: ["10", "20", "5", "15"],
+    correct: "10",
+  },
+  {
+    text: "If n = 7 and r = 3, what is nCr?",
+    options: ["35", "21", "42", "28"],
+    correct: "35",
+  },
+  {
+    text: "The value of 5! (5 factorial) is:",
+    options: ["25", "60", "100", "120"],
+    correct: "120",
+  },
+  {
+    text: "In how many ways can the letters A, B, C be arranged?",
+    options: ["3", "6", "9", "12"],
+    correct: "6",
+  },
+  {
+    text: "If the probability of an event happening is 1, it means:",
+    options: [
+      "Impossible event",
+      "Certain event",
+      "Equally likely event",
+      "Not possible",
+    ],
+    correct: "Certain event",
+  },
+  {
+    text: "If a die is rolled once, what is the probability of getting an even number?",
+    options: ["1/2", "1/3", "1/6", "2/3"],
+    correct: "1/2",
+  },
+  {
+    text: "If a coin is tossed once, the probability of getting a head is:",
+    options: ["1", "0", "1/2", "2/3"],
+    correct: "1/2",
+  },
+  {
+    text: "The total number of outcomes when a coin is tossed is:",
+    options: ["1", "2", "4", "6"],
+    correct: "2",
+  },
+  {
+    text: "If n = 6 and r = 2, then nPr = ?",
+    options: ["30", "12", "20", "60"],
+    correct: "30",
+  },
+  {
+    text: "How many 3-digit numbers can be formed from digits 1, 2, 3, 4, 5 without repetition?",
+    options: ["60", "125", "100", "90"],
+    correct: "60",
+  },
+  {
+    text: "Probability is always a number between:",
+    options: ["0 and 1", "1 and 2", "0 and 10", "0 and 100"],
+    correct: "0 and 1",
+  }
 ];

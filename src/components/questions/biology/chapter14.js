@@ -1,0 +1,77 @@
+export default [
+  {
+    text: "Which tissue transports water in plants?",
+    options: ["Phloem", "Xylem", "Cambium", "Parenchyma"],
+    correct: "Xylem",
+  },
+  {
+    text: "Phloem in plants is responsible for transporting:",
+    options: ["Water", "Minerals", "Salts", "Food"],
+    correct: "Food",
+  },
+  {
+    text: "The fluid part of blood is called:",
+    options: ["Platelets", "Plasma", "WBC", "RBC"],
+    correct: "Plasma",
+  },
+  {
+    text: "Which blood cells help in clotting?",
+    options: ["RBCs", "WBCs", "Plasma", "Platelets"],
+    correct: "Platelets",
+  },
+  {
+    text: "Which organ pumps blood throughout the body?",
+    options: ["Lungs", "Kidneys", "Brain", "Heart"],
+    correct: "Heart",
+  },
+  {
+    text: "How many chambers are there in a human heart?",
+    options: ["2", "3", "4", "5"],
+    correct: "4",
+  },
+  {
+    text: "Which vessels carry blood away from the heart?",
+    options: ["Veins", "Capillaries", "Arteries", "Bronchi"],
+    correct: "Arteries",
+  },
+  {
+    text: "What is the function of red blood cells?",
+    options: ["Fight infection", "Carry oxygen", "Help clotting", "Digest food"],
+    correct: "Carry oxygen",
+  },
+  {
+    text: "The heartbeat is controlled by:",
+    options: ["Brain", "Spinal cord", "Pacemaker", "Lungs"],
+    correct: "Pacemaker",
+  },
+  {
+    text: "Transpiration in plants is the loss of:",
+    options: ["Minerals", "Glucose", "Water", "CO₂"],
+    correct: "Water",
+  },
+  {
+    text: "Which blood component fights diseases?",
+    options: ["Platelets", "RBC", "Plasma", "WBC"],
+    correct: "WBC",
+  },
+  {
+    text: "The smallest blood vessels are called:",
+    options: ["Arteries", "Capillaries", "Veins", "Villi"],
+    correct: "Capillaries",
+  },
+  {
+    text: "In plants, water moves mainly through:",
+    options: ["Diffusion", "Phloem", "Xylem", "Stomata"],
+    correct: "Xylem",
+  },
+  {
+    text: "The valve between left atrium and left ventricle is:",
+    options: ["Tricuspid", "Pulmonary", "Bicuspid", "Aortic"],
+    correct: "Bicuspid",
+  },
+  {
+    text: "What causes the 'lub-dub' sound of the heart?",
+    options: ["Lung expansion", "Blood flow", "Valve closing", "Muscle contraction"],
+    correct: "Valve closing",
+  },
+];

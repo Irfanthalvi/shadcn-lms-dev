@@ -1,23 +1,77 @@
 export default [
   {
-    text: "What type of land is Arabia?",
-    options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
-    ],
-    correct: "A land of unparalleled charm and beauty",
+    text: "Which of the following is a monosaccharide?",
+    options: ["Glucose", "Sucrose", "Lactose", "Starch"],
+    correct: "Glucose",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
-    options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
-    ],
-    correct: "Because Arabic is a language of eloquence",
+    text: "Which element is found in all organic compounds?",
+    options: ["Calcium", "Nitrogen", "Carbon", "Sodium"],
+    correct: "Carbon",
   },
-  // Add more...
+  {
+    text: "Cellulose is a type of:",
+    options: ["Protein", "Lipid", "Carbohydrate", "Enzyme"],
+    correct: "Carbohydrate",
+  },
+  {
+    text: "Which of the following is a polysaccharide?",
+    options: ["Glucose", "Fructose", "Sucrose", "Starch"],
+    correct: "Starch",
+  },
+  {
+    text: "Which macromolecule stores genetic information?",
+    options: ["Protein", "DNA", "Carbohydrate", "Lipid"],
+    correct: "DNA",
+  },
+  {
+    text: "Which biomolecule acts as the main energy source for cells?",
+    options: ["Lipids", "Proteins", "Carbohydrates", "Nucleic acids"],
+    correct: "Carbohydrates",
+  },
+  {
+    text: "Amino acids are the building blocks of:",
+    options: ["Proteins", "Lipids", "Nucleic acids", "Carbohydrates"],
+    correct: "Proteins",
+  },
+  {
+    text: "Which of the following is NOT a lipid?",
+    options: ["Fats", "Oils", "Waxes", "Glucose"],
+    correct: "Glucose",
+  },
+  {
+    text: "What type of bond links amino acids together?",
+    options: ["Glycosidic bond", "Peptide bond", "Ionic bond", "Hydrogen bond"],
+    correct: "Peptide bond",
+  },
+  {
+    text: "Which vitamin is fat-soluble?",
+    options: ["Vitamin B", "Vitamin C", "Vitamin D", "Vitamin B12"],
+    correct: "Vitamin D",
+  },
+  {
+    text: "DNA and RNA are types of:",
+    options: ["Lipids", "Carbohydrates", "Proteins", "Nucleic acids"],
+    correct: "Nucleic acids",
+  },
+  {
+    text: "Which of the following is a disaccharide?",
+    options: ["Maltose", "Fructose", "Glycogen", "Galactose"],
+    correct: "Maltose",
+  },
+  {
+    text: "Which sugar is found in DNA?",
+    options: ["Ribose", "Glucose", "Deoxyribose", "Fructose"],
+    correct: "Deoxyribose",
+  },
+  {
+    text: "Enzymes are biologically classified as:",
+    options: ["Lipids", "Proteins", "Vitamins", "Sugars"],
+    correct: "Proteins",
+  },
+  {
+    text: "Which of the following is an example of a nucleic acid?",
+    options: ["ATP", "Insulin", "Hemoglobin", "Cholesterol"],
+    correct: "ATP",
+  },
 ];

@@ -1,23 +1,77 @@
 export default [
   {
-    text: "What type of land is Arabia?",
-    options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
-    ],
-    correct: "A land of unparalleled charm and beauty",
+    text: "A set which contains no element is called:",
+    options: ["Finite set", "Infinite set", "Empty set", "Subset"],
+    correct: "Empty set",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
-    options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
-    ],
-    correct: "Because Arabic is a language of eloquence",
+    text: "If A ⊆ B and B ⊆ A, then:",
+    options: ["A ≠ B", "A ∪ B = ∅", "A = B", "A ∩ B = ∅"],
+    correct: "A = B",
   },
-  // Add more...
+  {
+    text: "The total number of subsets of a set with 3 elements is:",
+    options: ["3", "6", "8", "9"],
+    correct: "8",
+  },
+  {
+    text: "Which of the following is a universal set?",
+    options: ["{1, 2, 3}", "{}", "Set of all real numbers", "Null set"],
+    correct: "Set of all real numbers",
+  },
+  {
+    text: "If A = {1, 2} and B = {2, 3}, then A ∩ B is:",
+    options: ["{1, 2, 3}", "{2}", "{1}", "{}"],
+    correct: "{2}",
+  },
+  {
+    text: "A function is said to be one-one if:",
+    options: ["Every element maps to multiple images", "Different inputs give same output", "Different inputs give different outputs", "Every element is mapped to zero"],
+    correct: "Different inputs give different outputs",
+  },
+  {
+    text: "A function f is called onto if:",
+    options: ["Every element of domain has image", "Every element of codomain is image of some domain element", "f(a) = f(b)", "None of these"],
+    correct: "Every element of codomain is image of some domain element",
+  },
+  {
+    text: "The composition of functions f: A → B and g: B → C is denoted by:",
+    options: ["f ∘ g", "g ∘ f", "f + g", "fg"],
+    correct: "g ∘ f",
+  },
+  {
+    text: "If A = {1, 2} and B = {x, y}, how many functions from A to B are possible?",
+    options: ["2", "4", "6", "8"],
+    correct: "4",
+  },
+  {
+    text: "A group must have which of the following properties?",
+    options: ["Closure", "Associativity", "Identity and Inverse", "All of these"],
+    correct: "All of these",
+  },
+  {
+    text: "Which of the following is the identity element in addition?",
+    options: ["1", "0", "-1", "∞"],
+    correct: "0",
+  },
+  {
+    text: "Which of the following is not a set?",
+    options: ["{x | x is an even number}", "{1, 2, 3}", "{colors of rainbow}", "{good students in class}"],
+    correct: "{good students in class}",
+  },
+  {
+    text: "If A = {1, 2, 3} and B = {2, 3, 4}, then A ∪ B =",
+    options: ["{2, 3}", "{1, 2, 3, 4}", "{1, 4}", "{1, 2}"],
+    correct: "{1, 2, 3, 4}",
+  },
+  {
+    text: "If a set has 'n' elements, the number of proper subsets is:",
+    options: ["2^n", "2^n - 1", "n!", "n"],
+    correct: "2^n - 1",
+  },
+  {
+    text: "Which of the following is a binary operation?",
+    options: ["x²", "sin(x)", "x + y", "log(x)"],
+    correct: "x + y",
+  }
 ];

@@ -1,23 +1,152 @@
 export default [
   {
-    text: "What type of land is Arabia?",
+    text: "Which optical instrument is used to observe very small objects?",
     options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
+      "Telescope",
+      "Camera",
+      "Microscope",
+      "Periscope",
     ],
-    correct: "A land of unparalleled charm and beauty",
+    correct: "Microscope",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
+    text: "The image formed by a simple microscope is:",
     options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
+      "Real, inverted and diminished",
+      "Virtual, erect and magnified",
+      "Real, erect and magnified",
+      "Virtual, inverted and diminished",
     ],
-    correct: "Because Arabic is a language of eloquence",
+    correct: "Virtual, erect and magnified",
   },
-  // Add more...
+  {
+    text: "The resolving power of an optical instrument depends on:",
+    options: [
+      "Wavelength of light",
+      "Focal length",
+      "Aperture size",
+      "All of the above",
+    ],
+    correct: "All of the above",
+  },
+  {
+    text: "The astronomical telescope is used to view:",
+    options: [
+      "Cells and tissues",
+      "Stars and planets",
+      "Bacteria",
+      "Sound waves",
+    ],
+    correct: "Stars and planets",
+  },
+  {
+    text: "The image formed by an astronomical telescope is:",
+    options: [
+      "Real and upright",
+      "Virtual and upright",
+      "Real and inverted",
+      "Virtual and inverted",
+    ],
+    correct: "Real and inverted",
+  },
+  {
+    text: "Compound microscope uses:",
+    options: [
+      "One convex lens",
+      "One concave lens",
+      "Two convex lenses",
+      "Two concave lenses",
+    ],
+    correct: "Two convex lenses",
+  },
+  {
+    text: "Magnifying power of a microscope increases when:",
+    options: [
+      "Focal length of objective is decreased",
+      "Focal length of eyepiece is increased",
+      "Tube length is decreased",
+      "None of the above",
+    ],
+    correct: "Focal length of objective is decreased",
+  },
+  {
+    text: "Which part of the eye acts like a lens?",
+    options: [
+      "Cornea",
+      "Iris",
+      "Retina",
+      "Pupil",
+    ],
+    correct: "Cornea",
+  },
+  {
+    text: "A person with myopia uses:",
+    options: [
+      "Convex lens",
+      "Concave lens",
+      "Cylindrical lens",
+      "Plano-convex lens",
+    ],
+    correct: "Concave lens",
+  },
+  {
+    text: "The least distance of distinct vision for a normal eye is:",
+    options: [
+      "15 cm",
+      "20 cm",
+      "25 cm",
+      "30 cm",
+    ],
+    correct: "25 cm",
+  },
+  {
+    text: "Which instrument uses prisms instead of lenses?",
+    options: [
+      "Binocular",
+      "Simple microscope",
+      "Telescope",
+      "Camera",
+    ],
+    correct: "Binocular",
+  },
+  {
+    text: "In a camera, the part corresponding to the retina is:",
+    options: [
+      "Lens",
+      "Aperture",
+      "Shutter",
+      "Film",
+    ],
+    correct: "Film",
+  },
+  {
+    text: "The power of a lens is measured in:",
+    options: [
+      "Diopters",
+      "Joules",
+      "Lumens",
+      "Watts",
+    ],
+    correct: "Diopters",
+  },
+  {
+    text: "Which defect of vision is corrected by using cylindrical lenses?",
+    options: [
+      "Myopia",
+      "Hypermetropia",
+      "Astigmatism",
+      "Presbyopia",
+    ],
+    correct: "Astigmatism",
+  },
+  {
+    text: "The unit of magnifying power is:",
+    options: [
+      "Meter",
+      "No unit (dimensionless)",
+      "Diopter",
+      "Centimeter",
+    ],
+    correct: "No unit (dimensionless)",
+  },
 ];

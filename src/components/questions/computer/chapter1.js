@@ -1,23 +1,152 @@
 export default [
   {
-    text: "What type of land is Arabia?",
+    text: "What is the basic function of a computer?",
     options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
+      "Entertainment",
+      "Data processing",
+      "Cooking",
+      "Driving vehicles"
     ],
-    correct: "A land of unparalleled charm and beauty",
+    correct: "Data processing",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
+    text: "Which of the following is NOT a characteristic of a computer?",
     options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
+      "Speed",
+      "Intelligence",
+      "Accuracy",
+      "Automation"
     ],
-    correct: "Because Arabic is a language of eloquence",
+    correct: "Intelligence",
   },
-  // Add more...
+  {
+    text: "Which of the following is considered the 'brain' of the computer?",
+    options: [
+      "Hard disk",
+      "RAM",
+      "CPU",
+      "Monitor"
+    ],
+    correct: "CPU",
+  },
+  {
+    text: "The physical parts of a computer are called:",
+    options: [
+      "Software",
+      "Hardware",
+      "Firmware",
+      "Shareware"
+    ],
+    correct: "Hardware",
+  },
+  {
+    text: "Which of the following is NOT an example of software?",
+    options: [
+      "Microsoft Word",
+      "Mouse",
+      "Windows 10",
+      "Linux"
+    ],
+    correct: "Mouse",
+  },
+  {
+    text: "A computer processes data into:",
+    options: [
+      "Noise",
+      "Garbage",
+      "Information",
+      "Waves"
+    ],
+    correct: "Information",
+  },
+  {
+    text: "Which one is an input device?",
+    options: [
+      "Monitor",
+      "Printer",
+      "Scanner",
+      "Speaker"
+    ],
+    correct: "Scanner",
+  },
+  {
+    text: "What does the abbreviation 'CPU' stand for?",
+    options: [
+      "Central Power Unit",
+      "Central Processing Unit",
+      "Computer Processing Unit",
+      "Control Program Unit"
+    ],
+    correct: "Central Processing Unit",
+  },
+  {
+    text: "Which of the following is NOT a generation of computers?",
+    options: [
+      "First",
+      "Third",
+      "Fifth",
+      "Seventh"
+    ],
+    correct: "Seventh",
+  },
+  {
+    text: "Which language is used in the first generation of computers?",
+    options: [
+      "Assembly language",
+      "High-level language",
+      "Binary machine language",
+      "C language"
+    ],
+    correct: "Binary machine language",
+  },
+  {
+    text: "Which of the following is a limitation of a computer?",
+    options: [
+      "Speed",
+      "Storage",
+      "Accuracy",
+      "Lack of decision making"
+    ],
+    correct: "Lack of decision making",
+  },
+  {
+    text: "Computers use which number system?",
+    options: [
+      "Decimal",
+      "Octal",
+      "Binary",
+      "Hexadecimal"
+    ],
+    correct: "Binary",
+  },
+  {
+    text: "Who is considered the father of computers?",
+    options: [
+      "Bill Gates",
+      "Steve Jobs",
+      "Charles Babbage",
+      "Alan Turing"
+    ],
+    correct: "Charles Babbage",
+  },
+  {
+    text: "Which of the following best describes 'data'?",
+    options: [
+      "Meaningful information",
+      "Raw facts and figures",
+      "Processed results",
+      "Programs"
+    ],
+    correct: "Raw facts and figures",
+  },
+  {
+    text: "Which device is used to store data permanently?",
+    options: [
+      "RAM",
+      "Cache",
+      "ROM",
+      "Hard disk"
+    ],
+    correct: "Hard disk",
+  }
 ];

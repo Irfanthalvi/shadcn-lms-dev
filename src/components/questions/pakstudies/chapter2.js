@@ -1,23 +1,152 @@
 export default [
   {
-    text: "What type of land is Arabia?",
+    text: "قیام پاکستان کا مقصد کیا تھا؟ (What was the main objective of Pakistan’s creation?)",
     options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
+      "ہندو مسلم اتحاد (Hindu-Muslim unity)",
+      "اسلامی ریاست کا قیام (Establishment of Islamic state)",
+      "برطانوی حکومت کو خوش کرنا (To please the British government)",
+      "معاشی ترقی (Economic development)",
     ],
-    correct: "A land of unparalleled charm and beauty",
+    correct: "اسلامی ریاست کا قیام (Establishment of Islamic state)",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
+    text: "پاکستان کس منصوبے کے تحت وجود میں آیا؟ (Under which plan was Pakistan created?)",
     options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
+      "نہرو رپورٹ (Nehru Report)",
+      "مارلے منتو پلان (Morley-Minto Reforms)",
+      "کیبنٹ مشن پلان (Cabinet Mission Plan)",
+      "منصوبہ تقسیم ہند (Plan of Partition of India)",
     ],
-    correct: "Because Arabic is a language of eloquence",
+    correct: "منصوبہ تقسیم ہند (Plan of Partition of India)",
   },
-  // Add more...
+  {
+    text: "قیام پاکستان کس تاریخ کو ہوا؟ (When was Pakistan established?)",
+    options: [
+      "23 مارچ 1940 (23 March 1940)",
+      "3 جون 1947 (3 June 1947)",
+      "14 اگست 1947 (14 August 1947)",
+      "15 اگست 1947 (15 August 1947)",
+    ],
+    correct: "14 اگست 1947 (14 August 1947)",
+  },
+  {
+    text: "پاکستان کا پہلا گورنر جنرل کون تھا؟ (Who was the first Governor-General of Pakistan?)",
+    options: [
+      "لیاقت علی خان (Liaquat Ali Khan)",
+      "محمد علی جناح (Muhammad Ali Jinnah)",
+      "خواجہ ناظم الدین (Khawaja Nazimuddin)",
+      "علامہ اقبال (Allama Iqbal)",
+    ],
+    correct: "محمد علی جناح (Muhammad Ali Jinnah)",
+  },
+  {
+    text: "قیام پاکستان کے وقت ہندوستان کے وائسرائے کون تھے؟ (Who was the Viceroy of India at the time of Pakistan's creation?)",
+    options: [
+      "لارڈ ماؤنٹ بیٹن (Lord Mountbatten)",
+      "لارڈ ڈفرن (Lord Dufferin)",
+      "لارڈ کرزن (Lord Curzon)",
+      "لارڈ ریڈنگ (Lord Reading)",
+    ],
+    correct: "لارڈ ماؤنٹ بیٹن (Lord Mountbatten)",
+  },
+  {
+    text: "قیام پاکستان کی قرارداد کب منظور ہوئی؟ (When was the Pakistan Resolution passed?)",
+    options: [
+      "14 اگست 1947 (14 August 1947)",
+      "23 مارچ 1940 (23 March 1940)",
+      "3 جون 1947 (3 June 1947)",
+      "26 جنوری 1930 (26 January 1930)",
+    ],
+    correct: "23 مارچ 1940 (23 March 1940)",
+  },
+  {
+    text: "قرارداد پاکستان کہاں پیش کی گئی؟ (Where was the Pakistan Resolution presented?)",
+    options: [
+      "لاہور (Lahore)",
+      "کراچی (Karachi)",
+      "دہلی (Delhi)",
+      "ڈھاکہ (Dhaka)",
+    ],
+    correct: "لاہور (Lahore)",
+  },
+  {
+    text: "پاکستان بننے کے بعد دارالحکومت کون سا شہر تھا؟ (Which city was the capital after independence?)",
+    options: [
+      "اسلام آباد (Islamabad)",
+      "لاہور (Lahore)",
+      "ڈھاکہ (Dhaka)",
+      "کراچی (Karachi)",
+    ],
+    correct: "کراچی (Karachi)",
+  },
+  {
+    text: "پاکستان میں پہلا وزیراعظم کون تھا؟ (Who was the first Prime Minister of Pakistan?)",
+    options: [
+      "محمد علی جناح (Muhammad Ali Jinnah)",
+      "لیاقت علی خان (Liaquat Ali Khan)",
+      "خواجہ ناظم الدین (Khawaja Nazimuddin)",
+      "فیروز خان نون (Feroz Khan Noon)",
+    ],
+    correct: "لیاقت علی خان (Liaquat Ali Khan)",
+  },
+  {
+    text: "قیام پاکستان میں مسلمانوں کی کونسی تنظیم نے مرکزی کردار ادا کیا؟ (Which organization played a key role in Pakistan’s creation?)",
+    options: [
+      "کانگریس (Congress)",
+      "جمعیت علماء ہند (Jamiat Ulama-e-Hind)",
+      "مسلم لیگ (Muslim League)",
+      "تحریک خلافت (Khilafat Movement)",
+    ],
+    correct: "مسلم لیگ (Muslim League)",
+  },
+  {
+    text: "مسلم لیگ کا قیام کب ہوا؟ (When was the Muslim League founded?)",
+    options: [
+      "1906 میں (In 1906)",
+      "1930 میں (In 1930)",
+      "1940 میں (In 1940)",
+      "1916 میں (In 1916)",
+    ],
+    correct: "1906 میں (In 1906)",
+  },
+  {
+    text: "پاکستان کے قیام کا سب سے بڑا سبب کیا تھا؟ (What was the main cause of creation of Pakistan?)",
+    options: [
+      "مذہبی آزادی (Religious freedom)",
+      "معاشی مسائل (Economic issues)",
+      "تعلیمی پسماندگی (Educational backwardness)",
+      "ہندو مسلم فساد (Hindu-Muslim riots)",
+    ],
+    correct: "مذہبی آزادی (Religious freedom)",
+  },
+  {
+    text: "پاکستان کن دو قوموں کی بنیاد پر قائم ہوا؟ (On which two nations' concept was Pakistan based?)",
+    options: [
+      "مسلمان اور ہندو (Muslims and Hindus)",
+      "پنجابی اور سندھی (Punjabis and Sindhis)",
+      "مہاجر اور مقامی (Migrants and Locals)",
+      "اردو اور بنگالی (Urdu and Bengalis)",
+    ],
+    correct: "مسلمان اور ہندو (Muslims and Hindus)",
+  },
+  {
+    text: "قیام پاکستان کے وقت سب سے بڑا صوبہ کون سا تھا؟ (Which was the largest province at the time of Pakistan’s creation?)",
+    options: [
+      "پنجاب (Punjab)",
+      "سندھ (Sindh)",
+      "بنگال (Bengal)",
+      "بلوچستان (Balochistan)",
+    ],
+    correct: "بنگال (Bengal)",
+  },
+  {
+    text: "قیام پاکستان کے بعد پہلا آئین کب نافذ ہوا؟ (When was the first constitution of Pakistan implemented?)",
+    options: [
+      "1956 میں (In 1956)",
+      "1947 میں (In 1947)",
+      "1962 میں (In 1962)",
+      "1973 میں (In 1973)",
+    ],
+    correct: "1956 میں (In 1956)",
+  },
 ];

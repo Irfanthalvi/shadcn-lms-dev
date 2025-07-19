@@ -1,23 +1,152 @@
 export default [
   {
-    text: "What type of land is Arabia?",
+    text: "What is software?",
     options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
+      "Physical parts of a computer",
+      "Input devices",
+      "Set of instructions for the computer",
+      "Networking hardware"
     ],
-    correct: "A land of unparalleled charm and beauty",
+    correct: "Set of instructions for the computer",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
+    text: "Which of the following is system software?",
     options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
+      "Microsoft Word",
+      "Google Chrome",
+      "Windows 10",
+      "Adobe Photoshop"
     ],
-    correct: "Because Arabic is a language of eloquence",
+    correct: "Windows 10",
   },
-  // Add more...
+  {
+    text: "Which software manages hardware and software resources?",
+    options: [
+      "Application software",
+      "System software",
+      "Compiler",
+      "Driver"
+    ],
+    correct: "System software",
+  },
+  {
+    text: "Which of the following is not an example of application software?",
+    options: [
+      "MS Excel",
+      "Linux",
+      "CorelDraw",
+      "VLC Media Player"
+    ],
+    correct: "Linux",
+  },
+  {
+    text: "What is the main function of an operating system?",
+    options: [
+      "Run antivirus",
+      "Manage resources and tasks",
+      "Draw images",
+      "Connect to the internet"
+    ],
+    correct: "Manage resources and tasks",
+  },
+  {
+    text: "Which of the following is a utility software?",
+    options: [
+      "Compiler",
+      "MS Word",
+      "Disk Cleanup",
+      "Chrome"
+    ],
+    correct: "Disk Cleanup",
+  },
+  {
+    text: "Which software converts high-level language to machine language?",
+    options: [
+      "Operating system",
+      "Compiler",
+      "Word Processor",
+      "Spreadsheet"
+    ],
+    correct: "Compiler",
+  },
+  {
+    text: "Which of the following is not system software?",
+    options: [
+      "Device Driver",
+      "Operating System",
+      "Antivirus",
+      "MS PowerPoint"
+    ],
+    correct: "MS PowerPoint",
+  },
+  {
+    text: "Which software allows users to perform specific tasks?",
+    options: [
+      "Application software",
+      "Operating system",
+      "Firmware",
+      "System software"
+    ],
+    correct: "Application software",
+  },
+  {
+    text: "An example of open-source software is:",
+    options: [
+      "Windows",
+      "Linux",
+      "Photoshop",
+      "MS Office"
+    ],
+    correct: "Linux",
+  },
+  {
+    text: "The software embedded into hardware devices is called:",
+    options: [
+      "Middleware",
+      "Application software",
+      "Utility software",
+      "Firmware"
+    ],
+    correct: "Firmware",
+  },
+  {
+    text: "Which software helps protect a computer from viruses?",
+    options: [
+      "Compiler",
+      "Driver",
+      "Antivirus",
+      "Spreadsheet"
+    ],
+    correct: "Antivirus",
+  },
+  {
+    text: "Which of these is not an application software?",
+    options: [
+      "MS Word",
+      "Windows",
+      "Excel",
+      "PowerPoint"
+    ],
+    correct: "Windows",
+  },
+  {
+    text: "What is the main difference between system and application software?",
+    options: [
+      "System software is used to entertain",
+      "Application software runs without system software",
+      "System software supports hardware functions",
+      "Application software manages the CPU"
+    ],
+    correct: "System software supports hardware functions",
+  },
+  {
+    text: "Which category of software is used to manage files and folders?",
+    options: [
+      "Word Processor",
+      "Utility Software",
+      "Compiler",
+      "Spreadsheet"
+    ],
+    correct: "Utility Software",
+  }
 ];

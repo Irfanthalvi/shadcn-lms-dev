@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 import {
-  BookOpenCheck,
+  NotebookPen,
   User,
   LogOut,
   Settings,
   Loader,
-  LandPlot,
+  Layers,
 } from "lucide-react";
 import { CgProfile } from "react-icons/cg";
 import { FaChevronDown } from "react-icons/fa";
@@ -66,7 +66,7 @@ const DashboardLayout = ({ children }) => {
         <div className="flex items-center justify-between px-4 h-[75px] border-b border-border">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-muted rounded-lg border border-border">
-              <LandPlot size={24} />
+              <Layers size={24} />
             </div>
             {isSidebarOpen && (
               <span className="text-lg font-semibold whitespace-nowrap">
@@ -95,7 +95,7 @@ const DashboardLayout = ({ children }) => {
                  : "hover:bg-muted hover:text-foreground"}`
             }
           >
-            <BookOpenCheck size={25} />
+            <NotebookPen size={20} />
             {isSidebarOpen && "Subjects"}
           </NavLink>
         </nav>

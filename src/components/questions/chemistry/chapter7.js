@@ -1,23 +1,82 @@
 export default [
   {
-    text: "What type of land is Arabia?",
-    options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
-    ],
-    correct: "A land of unparalleled charm and beauty",
+    text: "Thermochemistry deals with:",
+    options: ["Rate of reaction", "Mechanism of reaction", "Energy changes in reactions", "Chemical bonding"],
+    correct: "Energy changes in reactions",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
-    options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
-    ],
-    correct: "Because Arabic is a language of eloquence",
+    text: "The unit of heat in SI system is:",
+    options: ["Calorie", "Joule", "Electron volt", "Watt"],
+    correct: "Joule",
   },
-  // Add more...
+  {
+    text: "Enthalpy is defined as:",
+    options: ["Total internal energy", "Heat content at constant pressure", "Heat absorbed at constant volume", "Kinetic energy of molecules"],
+    correct: "Heat content at constant pressure",
+  },
+  {
+    text: "The value of ΔH for an exothermic reaction is:",
+    options: ["Positive", "Zero", "Negative", "Infinite"],
+    correct: "Negative",
+  },
+  {
+    text: "Endothermic reactions:",
+    options: ["Release heat", "Do not involve heat", "Absorb heat", "Occur only in solids"],
+    correct: "Absorb heat",
+  },
+  {
+    text: "Standard enthalpy change is measured at:",
+    options: ["0°C and 1 atm", "25°C and 1 atm", "100°C and 2 atm", "Room temperature"],
+    correct: "25°C and 1 atm",
+  },
+  {
+    text: "Which of the following is an exothermic process?",
+    options: ["Melting", "Freezing", "Boiling", "Sublimation"],
+    correct: "Freezing",
+  },
+  {
+    text: "Which of the following is an endothermic process?",
+    options: ["Condensation", "Combustion", "Photosynthesis", "Freezing"],
+    correct: "Photosynthesis",
+  },
+  {
+    text: "In a chemical reaction, bond breaking is:",
+    options: ["Exothermic", "Endothermic", "Neutral", "Spontaneous"],
+    correct: "Endothermic",
+  },
+  {
+    text: "In a chemical reaction, bond formation is:",
+    options: ["Endothermic", "Exothermic", "Zero energy", "Irreversible"],
+    correct: "Exothermic",
+  },
+  {
+    text: "Calorimeter is used to measure:",
+    options: ["Mass", "Pressure", "Volume", "Heat change"],
+    correct: "Heat change",
+  },
+  {
+    text: "The heat required to raise the temperature of 1 gram of water by 1°C is called:",
+    options: ["Joule", "Specific heat", "Calorie", "Molar heat"],
+    correct: "Calorie",
+  },
+  {
+    text: "What is Hess's Law?",
+    options: [
+      "Energy cannot be created or destroyed",
+      "Heat of a reaction is independent of the path taken",
+      "Energy is always absorbed",
+      "Heat is proportional to pressure",
+    ],
+    correct: "Heat of a reaction is independent of the path taken",
+  },
+  {
+    text: "ΔH for neutralization of a strong acid and a strong base is approximately:",
+    options: ["–57 kJ/mol", "+57 kJ/mol", "0 kJ/mol", "–285 kJ/mol"],
+    correct: "–57 kJ/mol",
+  },
+  {
+    text: "The reaction C + O₂ → CO₂ is:",
+    options: ["Endothermic", "Photochemical", "Exothermic", "Isothermal"],
+    correct: "Exothermic",
+  },
 ];

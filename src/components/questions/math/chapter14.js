@@ -1,0 +1,77 @@
+export default [
+  {
+    text: "If y varies directly as x, then the relation can be written as:",
+    options: ["y = kx", "y = k/x", "xy = k", "y = k + x"],
+    correct: "y = kx",
+  },
+  {
+    text: "If y varies inversely as x, then the relation is:",
+    options: ["y = kx", "y = k/x", "xy = k", "y = x + k"],
+    correct: "y = k/x",
+  },
+  {
+    text: "In the equation y = kx, k is called the:",
+    options: ["Constant of proportionality", "Variable", "Coefficient of x", "Constant term"],
+    correct: "Constant of proportionality",
+  },
+  {
+    text: "If y varies directly as x and y = 10 when x = 5, find k:",
+    options: ["2", "0.5", "15", "5"],
+    correct: "2",
+  },
+  {
+    text: "If y varies inversely as x and y = 4 when x = 3, find k:",
+    options: ["12", "7", "1.33", "0.75"],
+    correct: "12",
+  },
+  {
+    text: "If y varies directly as x and z varies inversely as y, then y and z are:",
+    options: ["Inversely proportional", "Directly proportional", "Independent", "Equal"],
+    correct: "Inversely proportional",
+  },
+  {
+    text: "Which of these is an example of joint variation?",
+    options: ["z varies directly as x and y", "y varies inversely as x", "x varies directly as y", "None"],
+    correct: "z varies directly as x and y",
+  },
+  {
+    text: "If y varies directly as x and inversely as z, the relation is:",
+    options: ["y = kx/z", "y = kz/x", "yz = kx", "xy = kz"],
+    correct: "y = kx/z",
+  },
+  {
+    text: "When y varies directly as the square of x, the formula is:",
+    options: ["y = kx²", "y = kx", "y = k/x²", "y = k/√x"],
+    correct: "y = kx²",
+  },
+  {
+    text: "If y varies inversely as the square of x, then y is:",
+    options: ["y = k/x²", "y = kx²", "y = k/x", "y = kx"],
+    correct: "y = k/x²",
+  },
+  {
+    text: "If y varies directly as x and y = 18 when x = 3, find y when x = 6:",
+    options: ["36", "9", "54", "12"],
+    correct: "36",
+  },
+  {
+    text: "If y varies inversely as x and y = 8 when x = 2, find y when x = 4:",
+    options: ["4", "16", "2", "8"],
+    correct: "4",
+  },
+  {
+    text: "The graph of direct variation is always:",
+    options: ["A straight line through origin", "A parabola", "A hyperbola", "A circle"],
+    correct: "A straight line through origin",
+  },
+  {
+    text: "The graph of inverse variation is a:",
+    options: ["Hyperbola", "Circle", "Line", "Parabola"],
+    correct: "Hyperbola",
+  },
+  {
+    text: "If y varies jointly as x and z, then y =",
+    options: ["k x z", "k/x z", "k x / z", "k x + z"],
+    correct: "k x z",
+  },
+];

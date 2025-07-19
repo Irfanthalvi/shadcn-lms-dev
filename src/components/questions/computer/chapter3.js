@@ -1,23 +1,152 @@
 export default [
   {
-    text: "What type of land is Arabia?",
+    text: "Which of the following is an input device?",
     options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
+      "Monitor",
+      "Keyboard",
+      "Speaker",
+      "Printer"
     ],
-    correct: "A land of unparalleled charm and beauty",
+    correct: "Keyboard",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
+    text: "Which of these is an output device?",
     options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
+      "Scanner",
+      "Mouse",
+      "Monitor",
+      "Joystick"
     ],
-    correct: "Because Arabic is a language of eloquence",
+    correct: "Monitor",
   },
-  // Add more...
+  {
+    text: "A scanner is used to:",
+    options: [
+      "Display output",
+      "Convert paper images into digital format",
+      "Play sound",
+      "Print documents"
+    ],
+    correct: "Convert paper images into digital format",
+  },
+  {
+    text: "Which device is used for gaming and controlling movement?",
+    options: [
+      "Trackball",
+      "Joystick",
+      "Mouse",
+      "Webcam"
+    ],
+    correct: "Joystick",
+  },
+  {
+    text: "What is the function of a microphone?",
+    options: [
+      "Display images",
+      "Capture sound input",
+      "Print text",
+      "Control games"
+    ],
+    correct: "Capture sound input",
+  },
+  {
+    text: "Which of these is NOT an input device?",
+    options: [
+      "Touchpad",
+      "Webcam",
+      "Speaker",
+      "Mouse"
+    ],
+    correct: "Speaker",
+  },
+  {
+    text: "Which device is primarily used for printing documents?",
+    options: [
+      "Monitor",
+      "Printer",
+      "Scanner",
+      "Projector"
+    ],
+    correct: "Printer",
+  },
+  {
+    text: "What is the function of an output device?",
+    options: [
+      "Send data into the computer",
+      "Store data permanently",
+      "Display processed information",
+      "Control input devices"
+    ],
+    correct: "Display processed information",
+  },
+  {
+    text: "A device used to record video input is:",
+    options: [
+      "Joystick",
+      "Microphone",
+      "Webcam",
+      "Printer"
+    ],
+    correct: "Webcam",
+  },
+  {
+    text: "Which of the following is both an input and output device?",
+    options: [
+      "Printer",
+      "Monitor",
+      "Touchscreen",
+      "Scanner"
+    ],
+    correct: "Touchscreen",
+  },
+  {
+    text: "Which device displays information in hard copy format?",
+    options: [
+      "Monitor",
+      "Speaker",
+      "Printer",
+      "Projector"
+    ],
+    correct: "Printer",
+  },
+  {
+    text: "Which device displays information using light on a screen?",
+    options: [
+      "Monitor",
+      "Mouse",
+      "Scanner",
+      "Microphone"
+    ],
+    correct: "Monitor",
+  },
+  {
+    text: "Which of the following is commonly used to input commands?",
+    options: [
+      "Keyboard",
+      "Speaker",
+      "Monitor",
+      "Printer"
+    ],
+    correct: "Keyboard",
+  },
+  {
+    text: "Which device converts sound into digital signals?",
+    options: [
+      "Speaker",
+      "Microphone",
+      "Projector",
+      "Scanner"
+    ],
+    correct: "Microphone",
+  },
+  {
+    text: "Which of the following is NOT used to give input to a computer?",
+    options: [
+      "Mouse",
+      "Keyboard",
+      "Speaker",
+      "Scanner"
+    ],
+    correct: "Speaker",
+  }
 ];

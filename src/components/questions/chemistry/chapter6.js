@@ -1,23 +1,77 @@
 export default [
   {
-    text: "What type of land is Arabia?",
-    options: [
-      "A land of forests and rivers",
-      "A land of unparalleled charm and beauty",
-      "A land of mountains and valleys",
-      "A land of cold and snow",
-    ],
-    correct: "A land of unparalleled charm and beauty",
+    text: "A chemical bond is formed due to:",
+    options: ["Loss or gain of protons", "Attraction between nuclei", "Transfer or sharing of electrons", "Neutral atoms coming closer"],
+    correct: "Transfer or sharing of electrons",
   },
   {
-    text: "Why was the Holy Quran sent in Arabic?",
-    options: [
-      "Because Arabic is a difficult language",
-      "Because Arabic is a language of eloquence",
-      "Because Arabic was the only language known",
-      "Because Arabic is easy to learn",
-    ],
-    correct: "Because Arabic is a language of eloquence",
+    text: "Which of the following bonds involves complete transfer of electrons?",
+    options: ["Covalent bond", "Ionic bond", "Metallic bond", "Hydrogen bond"],
+    correct: "Ionic bond",
   },
-  // Add more...
+  {
+    text: "The bond in Cl₂ is:",
+    options: ["Ionic", "Non-polar covalent", "Polar covalent", "Hydrogen bond"],
+    correct: "Non-polar covalent",
+  },
+  {
+    text: "Which element forms metallic bonds?",
+    options: ["Na", "Cl", "O", "N"],
+    correct: "Na",
+  },
+  {
+    text: "The shared pair of electrons in a covalent bond is contributed by:",
+    options: ["One atom only", "Both atoms", "Protons", "Neutrons"],
+    correct: "Both atoms",
+  },
+  {
+    text: "Which of the following is a triple bond?",
+    options: ["H₂", "O₂", "N₂", "Cl₂"],
+    correct: "N₂",
+  },
+  {
+    text: "Hydrogen bond is a type of:",
+    options: ["Ionic bond", "Covalent bond", "Dipole-dipole interaction", "Metallic bond"],
+    correct: "Dipole-dipole interaction",
+  },
+  {
+    text: "Which of the following has the highest electronegativity?",
+    options: ["Hydrogen", "Fluorine", "Oxygen", "Chlorine"],
+    correct: "Fluorine",
+  },
+  {
+    text: "Bond angle in CH₄ (methane) is:",
+    options: ["90°", "104.5°", "120°", "109.5°"],
+    correct: "109.5°",
+  },
+  {
+    text: "A coordinate covalent bond is formed when:",
+    options: ["Each atom shares one electron", "Electrons are completely transferred", "Both electrons are donated by one atom", "Metal atoms share electrons"],
+    correct: "Both electrons are donated by one atom",
+  },
+  {
+    text: "Which one is a polar molecule?",
+    options: ["CO₂", "CH₄", "NH₃", "O₂"],
+    correct: "NH₃",
+  },
+  {
+    text: "In NaCl, the bond formed is:",
+    options: ["Non-polar covalent", "Polar covalent", "Ionic", "Metallic"],
+    correct: "Ionic",
+  },
+  {
+    text: "Which factor determines bond polarity?",
+    options: ["Mass of atoms", "Electronegativity difference", "Bond length", "Atomic size"],
+    correct: "Electronegativity difference",
+  },
+  {
+    text: "The number of bonds in CO₂ is:",
+    options: ["1", "2", "3", "4"],
+    correct: "4",
+  },
+  {
+    text: "The shape of NH₃ molecule is:",
+    options: ["Linear", "Trigonal planar", "Trigonal pyramidal", "Tetrahedral"],
+    correct: "Trigonal pyramidal",
+  },
 ];
