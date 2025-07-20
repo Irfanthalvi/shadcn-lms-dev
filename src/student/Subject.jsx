@@ -45,7 +45,7 @@ const Subject = () => {
           : visibleSubjects.map((subject, index) => (
               <div
                 key={index}
-                onClick={() => navigate(subject.slug)}
+                onClick={() => navigate(subject.id)}
                 className="bg-card text-card-foreground border border-border rounded-md flex flex-col gap-4  cursor-pointer hover:shadow-md transition"
               >
                 <div className=" bg-gray-100 aspect-[320/200] rounded-md">

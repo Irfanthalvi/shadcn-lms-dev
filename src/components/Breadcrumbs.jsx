@@ -7,28 +7,21 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { subjectsData } from "./subject-data";
-
-const breadcrumbNameMap = {
-  subjects: "All Subjects",
-  assessment: "Assessment",
-  test: "Test",
-  quiz: "Quiz",
-};
+import { subjectsData } from "@/components/subject-data";
 
 export default function Breadcrumbs() {
   const location = useLocation();
-  const { slug } = useParams();
+  const { id, subject, chapterId } = useParams();
   const [chapterTitle, setChapterTitle] = useState("");
 
-  const pathnames = location.pathname.split("/").filter(Boolean); // ['chapter', 'english', 'assessment']
+  const pathnames = location.pathname.split("/").filter(Boolean);
 
   useEffect(() => {
-    if (slug) {
-      const matched = subjectsData.find((s) => s.slug === `/chapter/${slug}`);
-      setChapterTitle(matched?.title || `Chapter: ${slug}`);
+    if (id) {
+      const matched = subjectsData.find((s) => s.slug === `/chapter/${id}`);
+      setChapterTitle(matched?.title || `Chapter: ${id}`);
     }
-  }, [slug]);
+  }, [id]);
 
   return (
     <Breadcrumb className="mb-4">
@@ -42,49 +35,55 @@ export default function Breadcrumbs() {
           </BreadcrumbLink>
         </BreadcrumbItem>
 
-        {/* Always show the book name if it's a chapter path */}
-        {location.pathname.startsWith("/chapter/") && slug && chapterTitle && (
+        {/* Subject (English) */}
+        {location.pathname.includes("/assessment/") && subject && (
           <>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link
-                  to={`/chapter/${slug}`}
-                  className={pathnames.length === 2 ? "text-muted-foreground font-medium" : ""}
-                >
-                  {chapterTitle}
+                <Link to={`/chapter/${subject}`} className="text-muted-foreground">
+                  {subject.charAt(0).toUpperCase() + subject.slice(1)}
                 </Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
           </>
         )}
 
-        {/* Loop for the rest of the segments after slug */}
-        {pathnames.map((segment, index) => {
-          // Skip static 'chapter' and the slug itself (already handled above)
-          if (segment === "chapter" || segment === slug) return null;
+        {/* Chapter (Chapter 1) */}
+        {location.pathname.includes("/assessment/") && chapterId && (
+          <>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <span className="text-muted-foreground font-medium cursor-default">
+                {chapterId.replace("chapter", "Chapter ")}
+              </span>
+            </BreadcrumbItem>
+          </>
+        )}
 
-          const isLast = index === pathnames.length - 1;
-          const routeTo = "/" + pathnames.slice(0, index + 1).join("/");
+        {/* ❌ Assessment (do NOT link) */}
+        {location.pathname.includes("/assessment/") && (
+          <>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <span className="text-muted-foreground font-medium cursor-default">
+                Assessment
+              </span>
+            </BreadcrumbItem>
+          </>
+        )}
 
-          let label = breadcrumbNameMap[segment] || segment.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
-
-          return (
-            <div key={index} className="flex items-center">
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link
-                    to={routeTo}
-                    className={isLast ? "text-muted-foreground font-medium" : ""}
-                  >
-                    {label}
-                  </Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-            </div>
-          );
-        })}
+        {/* Fallback: direct chapter page */}
+        {location.pathname.startsWith("/chapter/") && id && chapterTitle && (
+          <>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <span className="text-muted-foreground font-medium cursor-default">
+                {chapterTitle}
+              </span>
+            </BreadcrumbItem>
+          </>
+        )}
       </BreadcrumbList>
     </Breadcrumb>
   );
