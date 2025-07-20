@@ -70,25 +70,25 @@ const SubjectChapters = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground px-4 py-10">
-      <div className="space-y-3">
+    <div className="min-h-screen bg-background text-foreground px-4 sm:px-6 md:px-8 py-10 max-w-[1440px] mx-auto">
+      <div className="space-y-4">
         {visibleChapters.map((chapter, idx) => (
           <div
             key={idx}
             onClick={() => handleAssessment(chapter)}
-            className="bg-card text-card-foreground border border-border rounded-lg flex items-center justify-between p-4 cursor-pointer hover:shadow-sm transition"
+            className="bg-card text-card-foreground border border-border rounded-lg flex flex-wrap md:flex-nowrap items-center justify-between gap-4 p-4 cursor-pointer hover:shadow-sm transition"
           >
-            <div className="flex items-center gap-3">
-              <div className="bg-secondary text-secondary-foreground p-2 rounded-full text-lg">📘</div>
-              <div>
-                <h2 className="font-semibold text-base">{chapter.title}</h2>
-                <div className="text-muted-foreground text-xs flex gap-4 mt-0.5">
+            <div className="flex items-center gap-3 flex-1 min-w-0">
+              <div className="bg-secondary text-secondary-foreground p-2 rounded-full text-lg shrink-0">📘</div>
+              <div className="min-w-0">
+                <h2 className="font-semibold text-base truncate">{chapter.title}</h2>
+                <div className="text-muted-foreground text-xs flex flex-wrap gap-4 mt-0.5">
                   <span>📝 35 Marks</span>
                   <span>⏱ 35 Minutes</span>
                 </div>
               </div>
             </div>
-            <Button>Start</Button>
+            <Button className="shrink-0 w-full sm:w-auto">Start</Button>
           </div>
         ))}
       </div>
@@ -96,7 +96,11 @@ const SubjectChapters = () => {
       {/* Load More Button */}
       {hasMore && (
         <div className="flex justify-center mt-6">
-          <Button variant="ghost" onClick={handleLoadMore} className="bg-muted text-muted-foreground hover:bg-muted/80">
+          <Button
+            variant="ghost"
+            onClick={handleLoadMore}
+            className="bg-muted text-muted-foreground hover:bg-muted/80"
+          >
             Load More
           </Button>
         </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { loadQuestions } from "@/components/questions";
-import { Loader } from "lucide-react";
+import { BadgeCheck, Timer, Repeat, Percent, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   RadioGroup,
@@ -10,13 +10,14 @@ import {
 import { toast } from "sonner";
 
 const ChapterAssessment = () => {
-  const { subject, chapterId } = useParams(); // e.g. /assessment/english/chapter1
+  const { subject, chapterId } = useParams();
+  const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [startTime] = useState(Date.now());
+  const [startTime, setStartTime] = useState(Date.now());
   const topRef = useRef(null);
 
   useEffect(() => {
@@ -29,6 +30,7 @@ const ChapterAssessment = () => {
       setQuestions(q);
       setAnswers(Array(q.length).fill(null));
       setLoading(false);
+      setStartTime(Date.now());
     };
 
     fetchQuestions();
@@ -74,6 +76,16 @@ const ChapterAssessment = () => {
     }, 200);
   };
 
+  const handleRetry = () => {
+    setSubmitted(false);
+    setResult(null);
+    setAnswers(Array(questions.length).fill(null));
+    setStartTime(Date.now());
+    setTimeout(() => {
+      topRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 200);
+  };
+
   if (loading) {
     return (
       <div className="h-screen flex flex-col items-center justify-center text-primary">
@@ -84,42 +96,67 @@ const ChapterAssessment = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 p-6 space-y-6">
+    <div className="max-w-6xl mx-auto mt-10 px-4 sm:px-6 lg:px-8 py-6 space-y-8">
       <div ref={topRef}></div>
 
       {submitted && result && (
-        <div className="p-6 rounded-xl space-y-4 border border-border">
+        <div className="p-6 rounded-xl space-y-6 border border-border">
           <h2 className="text-xl font-semibold text-destructive">🎉 Well Done!</h2>
           <p className="text-muted-foreground">
             You completed the assessment for <strong>{subject} {chapterId}</strong>
           </p>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-            <div className="p-4 rounded-lg border border-border">
-              <p className="text-sm text-muted-foreground">Score</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <div className="p-4 rounded-lg border border-border space-y-1">
+              <div className="flex justify-center items-center text-muted-foreground">
+                <Percent className="w-4 h-4 mr-2" />
+                <p className="text-sm">Score</p>
+              </div>
               <p className="text-lg font-semibold">{result.score}%</p>
             </div>
-            <div className="p-4 rounded-lg border border-border">
-              <p className="text-sm text-muted-foreground">Status</p>
+
+            <div className="p-4 rounded-lg border border-border space-y-1">
+              <div className="flex justify-center items-center text-muted-foreground">
+                <BadgeCheck className="w-4 h-4 mr-2" />
+                <p className="text-sm">Status</p>
+              </div>
               <p className={`text-lg font-semibold ${result.passed ? "text-primary" : "text-destructive"}`}>
                 {result.passed ? "Passed" : "Failed"}
               </p>
             </div>
-            <div className="p-4 rounded-lg border border-border">
-              <p className="text-sm text-muted-foreground">Attempts</p>
+
+            <div className="p-4 rounded-lg border border-border space-y-1">
+              <div className="flex justify-center items-center text-muted-foreground">
+                <Repeat className="w-4 h-4 mr-2" />
+                <p className="text-sm">Attempts</p>
+              </div>
               <p className="text-lg font-semibold">1</p>
             </div>
-            <div className="p-4 rounded-lg border border-border">
-              <p className="text-sm text-muted-foreground">Time Taken</p>
+
+            <div className="p-4 rounded-lg border border-border space-y-1">
+              <div className="flex justify-center items-center text-muted-foreground">
+                <Timer className="w-4 h-4 mr-2" />
+                <p className="text-sm">Time Taken</p>
+              </div>
               <p className="text-lg font-semibold">{result.timeTaken}</p>
             </div>
+          </div>
+
+          <div className="flex flex-wrap justify-between items-center pt-6 gap-4">
+            <Button variant="outline" className="px-6 py-2 rounded-xl shadow-sm" onClick={handleRetry}>
+              🔄 Try Again
+            </Button>
           </div>
         </div>
       )}
 
       <div className="space-y-1">
-        <h1 className="text-2xl font-semibold text-left capitalize">{subject} {chapterId.replace("chapter", "Chapter ")}</h1>
-        <p className="text-left text-sm text-muted-foreground">📝 35 Marks &nbsp;&nbsp; ⏱ 35 Minutes</p>
+        <h1 className="text-2xl font-semibold capitalize break-words">
+          {subject} {chapterId.replace("chapter", "Chapter ")}
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          📝 35 Marks &nbsp;&nbsp; ⏱ 35 Minutes
+        </p>
       </div>
 
       <div className="space-y-6">
@@ -129,16 +166,15 @@ const ChapterAssessment = () => {
 
           return (
             <div key={qIndex} className="space-y-3">
-              <div className="flex justify-between items-start">
-                <h2 className="text-base font-medium">
+              <div className="flex flex-wrap justify-between items-start gap-2">
+                <h2 className="text-base font-medium break-words">
                   {qIndex + 1}. {question.text}
                 </h2>
                 {submitted && (
-                  <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                    isCorrect
-                      ? "bg-green-100 text-green-800 border border-green-300"
-                      : "bg-red-100 text-red-800 border border-red-300"
-                  }`}>
+                  <span className={`text-xs font-semibold px-2 py-1 rounded-full ${isCorrect
+                    ? "bg-green-100 text-green-800 border border-green-300"
+                    : "bg-red-100 text-red-800 border border-red-300"
+                    }`}>
                     {isCorrect ? "Correct ✅" : "Wrong ❌"}
                   </span>
                 )}
@@ -157,7 +193,7 @@ const ChapterAssessment = () => {
                   const isMissedCorrect = !isSelected && isCorrect;
 
                   let labelClass =
-                    "flex items-center gap-3 p-3 border rounded-xl text-sm cursor-pointer transition";
+                    "flex items-center gap-3 p-3 border rounded-xl text-sm cursor-pointer transition break-words";
 
                   if (submitted) {
                     if (isUserCorrect) {
@@ -187,7 +223,7 @@ const ChapterAssessment = () => {
       </div>
 
       {!submitted && (
-        <div className="text-right">
+        <div className="text-right pt-6">
           <Button onClick={handleSubmit}>Submit</Button>
         </div>
       )}

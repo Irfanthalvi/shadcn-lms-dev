@@ -48,7 +48,7 @@ const DashboardLayout = ({ children }) => {
   const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
 
   return (
-    <div className="flex min-h-screen bg-background text-foreground">
+    <div className="flex min-h-screen w-full bg-background text-foreground flex-wrap">
       {/* Overlay for mobile sidebar */}
       {isMobile && isSidebarOpen && (
         <div
@@ -91,8 +91,8 @@ const DashboardLayout = ({ children }) => {
             className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium transition-colors
                ${isActive
-                 ? "bg-accent text-accent-foreground"
-                 : "hover:bg-muted hover:text-foreground"}`
+                ? "bg-accent text-accent-foreground"
+                : "hover:bg-muted hover:text-foreground"}`
             }
           >
             <NotebookPen size={20} />
@@ -103,33 +103,38 @@ const DashboardLayout = ({ children }) => {
 
       {/* Main Content */}
       <main
-        className={`flex flex-col flex-1 min-w-0 transition-all duration-300
+        className={`flex flex-col flex-1 min-w-0 transition-all duration-300 overflow-x-auto flex-wrap
           ${isSidebarOpen ? (isMobile ? "ml-0" : "ml-[260px]") : "ml-[70px]"}`}
       >
         {/* Sticky Topbar */}
-        <header className="sticky top-0 z-30 flex items-center justify-between h-[75px] px-4 border-b border-border bg-background">
-          <div className="flex items-center justify-center gap-4 min-w-0">
+        <header className="sticky top-0 z-30 flex items-center justify-between px-4 py-3 border-b border-border bg-background h-auto min-h-[75px] gap-4 flex-wrap sm:flex-nowrap">
+          {/* Left: Toggle + Breadcrumb */}
+          <div className="flex items-center gap-3 min-w-0 flex-1">
             <button
               onClick={toggleSidebar}
               className="w-10 h-10 flex items-center justify-center border border-border rounded-md transition shrink-0"
             >
               ☰
             </button>
-            <div className="flex items-center h-10 translate-y-[7px] overflow-hidden">
-              <Breadcrumbs />
+
+            {/* ✅ Breadcrumbs scroll horizontally if long */}
+            <div className="flex-1 overflow-hidden">
+              <div className="w-full overflow-x-auto whitespace-nowrap no-scrollbar pr-2">
+                <Breadcrumbs />
+              </div>
             </div>
           </div>
 
-          {/* Profile Dropdown */}
+          {/* Right: Profile */}
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setIsDropdownOpen((prev) => !prev)}
-              className="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-muted"
+              className="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-muted transition whitespace-nowrap"
             >
               <div className="p-2 border border-border rounded-full">
                 <User size={20} />
               </div>
-              <span className="hidden md:flex items-center text-sm font-medium">
+              <span className="hidden sm:flex items-center text-sm font-medium max-w-[140px] overflow-hidden text-ellipsis whitespace-nowrap">
                 IRFAN ALI
                 <FaChevronDown
                   className={`ml-1 transition-transform ${isDropdownOpen ? "rotate-180" : "rotate-0"}`}
@@ -139,25 +144,16 @@ const DashboardLayout = ({ children }) => {
 
             {isDropdownOpen && (
               <div className="absolute right-0 mt-2 w-44 rounded-md border border-border bg-background shadow z-50">
-                <Link
-                  to="/profile"
-                  className="flex items-center gap-2 px-4 py-2 text-sm rounded-md hover:bg-muted active:bg-muted/70 focus-visible:ring-1 focus-visible:ring-ring focus:outline-none transition-colors"
-                >
+                <Link to="/profile" className="flex items-center gap-2 px-4 py-2 text-sm rounded-md hover:bg-muted transition">
                   <CgProfile size={18} />
                   Profile
                 </Link>
-                <Link
-                  to="/setting"
-                  className="flex items-center gap-2 px-4 py-2 text-sm rounded-md hover:bg-muted active:bg-muted/70 focus-visible:ring-1 focus-visible:ring-ring focus:outline-none transition-colors"
-                >
+                <Link to="/setting" className="flex items-center gap-2 px-4 py-2 text-sm rounded-md hover:bg-muted transition">
                   <Settings size={18} />
                   Settings
                 </Link>
                 <hr className="my-1 border-border" />
-                <Link
-                  to="/login"
-                  className="flex items-center gap-2 px-4 py-2 text-sm rounded-md hover:bg-muted active:bg-muted/70 focus-visible:ring-1 focus-visible:ring-ring focus:outline-none transition-colors"
-                >
+                <Link to="/login" className="flex items-center gap-2 px-4 py-2 text-sm rounded-md hover:bg-muted transition">
                   <LogOut size={18} />
                   Logout
                 </Link>
@@ -166,8 +162,9 @@ const DashboardLayout = ({ children }) => {
           </div>
         </header>
 
+
         {/* Scrollable Page Content */}
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className="flex-1 overflow-y-auto px-4 sm:px-6 md:px-8 py-6 w-full max-w-[1440px] mx-auto">
           {loading ? (
             <div className="h-full flex items-center justify-center text-muted-foreground">
               <Loader className="w-6 h-6 mr-2 animate-spin" />

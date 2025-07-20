@@ -25,15 +25,15 @@ const Subject = () => {
   const hasMore = visibleCount < subjectsData.length;
 
   return (
-    <div className="min-h-screen bg-background text-foreground p-10">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div className="min-h-screen w-full bg-background text-foreground px-4 sm:px-6 md:px-8 py-10 max-w-[1440px] mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {loading
           ? Array.from({ length: 8 }).map((_, i) => (
               <div
                 key={i}
-                className="bg-card border border-border rounded-xl h-72 flex flex-col "
+                className="bg-card border border-border rounded-xl h-72 flex flex-col"
               >
-                <Skeleton className="h-32 w-full" />
+                <Skeleton className="h-32 w-full rounded-t-md" />
                 <div className="p-4 flex flex-col flex-1">
                   <Skeleton className="h-4 w-3/4 mb-2" />
                   <Skeleton className="h-3 w-full mb-2" />
@@ -46,9 +46,9 @@ const Subject = () => {
               <div
                 key={index}
                 onClick={() => navigate(subject.id)}
-                className="bg-card text-card-foreground border border-border rounded-md flex flex-col gap-4  cursor-pointer hover:shadow-md transition"
+                className="bg-card text-card-foreground border border-border rounded-md flex flex-col gap-4 cursor-pointer hover:shadow-md transition overflow-hidden"
               >
-                <div className=" bg-gray-100 aspect-[320/200] rounded-md">
+                <div className="bg-gray-100 aspect-[320/200] w-full">
                   <img
                     src={subject.img}
                     alt={subject.title}
@@ -77,10 +77,11 @@ const Subject = () => {
       {/* Load More Button */}
       {!loading && hasMore && (
         <div className="flex justify-center mt-8">
-          <Button variant="ghost"
+          <Button
+            variant="ghost"
             onClick={handleLoadMore}
             className="bg-muted text-muted-foreground hover:bg-muted/80 transition"
-          > 
+          >
             Load More
           </Button>
         </div>

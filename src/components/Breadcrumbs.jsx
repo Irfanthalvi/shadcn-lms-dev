@@ -14,8 +14,6 @@ export default function Breadcrumbs() {
   const { id, subject, chapterId } = useParams();
   const [chapterTitle, setChapterTitle] = useState("");
 
-  const pathnames = location.pathname.split("/").filter(Boolean);
-
   useEffect(() => {
     if (id) {
       const matched = subjectsData.find((s) => s.slug === `/chapter/${id}`);
@@ -23,67 +21,74 @@ export default function Breadcrumbs() {
     }
   }, [id]);
 
+  // Generate breadcrumb items
+  const items = [];
+
+  if (location.pathname.includes("/assessment/") && subject) {
+    items.push({
+      label: subject.charAt(0).toUpperCase() + subject.slice(1),
+      link: `/chapter/${subject}`,
+    });
+  }
+
+  if (location.pathname.includes("/assessment/") && chapterId) {
+    items.push({
+      label: chapterId.replace("chapter", "Chapter "),
+      link: null,
+    });
+  }
+
+  if (location.pathname.includes("/assessment/")) {
+    items.push({
+      label: "Assessment",
+      link: null,
+    });
+  }
+
+  if (location.pathname.startsWith("/chapter/") && id && chapterTitle) {
+    items.push({
+      label: chapterTitle,
+      link: null,
+    });
+  }
+
   return (
-    <Breadcrumb className="mb-4">
-      <BreadcrumbList>
-        {/* Home */}
-        <BreadcrumbItem>
-          <BreadcrumbLink asChild>
-            <Link to="/subjects" className="text-muted-foreground">
-              Home
-            </Link>
-          </BreadcrumbLink>
-        </BreadcrumbItem>
+    <Breadcrumb className="w-full">
+      <BreadcrumbList className="flex items-center gap-1 w-full overflow-x-auto whitespace-nowrap scrollbar-hide">
+        {/* Desktop: full breadcrumb */}
+        <div className="hidden sm:flex items-center gap-1">
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link to="/subjects" className="text-muted-foreground">
+                Home
+              </Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
 
-        {/* Subject (English) */}
-        {location.pathname.includes("/assessment/") && subject && (
-          <>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link to={`/chapter/${subject}`} className="text-muted-foreground">
-                  {subject.charAt(0).toUpperCase() + subject.slice(1)}
-                </Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-          </>
-        )}
+          {items.map((item, index) => (
+            <span key={index} className="flex items-center gap-1">
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                {item.link ? (
+                  <BreadcrumbLink asChild>
+                    <Link to={item.link} className="text-muted-foreground">
+                      {item.label}
+                    </Link>
+                  </BreadcrumbLink>
+                ) : (
+                  <span className="text-muted-foreground font-medium">
+                    {item.label}
+                  </span>
+                )}
+              </BreadcrumbItem>
+            </span>
+          ))}
+        </div>
 
-        {/* Chapter (Chapter 1) */}
-        {location.pathname.includes("/assessment/") && chapterId && (
-          <>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <span className="text-muted-foreground font-medium cursor-default">
-                {chapterId.replace("chapter", "Chapter ")}
-              </span>
-            </BreadcrumbItem>
-          </>
-        )}
-
-        {/* ❌ Assessment (do NOT link) */}
-        {location.pathname.includes("/assessment/") && (
-          <>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <span className="text-muted-foreground font-medium cursor-default">
-                Assessment
-              </span>
-            </BreadcrumbItem>
-          </>
-        )}
-
-        {/* Fallback: direct chapter page */}
-        {location.pathname.startsWith("/chapter/") && id && chapterTitle && (
-          <>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <span className="text-muted-foreground font-medium cursor-default">
-                {chapterTitle}
-              </span>
-            </BreadcrumbItem>
-          </>
-        )}
+        {/* Mobile: only last item */}
+        <div className="sm:hidden block font-medium text-sm text-muted-foreground truncate">
+          {items.length > 0 ? items[items.length - 1].label : "Home"}
+        </div>
       </BreadcrumbList>
     </Breadcrumb>
   );
