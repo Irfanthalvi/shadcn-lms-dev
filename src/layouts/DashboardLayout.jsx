@@ -7,6 +7,7 @@ import {
   Settings,
   Loader,
   Layers,
+  List,
 } from "lucide-react";
 import { CgProfile } from "react-icons/cg";
 import { FaChevronDown } from "react-icons/fa";
@@ -98,6 +99,18 @@ const DashboardLayout = ({ children }) => {
             <NotebookPen size={20} />
             {isSidebarOpen && "Subjects"}
           </NavLink>
+          <NavLink
+            to="/listing"
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium transition-colors
+               ${isActive
+                ? "bg-accent text-accent-foreground"
+                : "hover:bg-muted hover:text-foreground"}`
+            }
+          >
+            <List size={20} />
+            {isSidebarOpen && "Listing"}
+          </NavLink>
         </nav>
       </aside>
 
@@ -161,8 +174,6 @@ const DashboardLayout = ({ children }) => {
             )}
           </div>
         </header>
-
-
         {/* Scrollable Page Content */}
         <div className="flex-1 overflow-y-auto px-4 sm:px-6 md:px-8 py-6 w-full max-w-[1440px] mx-auto">
           {loading ? (

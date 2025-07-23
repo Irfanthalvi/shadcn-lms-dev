@@ -7,6 +7,8 @@ const AuthLayout = lazy(() => import('./layouts/AuthLayout'));
 const DashboardLayout = lazy(() => import('./layouts/DashboardLayout'));
 const LoginPage = lazy(() => import('./Auth-layout/component'));
 const Subject = lazy(() => import('./student/Subject'));
+const Listing = lazy(() => import('./student/Listing'));
+const Profile = lazy(() => import('./components/Profile'));
 const SubjectChapters = lazy(() => import('./components/Chapter'));
 const ChapterAssessment = lazy(() => import('./components/Assessment'));
 
@@ -64,6 +66,8 @@ function AppRoutes({ loadingBarRef }) {
           <Route path="/subjects" element={<DashboardLayout><Subject /></DashboardLayout>} />
           <Route path="/chapter/:id" element={<DashboardLayout><SubjectChapters /></DashboardLayout>} />
           <Route path="/assessment/:subject/:chapterId" element={<DashboardLayout><ChapterAssessment /></DashboardLayout>} />
+          <Route path="/listing" element={<DashboardLayout><Listing /></DashboardLayout>} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </Suspense>
     </>
