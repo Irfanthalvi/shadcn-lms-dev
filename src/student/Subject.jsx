@@ -46,13 +46,13 @@ const Subject = () => {
               <div
                 key={index}
                 onClick={() => navigate(subject.id)}
-                className="bg-card text-card-foreground border border-border rounded-md flex flex-col gap-4 cursor-pointer hover:shadow-md transition overflow-hidden"
+                className="bg-card text-card-foreground border border-border rounded-md flex flex-col  hover:shadow-md transition overflow-hidden"
               >
-                <div className="bg-gray-100 aspect-[320/200] w-full">
+                <div className=" aspect-[320/200] w-full">
                   <img
                     src={subject.img}
                     alt={subject.title}
-                    className="w-full h-full object-cover rounded-t-md"
+                    className="w-full h-full object-cover "
                     onError={(e) => {
                       e.currentTarget.onerror = null;
                       e.currentTarget.src = "/fallback-image.png";
@@ -60,13 +60,13 @@ const Subject = () => {
                   />
                 </div>
                 <div className="p-4 flex flex-col flex-1">
-                  <h2 className="text-base font-semibold mb-1 line-clamp-1">
+                  <h2 className="text-base font-semibold">
                     {subject.title}
                   </h2>
-                  <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
+                  <p className="text-sm text-muted-foreground mb-3">
                     {subject.description}
                   </p>
-                  <Button className="mt-auto inline-flex items-center justify-center gap-1 bg-primary text-primary-foreground text-sm font-medium px-4 py-2 rounded-md hover:opacity-90 transition w-fit">
+                  <Button className="mt-auto inline-flex items-center justify-center cursor-pointer gap-1 bg-primary text-primary-foreground text-sm font-medium px-4 py-2 rounded-md transition w-fit">
                     Continue Study <ArrowRight size={16} />
                   </Button>
                 </div>
@@ -80,7 +80,7 @@ const Subject = () => {
           <Button
             variant="ghost"
             onClick={handleLoadMore}
-            className="bg-muted text-muted-foreground hover:bg-muted/80 transition"
+            className="bg-muted text-muted-foreground cursor-pointer hover:bg-muted/80 transition"
           >
             Load More
           </Button>

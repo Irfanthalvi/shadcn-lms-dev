@@ -1,6 +1,7 @@
 import { Suspense, lazy, useRef, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useParams } from 'react-router-dom';
 import LoadingBar from 'react-top-loading-bar';
+import NotFound from './components/NotFound';
 
 // Lazy loaded components
 const AuthLayout = lazy(() => import('./layouts/AuthLayout'));
@@ -67,7 +68,7 @@ function AppRoutes({ loadingBarRef }) {
           <Route path="/chapter/:id" element={<DashboardLayout><SubjectChapters /></DashboardLayout>} />
           <Route path="/assessment/:subject/:chapterId" element={<DashboardLayout><ChapterAssessment /></DashboardLayout>} />
           <Route path="/listing" element={<DashboardLayout><Listing /></DashboardLayout>} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
     </>

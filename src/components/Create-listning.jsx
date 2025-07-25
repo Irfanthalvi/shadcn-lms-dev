@@ -53,7 +53,7 @@ const Create = ({ open, onClose, onSubmit }) => {
           <h2 className="text-lg font-semibold">Add Assessment</h2>
           <DrawerClose asChild>
             <Button variant="ghost" size="icon" onClick={onClose}>
-              <X className="w-5 h-5" />
+              <X className="size-5" />
             </Button>
           </DrawerClose>
         </div>
