@@ -1,37 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import SearchInput from "@/listing/SearchInput";
-import DataTable from "@/listing/DataTable";
-import AssessmentFilters from "@/listing/AssessmentFilters";
+import SearchInput from "@/listing/search-input";
+import DataTable from "@/listing/data-table";
+import AssessmentFilters from "@/listing/assessmentFilters";
+import { assessments as defaultAssessments } from "@/listing/mock-assessments"; // mock data
 
-const STORAGE_KEY = "assessments";
 const PER_PAGE = 5;
 
 export default function Listing() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
-  const [assessments, setAssessments] = useState([]);
 
-  useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-    setAssessments(stored);
-  }, []);
-
-  const handleEdit = (item) => {
-    navigate("/assessmentpage", {
-      state: { mode: "edit", data: item },
-    });
-  };
-
-  const handleDelete = (id) => {
-    const updated = assessments.filter((a) => a.id !== id);
-    setAssessments(updated);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-  };
-
-  const filtered = assessments.filter((a) =>
+  const filtered = defaultAssessments.filter((a) =>
     a.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -48,11 +30,14 @@ export default function Listing() {
       </div>
 
       <div className="flex flex-col md:flex-row justify-between gap-4 mb-4">
-        <SearchInput value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+        <SearchInput
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
         <AssessmentFilters />
       </div>
 
-      <DataTable data={visible} onEdit={handleEdit} onDelete={handleDelete} />
+      <DataTable data={visible} />
 
       {hasMore && (
         <div className="flex justify-center mt-4">

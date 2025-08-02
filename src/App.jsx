@@ -2,16 +2,16 @@ import { Suspense, lazy, useRef, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useParams } from 'react-router-dom';
 import LoadingBar from 'react-top-loading-bar';
 import NotFound from '@/components/not-found';
-import AssessmentPage from '@/listing/question-table';
+import AssessmentPage from '@/listing/assessment-page';
 
 // Lazy loaded components
-const AuthLayout = lazy(() => import('@/layouts/AuthLayout'));
-const DashboardLayout = lazy(() => import('@/layouts/DashboardLayout'));
-const LoginPage = lazy(() => import('@/Auth-layout/component'));
-const Subject = lazy(() => import('@/student/Subject'));
-const Listing = lazy(() => import('@/student/Listing'));
-const SubjectChapters = lazy(() => import('@/components/Chapter'));
-const ChapterAssessment = lazy(() => import('@/components/Assessment'));
+const AuthLayout = lazy(() => import('@/layouts/auth-layout'));
+const DashboardLayout = lazy(() => import('@/layouts/dashboard-layout'));
+const LoginPage = lazy(() => import('@/auth-layout/component'));
+const Subject = lazy(() => import('@/student/subject'));
+const Listing = lazy(() => import('@/student/create-subjects-mcqs'));
+const SubjectChapters = lazy(() => import('@/components/chapter'));
+const ChapterAssessment = lazy(() => import('@/components/assessment'));
 
 // 📌 Title Manager Component (Inline)
 function TitleManager() {

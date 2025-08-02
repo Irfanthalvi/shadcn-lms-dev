@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Eye, MoreVertical } from "lucide-react";
-import CreateAssessmentForm from "./CreateAssessmentForm";
-import CreateDrawer from "./Drawer";
+import CreateAssessmentForm from "./create-assessment-form";
+import CreateDrawer from "./drawer";
 
 export default function AssessmentPage() {
   const [drawerOpen, setDrawerOpen] = useState(false);
