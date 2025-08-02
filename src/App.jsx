@@ -1,17 +1,17 @@
 import { Suspense, lazy, useRef, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useParams } from 'react-router-dom';
 import LoadingBar from 'react-top-loading-bar';
-import NotFound from './components/NotFound';
+import NotFound from '@/components/not-found';
+import AssessmentPage from '@/listing/question-table';
 
 // Lazy loaded components
-const AuthLayout = lazy(() => import('./layouts/AuthLayout'));
-const DashboardLayout = lazy(() => import('./layouts/DashboardLayout'));
-const LoginPage = lazy(() => import('./Auth-layout/component'));
-const Subject = lazy(() => import('./student/Subject'));
-const Listing = lazy(() => import('./student/Listing'));
-const Profile = lazy(() => import('./components/Profile'));
-const SubjectChapters = lazy(() => import('./components/Chapter'));
-const ChapterAssessment = lazy(() => import('./components/Assessment'));
+const AuthLayout = lazy(() => import('@/layouts/AuthLayout'));
+const DashboardLayout = lazy(() => import('@/layouts/DashboardLayout'));
+const LoginPage = lazy(() => import('@/Auth-layout/component'));
+const Subject = lazy(() => import('@/student/Subject'));
+const Listing = lazy(() => import('@/student/Listing'));
+const SubjectChapters = lazy(() => import('@/components/Chapter'));
+const ChapterAssessment = lazy(() => import('@/components/Assessment'));
 
 // 📌 Title Manager Component (Inline)
 function TitleManager() {
@@ -68,6 +68,9 @@ function AppRoutes({ loadingBarRef }) {
           <Route path="/chapter/:id" element={<DashboardLayout><SubjectChapters /></DashboardLayout>} />
           <Route path="/assessment/:subject/:chapterId" element={<DashboardLayout><ChapterAssessment /></DashboardLayout>} />
           <Route path="/listing" element={<DashboardLayout><Listing /></DashboardLayout>} />
+          <Route path="/assessmentpage" element={<AssessmentPage />} />
+          {/* <Route path="/assessmentpage" element={<DashboardLayout><AssessmentPage /></DashboardLayout>} /> */}
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

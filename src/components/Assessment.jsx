@@ -90,7 +90,7 @@ const ChapterAssessment = () => {
     return (
       <div className="h-screen flex flex-col items-center justify-center text-primary">
         <Loader className="animate-spin w-10 h-10 mb-2" />
-        <span className="text-xl">Loading Assessment...</span>
+        <span className="text-xl font-roboto-para">Loading Assessment...</span>
       </div>
     );
   }
@@ -100,13 +100,13 @@ const ChapterAssessment = () => {
       <div ref={topRef}></div>
 
       {submitted && result && (
-        <div className="p-6 rounded-xl space-y-6 border border-border">
-          <h2 className="text-xl font-semibold text-destructive">🎉 Well Done!</h2>
-          <p className="text-muted-foreground">
+        <div className="p-6 rounded-xl space-y-6 border border-border font-monstrat-hadding">
+          <h2 className="text-xl font-semibold text-destructive font-roboto-para">🎉 Well Done!</h2>
+          <p className="text-muted-foreground font-roboto-para">
             You completed the assessment for <strong>{subject} {chapterId}</strong>
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-center font-roboto-para95">
             <div className="p-4 rounded-lg border border-border space-y-1">
               <div className="flex justify-center items-center text-muted-foreground">
                 <Percent className="w-4 h-4 mr-2" />
@@ -151,7 +151,7 @@ const ChapterAssessment = () => {
       )}
 
       <div className="space-y-1">
-        <h1 className="text-2xl font-semibold capitalize break-words">
+        <h1 className="text-2xl font-semibold capitalize break-words font-roboto-para">
           {subject} {chapterId.replace("chapter", "Chapter ")}
         </h1>
         <p className="text-sm text-muted-foreground">
@@ -167,7 +167,7 @@ const ChapterAssessment = () => {
           return (
             <div key={qIndex} className="space-y-3">
               <div className="flex flex-wrap justify-between items-start gap-2">
-                <h2 className="text-base font-medium break-words">
+                <h2 className="text-base font-medium break-words font-monstrat-hadding">
                   {qIndex + 1}. {question.text}
                 </h2>
                 {submitted && (
@@ -212,7 +212,7 @@ const ChapterAssessment = () => {
                   return (
                     <label key={oIndex} className={labelClass}>
                       <RadioGroupItem value={option} />
-                      <span className="w-full">{option}</span>
+                      <span className="w-full font-roboto-para">{option}</span>
                     </label>
                   );
                 })}
@@ -223,7 +223,7 @@ const ChapterAssessment = () => {
       </div>
 
       {!submitted && (
-        <div className="text-right pt-6">
+        <div className="text-right pt-6 font-monstrat-hadding">
           <Button onClick={handleSubmit}>Submit</Button>
         </div>
       )}

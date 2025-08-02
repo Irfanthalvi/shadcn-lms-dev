@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Frown } from "lucide-react";
+// import { Frown } from "lucide-react";
 
 const NotFound = () => {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ const NotFound = () => {
     <div className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground px-4">
       <div className="max-w-md text-center space-y-6">
         <div className="flex justify-center">
-          <Frown size={64} className="text-muted-foreground" />
+          <img src="404.svg" alt="not found" className="size-60"/>
         </div>
         <h1 className="text-4xl font-bold">404 - Page Not Found</h1>
         <p className="text-muted-foreground text-base">

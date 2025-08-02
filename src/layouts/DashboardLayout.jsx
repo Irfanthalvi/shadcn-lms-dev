@@ -77,7 +77,7 @@ const DashboardLayout = ({ children }) => {
                 <Layers size={24} />
               </div>
               {isSidebarOpen && (
-                <span className="text-lg font-semibold whitespace-nowrap">
+                <span className="font-monstrat-hadding text-lg font-semibold whitespace-nowrap">
                   School System
                 </span>
               )}
@@ -97,7 +97,7 @@ const DashboardLayout = ({ children }) => {
             <NavLink
               to="/subjects"
               className={({ isActive }) =>
-                `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium transition-colors
+                `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium transition-colors font-monstrat-hadding
                  ${
                    isActive
                      ? "bg-accent text-accent-foreground"
@@ -111,10 +111,10 @@ const DashboardLayout = ({ children }) => {
             <NavLink
               to="/listing"
               className={({ isActive }) =>
-                `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium transition-colors
+                `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium transition-colors font-monstrat-hadding
                  ${
                    isActive
-                     ? "bg-accent text-accent-foreground"
+                     ? "bg-accent text-accent-foreground "
                      : "hover:bg-muted hover:text-foreground"
                  }`
               }
@@ -135,7 +135,7 @@ const DashboardLayout = ({ children }) => {
             <div className="flex items-center justify-center gap-4 min-w-0">
               <button
                 onClick={toggleSidebar}
-                className="w-10 h-10 flex items-center justify-center border border-border rounded-md transition shrink-0"
+                className="w-10 h-10 flex items-center justify-center border border-border  bg-muted rounded-md transition shrink-0"
               >
                 ☰
               </button>
@@ -156,7 +156,7 @@ const DashboardLayout = ({ children }) => {
                     <AvatarFallback>U</AvatarFallback>
                   </Avatar>
                 </div>
-                <span className="hidden md:flex items-center text-sm font-medium max-w-[140px] overflow-hidden text-ellipsis whitespace-nowrap">
+                <span className="hidden md:flex items-center text-sm font-medium max-w-[140px] overflow-hidden text-ellipsis whitespace-nowrap font-monstrat-hadding">
                   {profile.name}
                   <FaChevronDown
                     className={`ml-1 transition-transform ${

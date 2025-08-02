@@ -59,14 +59,14 @@ const Subject = () => {
                     }}
                   />
                 </div>
-                <div className="p-4 flex flex-col flex-1">
-                  <h2 className="text-base font-semibold">
+                <div className="font-monstrat-hadding p-4 flex flex-col flex-1">
+                  <h2 className=" text-base font-semibold">
                     {subject.title}
                   </h2>
-                  <p className="text-sm text-muted-foreground mb-3">
+                  <p className="font-roboto-para text-primary mb-3">
                     {subject.description}
                   </p>
-                  <Button className="mt-auto inline-flex items-center justify-center cursor-pointer gap-1 bg-primary text-primary-foreground text-sm font-medium px-4 py-2 rounded-md transition w-fit">
+                  <Button className="font-roboto-hadding mt-auto inline-flex items-center justify-center cursor-pointer gap-1 bg-primary text-primary-foreground text-sm font-medium px-4 py-2 rounded-md transition w-fit">
                     Continue Study <ArrowRight size={16} />
                   </Button>
                 </div>

@@ -62,7 +62,7 @@ const SubjectChapters = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-muted-foreground">
+      <div className="min-h-screen flex items-center justify-center text-muted-foreground font-roboto-para">
         <Loader className="w-6 h-6 mr-2 animate-spin" />
         Loading chapters...
       </div>
@@ -81,14 +81,14 @@ const SubjectChapters = () => {
             <div className="flex items-center gap-3 flex-1 min-w-0">
               <div className="bg-secondary text-secondary-foreground p-2 rounded-full text-lg shrink-0">📘</div>
               <div className="min-w-0">
-                <h2 className="font-semibold text-base truncate">{chapter.title}</h2>
-                <div className="text-muted-foreground text-xs flex flex-wrap gap-4 mt-0.5">
+                <h2 className="font-semibold text-base truncate font-monstrat-hadding">{chapter.title}</h2>
+                <div className="text-muted-foreground text-xs flex flex-wrap gap-4 mt-0.5 font-roboto-para">
                   <span>📝 35 Marks</span>
-                  <span>⏱ 35 Minutes</span>
+                  <span>⏱ 35 Minutes</span> 
                 </div>
               </div>
             </div>
-            <Button className="shrink-0 w-full sm:w-auto">Start</Button>
+            <Button className="shrink-0 w-full sm:w-auto font-monstrat-hadding">Start</Button>
           </div>
         ))}
       </div>
@@ -99,7 +99,7 @@ const SubjectChapters = () => {
           <Button
             variant="ghost"
             onClick={handleLoadMore}
-            className="bg-muted text-muted-foreground hover:bg-muted/80"
+            className="bg-muted text-muted-foreground hover:bg-muted/80 font-monstrat-hadding"
           >
             Load More
           </Button>

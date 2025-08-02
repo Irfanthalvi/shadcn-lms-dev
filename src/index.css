@@ -1,6 +1,24 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@font-face {
+  font-family: monstrat-hadding;
+  src: url("../src/assets/fonts/Montserrat-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: Roboto-para;
+  src: url("../src/assets/fonts/Roboto-Italic.ttf");
+}
+
+@theme {
+  --font-monstrat-hadding: monstrat-hadding, "sans-serif";
+}
+
+@theme {
+  --font-roboto-para: Roboto-para, "sans-serif";
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -114,6 +132,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
