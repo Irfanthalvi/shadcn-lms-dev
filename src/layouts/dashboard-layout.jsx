@@ -10,8 +10,8 @@ import {
   List,
 } from "lucide-react";
 import { FaChevronDown } from "react-icons/fa";
-import Breadcrumbs from "@/components/breadcrumbs";
-import ProfileModal from "@/components/profile-model";
+import Breadcrumbs from "@/components/subject/breadcrumbs";
+import ProfileModal from "@/components/subject/profile-model";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { CgProfile } from "react-icons/cg";
 

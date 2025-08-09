@@ -50,7 +50,7 @@ const CreateDrawer = ({ open, onClose, onSubmit }) => {
   }, [open, reset]);
 
   const onFormSubmit = (data) => {
-    onSubmit(data);
+    onSubmit(data);  // Call parent handler once
     reset();
     onClose();
   };
@@ -62,7 +62,6 @@ const CreateDrawer = ({ open, onClose, onSubmit }) => {
         <div className="flex items-center justify-between px-6 py-4 border-b">
           <h2 className="text-lg font-semibold">Add Question</h2>
           <DrawerClose asChild>
-            {/* <Button variant="ghost" size="icon" onClick={onClose} icon='plus' /> */}
             <Button variant="ghost" size="icon" onClick={onClose}>
               <X className="size-5" />
             </Button>

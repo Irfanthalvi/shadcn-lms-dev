@@ -7,8 +7,8 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { ChevronDown, Pencil, Trash2 } from "lucide-react";
-import ScoreCircle from "@/listing/score-circle";
-import StatusBadge from "@/listing/status-badge";
+import ScoreCircle from "@/components/create-subject-mcqs/score-circle";
+import StatusBadge from "@/components/create-subject-mcqs/status-badge";
 import { Button } from "@/components/ui/button";
 
 export default function DataTable({ data = [] }) {

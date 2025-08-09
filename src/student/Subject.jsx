@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
-import { subjectsData } from "@/components/subject-data";
+import { subjectsData } from "@/components/subject/subject-data";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";

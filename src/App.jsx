@@ -1,8 +1,9 @@
 import { Suspense, lazy, useRef, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useParams } from 'react-router-dom';
 import LoadingBar from 'react-top-loading-bar';
-import NotFound from '@/components/not-found';
-import AssessmentPage from '@/listing/assessment-page';
+import NotFound from '@/components/subject/not-found';
+import AssessmentPage from '@/components/create-subject-mcqs/assessment-page';
+import ChapterAssessment from '@/components/subject/test-subject-assessment';
 
 // Lazy loaded components
 const AuthLayout = lazy(() => import('@/layouts/auth-layout'));
@@ -10,8 +11,7 @@ const DashboardLayout = lazy(() => import('@/layouts/dashboard-layout'));
 const LoginPage = lazy(() => import('@/auth-layout/component'));
 const Subject = lazy(() => import('@/student/subject'));
 const Listing = lazy(() => import('@/student/create-subjects-mcqs'));
-const SubjectChapters = lazy(() => import('@/components/chapter'));
-const ChapterAssessment = lazy(() => import('@/components/assessment'));
+const SubjectChapters = lazy(() => import('@/components/subject/chapter'));
 
 // 📌 Title Manager Component (Inline)
 function TitleManager() {
@@ -68,7 +68,7 @@ function AppRoutes({ loadingBarRef }) {
           <Route path="/chapter/:id" element={<DashboardLayout><SubjectChapters /></DashboardLayout>} />
           <Route path="/assessment/:subject/:chapterId" element={<DashboardLayout><ChapterAssessment /></DashboardLayout>} />
           <Route path="/listing" element={<DashboardLayout><Listing /></DashboardLayout>} />
-          <Route path="/assessmentpage" element={<AssessmentPage />} />
+          <Route path="/assessment-page" element={<AssessmentPage />} />
           {/* <Route path="/assessmentpage" element={<DashboardLayout><AssessmentPage /></DashboardLayout>} /> */}
 
           <Route path="*" element={<NotFound />} />

@@ -7,7 +7,7 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { subjectsData } from "@/components/subject-data";
+import { subjectsData } from "@/components/subject/subject-data";
 
 export default function Breadcrumbs() {
   const location = useLocation();

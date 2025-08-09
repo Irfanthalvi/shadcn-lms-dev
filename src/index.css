@@ -139,24 +139,12 @@
 }
 
 /* index.css */
-
-/* Show scrollbar only when needed (auto), slim style */
+/* Fully hide scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  display: none;
 }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: rgba(100, 100, 100, 0.3);
-  border-radius: 4px;
-}
-
-/* Firefox support */
 * {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(100, 100, 100, 0.3) transparent;
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE and Edge */
 }

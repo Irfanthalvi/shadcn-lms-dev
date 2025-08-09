@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import SearchInput from "@/listing/search-input";
-import DataTable from "@/listing/data-table";
-import AssessmentFilters from "@/listing/assessmentFilters";
-import { assessments as defaultAssessments } from "@/listing/mock-assessments"; // mock data
+import { assessments as defaultAssessments } from "@/components/hard-code/table-mock-data"; // mock data
+import SearchInput from "@/components/create-subject-mcqs/search-input";
+import AssessmentFilters from "@/components/create-subject-mcqs/AssessmentFilters";
+import DataTable from "@/components/create-subject-mcqs/data-table";
 
 const PER_PAGE = 5;
 
@@ -26,7 +26,7 @@ export default function Listing() {
         <p className="text-sm text-muted-foreground">
           You have {filtered.length} assessments
         </p>
-        <Button onClick={() => navigate("/assessmentpage")}>+ Add Assessment</Button>
+        <Button onClick={() => navigate("/assessment-page")}>+ Add Assessment</Button>
       </div>
 
       <div className="flex flex-col md:flex-row justify-between gap-4 mb-4">
