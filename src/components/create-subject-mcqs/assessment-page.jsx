@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { Eye } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import CreateDrawer from "@/components/drawer/question-drawer";
 import ChapterMCQs from "./chapter-mcqs";
+import { Button } from "@/components/ui/button";
 import { bookMockData } from "../hard-code/book-mock-data";
+import CreateDrawer from "@/components/drawer/question-drawer";
 import { chapterMockData } from "../hard-code/chapter-mock-data";
 import QuestionDrawer from "@/components/drawer/preview-question-drawer";
 import CreateAssessmentForm from "@/components/create-subject-mcqs/create-assessment-form";
@@ -88,8 +88,8 @@ export default function AssessmentPage() {
         className={`flex-1 overflow-y-auto 
         ${!showChapterView ? "hidden sm:block" : "block"}`}
       >
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 my-4 mx-4">
-          <h2 className="text-lg sm:text-xl font-[var(--font-monstrat-hadding)] break-words">
+        <div className=" flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 my-4 mx-4">
+          <h2 className="text-lg sm:text-xl  break-words">
             {/* {chapter.title} */}chapter title
           </h2>
           <Button
@@ -98,7 +98,7 @@ export default function AssessmentPage() {
             onClick={() => setPreviewQuestionDrawer(true)}
             className="w-full sm:w-auto"
           >
-            <Eye className="size-4 mr-2" />
+            <Eye className=" size-4 mr-2" />
             Preview
           </Button>
         </div>
@@ -116,7 +116,7 @@ export default function AssessmentPage() {
       <QuestionDrawer
         open={previewQuestionDrawer}
         onClose={() => setPreviewQuestionDrawer(false)}
-        // onSubmit={handleAddQuestion}
+        chapter={selectedChapter}
       />
     </div>
   );

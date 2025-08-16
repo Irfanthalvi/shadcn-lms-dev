@@ -1,7 +1,15 @@
 import * as React from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
-
 import { cn } from "@/lib/utils";
+
+// Size mapping for right/left drawers
+const sizeClasses = {
+  sm: "w-64", // 16rem
+  md: "w-96", // 24rem
+  lg: "w-[32rem]", // 32rem
+  xl: "w-[40rem]", // 40rem
+  "2xl": "w-[48rem]", // 48rem
+};
 
 function Drawer({ ...props }) {
   return <DrawerPrimitive.Root data-slot="drawer" {...props} />;
@@ -32,7 +40,7 @@ function DrawerOverlay({ className, ...props }) {
   );
 }
 
-function DrawerContent({ className, children, ...props }) {
+function DrawerContent({ className, children, size = "md", ...props }) {
   return (
     <DrawerPortal data-slot="drawer-portal">
       <DrawerOverlay />
@@ -40,10 +48,14 @@ function DrawerContent({ className, children, ...props }) {
         data-slot="drawer-content"
         className={cn(
           "group/drawer-content bg-background fixed z-50 flex h-auto flex-col",
+          // top drawer
           "data-[vaul-drawer-direction=top]:inset-x-0 data-[vaul-drawer-direction=top]:top-0 data-[vaul-drawer-direction=top]:mb-24 data-[vaul-drawer-direction=top]:max-h-[80vh] data-[vaul-drawer-direction=top]:rounded-b-lg data-[vaul-drawer-direction=top]:border-b",
+          // bottom drawer
           "data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:max-h-[80vh] data-[vaul-drawer-direction=bottom]:rounded-t-lg data-[vaul-drawer-direction=bottom]:border-t",
-          "data-[vaul-drawer-direction=right]:inset-y-0 data-[vaul-drawer-direction=right]:right-0 data-[vaul-drawer-direction=right]:w-3/4 data-[vaul-drawer-direction=right]:border-l data-[vaul-drawer-direction=right]:sm:max-w-lg",
-          "data-[vaul-drawer-direction=left]:inset-y-0 data-[vaul-drawer-direction=left]:left-0 data-[vaul-drawer-direction=left]:w-3/4 data-[vaul-drawer-direction=left]:border-r data-[vaul-drawer-direction=left]:sm:max-w-sm",
+          // right drawer (dynamic size)
+          `data-[vaul-drawer-direction=right]:inset-y-0 data-[vaul-drawer-direction=right]:right-0 data-[vaul-drawer-direction=right]:border-l ${sizeClasses[size]}`,
+          // left drawer (dynamic size)
+          `data-[vaul-drawer-direction=left]:inset-y-0 data-[vaul-drawer-direction=left]:left-0 data-[vaul-drawer-direction=left]:border-r ${sizeClasses[size]}`,
           className
         )}
         {...props}
