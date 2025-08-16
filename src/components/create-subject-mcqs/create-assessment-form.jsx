@@ -1,19 +1,26 @@
+"use client";
+
 import React, { useState } from "react";
 import {
-  Trash2,
-  ChevronDown,
-  ChevronUp,
-  GripVertical,
-  SquarePen,
-} from "lucide-react";
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  arrayMove,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+
 import { Button } from "@/components/ui/button";
 
 import AddBook from "../dialog/book-dialog";
 import AddChapter from "../dialog/chapter-dialog";
+import { SortableBook } from "../dnd -kit/drag-drop";
 
 const CreateAssessmentForm = ({ books, setBooks, onChapterClick }) => {
-  // Remove internal books state. Use props!
-
   const [newBook, setNewBook] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
   const [expandedIndex, setExpandedIndex] = useState(null);
@@ -23,6 +30,27 @@ const CreateAssessmentForm = ({ books, setBooks, onChapterClick }) => {
   const [activeBookIndex, setActiveBookIndex] = useState(null);
   const [editingChapterIndex, setEditingChapterIndex] = useState(null);
   const [editingBookIndexForChapter, setEditingBookIndexForChapter] = useState(null);
+
+  const toggleExpand = (index) => {
+    setExpandedIndex(expandedIndex === index ? null : index);
+  };
+
+  const openChapterModal = (bookIndex, chapterIndex = null) => {
+    setActiveBookIndex(bookIndex);
+
+    if (chapterIndex !== null) {
+      const chapter = books[bookIndex].chapters[chapterIndex];
+      setChapterData(chapter);
+      setEditingChapterIndex(chapterIndex);
+      setEditingBookIndexForChapter(bookIndex);
+    } else {
+      setChapterData({ title: "", desc: "", time: "" });
+      setEditingChapterIndex(null);
+      setEditingBookIndexForChapter(null);
+    }
+
+    setChapterDialog(true);
+  };
 
   const handleAddBook = () => {
     if (newBook.trim() === "") return;
@@ -46,27 +74,14 @@ const CreateAssessmentForm = ({ books, setBooks, onChapterClick }) => {
 
   const handleDeleteBook = (index) => {
     setBooks(books.filter((_, i) => i !== index));
-  };
 
-  const toggleExpand = (index) => {
-    setExpandedIndex(expandedIndex === index ? null : index);
-  };
-
-  const openChapterModal = (bookIndex, chapterIndex = null) => {
-    setActiveBookIndex(bookIndex);
-
-    if (chapterIndex !== null) {
-      const chapter = books[bookIndex].chapters[chapterIndex];
-      setChapterData(chapter);
-      setEditingChapterIndex(chapterIndex);
-      setEditingBookIndexForChapter(bookIndex);
-    } else {
-      setChapterData({ title: "", desc: "", time: "" });
-      setEditingChapterIndex(null);
-      setEditingBookIndexForChapter(null);
+    // If deleted book was expanded, collapse it
+    if (expandedIndex === index) {
+      setExpandedIndex(null);
+    } else if (expandedIndex !== null && index < expandedIndex) {
+      // Adjust expandedIndex if a previous book is deleted
+      setExpandedIndex(expandedIndex - 1);
     }
-
-    setChapterDialog(true);
   };
 
   const handleAddChapter = (formData) => {
@@ -75,7 +90,9 @@ const CreateAssessmentForm = ({ books, setBooks, onChapterClick }) => {
     if (editingChapterIndex !== null && editingBookIndexForChapter !== null) {
       updated[editingBookIndexForChapter].chapters[editingChapterIndex] = {
         ...formData,
-        questions: updated[editingBookIndexForChapter].chapters[editingChapterIndex]?.questions || [],
+        questions:
+          updated[editingBookIndexForChapter].chapters[editingChapterIndex]
+            ?.questions || [],
       };
     } else {
       updated[activeBookIndex].chapters.push({
@@ -97,103 +114,118 @@ const CreateAssessmentForm = ({ books, setBooks, onChapterClick }) => {
     setBooks(updated);
   };
 
+  // DnD sensors for books
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 5 },
+    })
+  );
+
+  function handleBooksDragEnd(event) {
+    const { active, over } = event;
+    if (!over) return;
+    if (active.id !== over.id) {
+      const oldIndex = books.findIndex((b) => b.title === active.id);
+      const newIndex = books.findIndex((b) => b.title === over.id);
+      setBooks(arrayMove(books, oldIndex, newIndex));
+
+      // Maintain expandedIndex if needed (optional)
+      if (expandedIndex === oldIndex) {
+        setExpandedIndex(newIndex);
+      } else if (
+        expandedIndex !== null &&
+        oldIndex < expandedIndex &&
+        newIndex >= expandedIndex
+      ) {
+        setExpandedIndex(expandedIndex - 1);
+      } else if (
+        expandedIndex !== null &&
+        oldIndex > expandedIndex &&
+        newIndex <= expandedIndex
+      ) {
+        setExpandedIndex(expandedIndex + 1);
+      }
+    }
+  }
+
+  // Chapter drag end (lifted to update book chapters order)
+  function handleChaptersDragEnd(event) {
+    const { active, over } = event;
+    if (!over) return;
+    if (active.id !== over.id) {
+      const bookIndex = expandedIndex;
+      if (bookIndex === null) return;
+
+      const oldIndex = books[bookIndex].chapters.findIndex(
+        (c) => c.title === active.id
+      );
+      const newIndex = books[bookIndex].chapters.findIndex(
+        (c) => c.title === over.id
+      );
+      if (oldIndex === -1 || newIndex === -1) return;
+
+      const updatedBooks = [...books];
+      updatedBooks[bookIndex].chapters = arrayMove(
+        updatedBooks[bookIndex].chapters,
+        oldIndex,
+        newIndex
+      );
+      setBooks(updatedBooks);
+
+      // Keep the book expanded after drag end
+      setExpandedIndex(bookIndex);
+    }
+  }
+
   return (
-    <div className="p-4 sm:p-6 max-w-2xl mx-auto flex flex-col gap-6">
-      <div className="flex flex-col divide-y w-full h-[calc(100vh-100px)]">
-        {books.map((book, index) => (
-          <div key={index}>
-            <div
-              className="flex items-center justify-between py-3 rounded-md
-             hover:bg-muted hover:shadow-sm cursor-pointer transition-colors"
-            >
-              <div className="flex items-center gap-3 w-full min-w-0">
-                <GripVertical className="size-4 text-muted-foreground shrink-0" />
-                <span className="text-base font-medium text-foreground truncate hover:text-primary">
-                  {book.title}
-                </span>
-              </div>
-              <div className="flex items-center gap-3 shrink-0">
-                <SquarePen
-                  className="size-4 text-muted-foreground cursor-pointer hover:text-foreground"
-                  onClick={() => {
-                    setEditingBookIndex(index);
-                    setNewBook(book.title);
-                    setOpenDialog(true);
-                  }}
-                />
-                <Trash2
-                  className="size-4 text-destructive cursor-pointer hover:text-red-600"
-                  onClick={() => handleDeleteBook(index)}
-                />
-                <Button variant="ghost" size="icon" onClick={() => toggleExpand(index)}>
-                  {expandedIndex === index ? (
-                    <ChevronUp className="size-4" />
-                  ) : (
-                    <ChevronDown className="size-4" />
-                  )}
-                </Button>
-              </div>
-            </div>
-
-
-            {expandedIndex === index && (
-              <div className="pl-6 pb-3 space-y-2">
-                {book.chapters.map((chap, cIndex) => (
-                  <div
-                    key={cIndex}
-                    className="flex items-center justify-between py-2 w-70 rounded-md
-             hover:bg-muted hover:shadow-sm cursor-pointer transition-colors"
-                  >
-                    <div className="flex items-center gap-3 w-full min-w-0">
-                      <GripVertical className="size-4 text-muted-foreground shrink-0" />
-                      <span
-                        className="text-sm font-medium text-foreground truncate hover:text-primary"
-                        onClick={() => onChapterClick(index, cIndex)}
-                      >
-                        {chap.title}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3 shrink-0">
-                      <SquarePen
-                        className="size-4 text-muted-foreground cursor-pointer hover:text-foreground"
-                        onClick={() => openChapterModal(index, cIndex)}
-                      />
-                      <Trash2
-                        className="size-4 text-destructive cursor-pointer hover:text-red-600"
-                        onClick={() => handleDeleteChapter(index, cIndex)}
-                      />
-                      <Button variant="ghost" size="icon">
-                        <ChevronDown className="size-4" />
-                      </Button>
-                    </div>
-                  </div>
-
-                ))}
-
-                <div
-                  className="flex items-center justify-between py-2 cursor-pointer hover:bg-muted px-2 rounded"
-                  onClick={() => openChapterModal(index)}
-                >
-                  <div className="flex items-center gap-3 w-full min-w-0">
-                    <label className="text-sm text-primary font-medium">+ Add Chapter</label>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        ))}
-
-        <Button
-          className="mt-auto"
-          onClick={() => {
-            setEditingBookIndex(null);
-            setNewBook("");
-            setOpenDialog(true);
-          }}
+    <div className="w-full max-w-4xl mx-auto p-3 sm:p-6 flex flex-col gap-6">
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleBooksDragEnd}
+      >
+        <SortableContext
+          items={books.map((b) => b.title)}
+          strategy={verticalListSortingStrategy}
         >
-          Add Book
-        </Button>
-      </div>
+          <div
+            className="flex flex-col divide-y w-full max-h-[80vh] sm:max-h-[calc(100vh-100px)] overflow-auto"
+            style={{ touchAction: "none" }}
+          >
+            {books.map((book, index) => (
+              <SortableBook
+                key={book.title}
+                id={book.title}
+                book={book}
+                index={index}
+                setEditingBookIndex={setEditingBookIndex}
+                setNewBook={setNewBook}
+                setOpenDialog={setOpenDialog}
+                toggleExpand={toggleExpand}
+                expandedIndex={expandedIndex}
+                openChapterModal={openChapterModal}
+                handleDeleteBook={handleDeleteBook}
+                onChapterClick={onChapterClick}
+                handleDeleteChapter={handleDeleteChapter}
+                books={books}
+                onChapterDragEnd={handleChaptersDragEnd}
+              />
+            ))}
+
+            <Button
+              className="mt-4 sm:mt-auto w-full sm:w-75 fixed bottom-5"
+              onClick={() => {
+                setEditingBookIndex(null);
+                setNewBook("");
+                setOpenDialog(true);
+              }}
+            >
+              Add Book
+            </Button>
+
+          </div>
+        </SortableContext>
+      </DndContext>
 
       <AddBook
         newBook={newBook}

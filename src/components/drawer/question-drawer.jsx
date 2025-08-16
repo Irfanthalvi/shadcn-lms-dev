@@ -24,7 +24,6 @@ const CreateDrawer = ({ open, onClose, onSubmit }) => {
     handleSubmit,
     reset,
     setValue,
-    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -43,8 +42,6 @@ const CreateDrawer = ({ open, onClose, onSubmit }) => {
     name: "options",
   });
 
-  const watchType = watch("type");
-
   useEffect(() => {
     if (!open) reset();
   }, [open, reset]);
@@ -57,7 +54,7 @@ const CreateDrawer = ({ open, onClose, onSubmit }) => {
 
   return (
     <Drawer open={open} onOpenChange={onClose} direction="right">
-      <DrawerContent className="fixed right-0 top-0 h-screen w-full sm:w-[90%] md:w-[70%] lg:w-[60%] xl:w-[40%] max-w-full border-l bg-background text-foreground z-50 shadow-lg flex flex-col">
+      <DrawerContent size='xl' className="fixed right-0 top-0 h-screen max-sm:!w-full border-l bg-background text-foreground z-50 shadow-lg flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b">
           <h2 className="text-lg font-semibold">Add Question</h2>
@@ -161,7 +158,7 @@ const CreateDrawer = ({ open, onClose, onSubmit }) => {
             <Button type="button" variant="secondary" onClick={onClose}>
               Cancel
             </Button>
-            <Button type="submit" className="bg-primary text-white hover:bg-primary/90">
+            <Button type="submit" className="bg-primary hover:bg-primary/90">
               Submit
             </Button>
           </div>

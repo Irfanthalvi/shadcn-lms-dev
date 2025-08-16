@@ -85,7 +85,7 @@ const DashboardLayout = ({ children }) => {
             {isMobile && isSidebarOpen && (
               <button
                 onClick={toggleSidebar}
-                className="p-2 text-lg font-bold bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+                className=" text-lg font-bold  text-primary-foreground rounded-md"
               >
                 ✕
               </button>
@@ -128,7 +128,8 @@ const DashboardLayout = ({ children }) => {
         {/* Main Content */}
         <main
           className={`flex flex-col flex-1 min-w-0 transition-all duration-300
-            ${isSidebarOpen ? (isMobile ? "ml-0" : "ml-[260px]") : "ml-[70px]"}`}
+            ${isSidebarOpen ? (isMobile ? "ml-0" : "ml-[260px]") : "ml-[70px]"}
+            `}
         >
           {/* Topbar */}
           <header className="sticky top-0 z-30 flex items-center justify-between h-[75px] px-4 border-b border-border bg-background">
