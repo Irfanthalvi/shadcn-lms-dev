@@ -13,6 +13,7 @@ import {
 } from "./subject-name";
 import { Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import SearchFilterChapter from "./searchfilter-chapter"; // ✅ new import
 
 const SubjectChapters = () => {
   const { id } = useParams(); // subjectId
@@ -20,7 +21,11 @@ const SubjectChapters = () => {
 
   const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [visibleCount, setVisibleCount] = useState(6); // Initial chapters to show
+  const [visibleCount, setVisibleCount] = useState(6);
+
+  // ✅ New states for search & filter
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("all");
 
   useEffect(() => {
     const chapterMap = {
@@ -39,17 +44,17 @@ const SubjectChapters = () => {
 
     const withLabels = selected.map((ch, idx) => ({
       ...ch,
-      label: ch.label || `Chapter ${idx + 1}`,
+      label: ch.title || `Chapter ${idx + 1}`,
     }));
 
     setTimeout(() => {
       setChapters(withLabels);
       setLoading(false);
-    }, 800); // Simulated loading time
+    }, 800);
   }, [id]);
 
   const handleAssessment = (chapter) => {
-    const chapterId = chapter.path.split("/").pop(); // e.g. "chapter1"
+    const chapterId = chapter.path.split("/").pop();
     navigate(`/assessment/${id}/${chapterId}`);
   };
 
@@ -57,8 +62,15 @@ const SubjectChapters = () => {
     setVisibleCount((prev) => prev + 6);
   };
 
-  const visibleChapters = chapters.slice(0, visibleCount);
-  const hasMore = visibleCount < chapters.length;
+  // ✅ Filtering & searching logic
+  const filteredChapters = chapters.filter((ch) => {
+    const matchSearch = ch.title.toLowerCase().includes(search.toLowerCase());
+    const matchFilter = filter === "all" || ch.title.toLowerCase() === filter;
+    return matchSearch && matchFilter;
+  });
+
+  const visibleChapters = filteredChapters.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredChapters.length;
 
   if (loading) {
     return (
@@ -71,6 +83,15 @@ const SubjectChapters = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground px-4 sm:px-6 md:px-8 py-10 max-w-[1440px] mx-auto">
+      {/* ✅ Search & Filter */}
+      <SearchFilterChapter
+        search={search}
+        setSearch={setSearch}
+        filter={filter}
+        setFilter={setFilter}
+        chapters={chapters}
+      />
+
       <div className="space-y-4">
         {visibleChapters.map((chapter, idx) => (
           <div
@@ -79,21 +100,26 @@ const SubjectChapters = () => {
             className="bg-card text-card-foreground border border-border rounded-lg flex flex-wrap md:flex-nowrap items-center justify-between gap-4 p-4 cursor-pointer hover:shadow-sm transition"
           >
             <div className="flex items-center gap-3 flex-1 min-w-0">
-              <div className="bg-secondary text-secondary-foreground p-2 rounded-full text-lg shrink-0">📘</div>
+              <div className="bg-secondary text-secondary-foreground p-2 rounded-full text-lg shrink-0">
+                📘
+              </div>
               <div className="min-w-0">
-                <h2 className="font-semibold text-base truncate font-monstrat-hadding">{chapter.title}</h2>
+                <h2 className="font-semibold text-base truncate font-monstrat-hadding">
+                  {chapter.title}
+                </h2>
                 <div className="text-muted-foreground text-xs flex flex-wrap gap-4 mt-0.5 font-roboto-para">
                   <span>📝 35 Marks</span>
-                  <span>⏱ 35 Minutes</span> 
+                  <span>⏱ 35 Minutes</span>
                 </div>
               </div>
             </div>
-            <Button className="shrink-0 w-full sm:w-auto font-monstrat-hadding">Start</Button>
+            <Button className="shrink-0 w-full sm:w-auto font-monstrat-hadding">
+              Start
+            </Button>
           </div>
         ))}
       </div>
 
-      {/* Load More Button */}
       {hasMore && (
         <div className="flex justify-center mt-6">
           <Button
