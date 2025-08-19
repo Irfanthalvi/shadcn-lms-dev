@@ -1,14 +1,22 @@
 "use client";
 
 import { useState } from "react";
-import { Eye } from "lucide-react";
-import ChapterMCQs from "./chapter-mcqs";
+import { Eye, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
+
+import ChapterMCQs from "./chapter-mcqs";
 import { bookMockData } from "../hard-code/book-mock-data";
-import CreateDrawer from "@/components/drawer/question-drawer";
 import { chapterMockData } from "../hard-code/chapter-mock-data";
-import QuestionDrawer from "@/components/drawer/preview-question-drawer";
-import CreateAssessmentForm from "@/components/create-subject-mcqs/create-assessment-form";
+
+import CreateDrawer from "@/components/drawer/question-drawer"; // Add Question Drawer
+import QuestionDrawer from "@/components/drawer/preview-question-drawer"; // Preview Drawer
+import CreateAssessmentForm from "@/components/create-subject-mcqs/create-assessment-form"; // Left Sidebar/Sheet Content
 
 export default function AssessmentPage() {
   const [books, setBooks] = useState(
@@ -17,13 +25,13 @@ export default function AssessmentPage() {
       chapters: chapterMockData[book.title] || [],
     }))
   );
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [previewQuestionDrawer, setPreviewQuestionDrawer] = useState(false);
+
+  const [drawerOpen, setDrawerOpen] = useState(false); // Add Question Drawer
+  const [leftSheetOpen, setLeftSheetOpen] = useState(false); // Mobile left sheet
   const [selectedChapter, setSelectedChapter] = useState(null);
+  const [previewQuestionDrawer, setPreviewQuestionDrawer] = useState(false); // Preview Drawer
 
-  // Controls which panel is visible on mobile
-  const [showChapterView, setShowChapterView] = useState(false);
-
+  // Add Question Handler
   const handleAddQuestion = (newData) => {
     if (!selectedChapter) return;
 
@@ -56,6 +64,7 @@ export default function AssessmentPage() {
     }));
   };
 
+  // Select Chapter Handler
   const handleChapterClick = (bookIndex, chapterIndex) => {
     const chapter = books[bookIndex].chapters[chapterIndex];
     setSelectedChapter({
@@ -64,18 +73,13 @@ export default function AssessmentPage() {
       title: chapter.title,
       questions: chapter.questions || [],
     });
-
-    // On mobile, switch to chapter view
-    setShowChapterView(true);
+    setLeftSheetOpen(false); // close mobile sheet
   };
 
   return (
     <div className="flex flex-col sm:flex-row h-screen bg-muted/50 text-foreground overflow-hidden">
-      {/* Left Column */}
-      <div
-        className={`w-full sm:w-[300px] lg:w-[400px] border-b sm:border-b-0 sm:border-r border-border bg-background p-3 sm:p-6 overflow-y-auto 
-        ${showChapterView ? "hidden sm:block" : "block"}`}
-      >
+      {/* Left Sidebar (desktop only) */}
+      <div className="hidden sm:block w-[280px] lg:w-[360px] border-r border-border bg-background p-3 sm:p-6 overflow-y-auto">
         <CreateAssessmentForm
           books={books}
           setBooks={setBooks}
@@ -83,36 +87,83 @@ export default function AssessmentPage() {
         />
       </div>
 
-      {/* Right Column */}
-      <div
-        className={`flex-1 overflow-y-auto 
-        ${!showChapterView ? "hidden sm:block" : "block"}`}
-      >
-        <div className=" flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 my-4 mx-4">
-          <h2 className="text-lg sm:text-xl  break-words">
-            {/* {chapter.title} */}chapter title
-          </h2>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setPreviewQuestionDrawer(true)}
-            className="w-full sm:w-auto"
-          >
-            <Eye className=" size-4 mr-2" />
-            Preview
-          </Button>
+      {/* Right Content Area */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Top Navbar (fixed for mobile + desktop) */}
+        <div className="sticky top-0 z-40 h-16 sm:h-20 flex items-center justify-between px-4 sm:px-6 border-b border-border bg-background">
+          {/* Left Section: Menu + Title */}
+          <div className="flex items-center gap-3">
+            {/* Mobile menu */}
+            <div className="sm:hidden">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setLeftSheetOpen(true)}
+              >
+                <Menu className="size-5" />
+              </Button>
+            </div>
+            {/* left Section: Preview button */}
+            <h2 className="text-base sm:text-lg font-medium truncate">
+              {selectedChapter ? selectedChapter.title : "Select Chapter"}
+            </h2>
+          </div>
+
+          {/* Right Section: Preview button */}
+          <div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setPreviewQuestionDrawer(true)}
+              disabled={!selectedChapter}
+            >
+              <Eye className="size-4 mr-2" />
+              Preview
+            </Button>
+          </div>
         </div>
 
-        <ChapterMCQs chapter={selectedChapter} setDrawerOpen={setDrawerOpen} />
+        {/* Chapter Questions (scrollable) */}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+          <ChapterMCQs
+            chapter={selectedChapter}
+            setDrawerOpen={setDrawerOpen}
+          />
+        </div>
       </div>
 
-      {/* Drawer */}
+      {/* ✅ Mobile Sheet (sidebar for small devices) */}
+      <div className="sm:hidden">
+        <Sheet open={leftSheetOpen} onOpenChange={setLeftSheetOpen}>
+          <SheetContent
+            side="left"
+            className="h-screen w-full max-w-md border-r bg-background flex flex-col"
+          >
+            <SheetHeader className="flex justify-between items-center border-b px-4 py-3">
+              <SheetTitle className="text-lg font-semibold">
+                Books & Chapters
+              </SheetTitle>
+            </SheetHeader>
+
+            <div className="flex-1 overflow-y-auto px-4 py-4">
+              <CreateAssessmentForm
+                books={books}
+                setBooks={setBooks}
+                onChapterClick={handleChapterClick}
+              />
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
+
+      {/* Add Question Drawer */}
       <CreateDrawer
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         onSubmit={handleAddQuestion}
       />
 
+      {/* Preview Question Drawer */}
       <QuestionDrawer
         open={previewQuestionDrawer}
         onClose={() => setPreviewQuestionDrawer(false)}

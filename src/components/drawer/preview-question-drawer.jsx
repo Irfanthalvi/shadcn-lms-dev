@@ -70,7 +70,7 @@ const QuestionDrawer = ({ open, onClose, chapter }) => {
                           <label
                             key={i}
                             htmlFor={`q${q.id}-opt${i}`}
-                            className="flex flex-wrap items-center gap-3 w-full border rounded-lg px-4 py-2 bg-gray-50"
+                            className="flex flex-wrap items-center gap-3 w-full border rounded-lg px-4 py-2 "
                           >
                             <RadioGroupItem
                               value={opt.value}
@@ -90,7 +90,7 @@ const QuestionDrawer = ({ open, onClose, chapter }) => {
                           <label
                             key={i}
                             htmlFor={`q${q.id}-opt${i}`}
-                            className="flex flex-wrap items-center gap-3 w-full border rounded-lg px-4 py-2 bg-gray-50"
+                            className="flex flex-wrap items-center gap-3 w-full border rounded-lg px-4 py-2"
                           >
                             <Checkbox
                               id={`q${q.id}-opt${i}`}
@@ -102,7 +102,7 @@ const QuestionDrawer = ({ open, onClose, chapter }) => {
                             </span>
                           </label>
                         ))}
-                        <p className="text-sm text-gray-500 mt-1 uppercase font-medium">
+                        <p className="text-sm mt-1 uppercase font-medium">
                           Select all that apply
                         </p>
                       </>

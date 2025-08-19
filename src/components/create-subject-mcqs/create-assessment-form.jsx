@@ -26,10 +26,15 @@ const CreateAssessmentForm = ({ books, setBooks, onChapterClick }) => {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [editingBookIndex, setEditingBookIndex] = useState(null);
   const [chapterDialog, setChapterDialog] = useState(false);
-  const [chapterData, setChapterData] = useState({ title: "", desc: "", time: "" });
+  const [chapterData, setChapterData] = useState({
+    title: "",
+    desc: "",
+    time: "",
+  });
   const [activeBookIndex, setActiveBookIndex] = useState(null);
   const [editingChapterIndex, setEditingChapterIndex] = useState(null);
-  const [editingBookIndexForChapter, setEditingBookIndexForChapter] = useState(null);
+  const [editingBookIndexForChapter, setEditingBookIndexForChapter] =
+    useState(null);
 
   const toggleExpand = (index) => {
     setExpandedIndex(expandedIndex === index ? null : index);
@@ -75,11 +80,9 @@ const CreateAssessmentForm = ({ books, setBooks, onChapterClick }) => {
   const handleDeleteBook = (index) => {
     setBooks(books.filter((_, i) => i !== index));
 
-    // If deleted book was expanded, collapse it
     if (expandedIndex === index) {
       setExpandedIndex(null);
     } else if (expandedIndex !== null && index < expandedIndex) {
-      // Adjust expandedIndex if a previous book is deleted
       setExpandedIndex(expandedIndex - 1);
     }
   };
@@ -114,7 +117,6 @@ const CreateAssessmentForm = ({ books, setBooks, onChapterClick }) => {
     setBooks(updated);
   };
 
-  // DnD sensors for books
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 5 },
@@ -129,7 +131,6 @@ const CreateAssessmentForm = ({ books, setBooks, onChapterClick }) => {
       const newIndex = books.findIndex((b) => b.title === over.id);
       setBooks(arrayMove(books, oldIndex, newIndex));
 
-      // Maintain expandedIndex if needed (optional)
       if (expandedIndex === oldIndex) {
         setExpandedIndex(newIndex);
       } else if (
@@ -148,7 +149,6 @@ const CreateAssessmentForm = ({ books, setBooks, onChapterClick }) => {
     }
   }
 
-  // Chapter drag end (lifted to update book chapters order)
   function handleChaptersDragEnd(event) {
     const { active, over } = event;
     if (!over) return;
@@ -172,7 +172,6 @@ const CreateAssessmentForm = ({ books, setBooks, onChapterClick }) => {
       );
       setBooks(updatedBooks);
 
-      // Keep the book expanded after drag end
       setExpandedIndex(bookIndex);
     }
   }
@@ -189,7 +188,7 @@ const CreateAssessmentForm = ({ books, setBooks, onChapterClick }) => {
           strategy={verticalListSortingStrategy}
         >
           <div
-            className="flex flex-col divide-y w-full max-h-[80vh] sm:max-h-[calc(100vh-100px)] overflow-auto"
+            className="flex flex-col divide-y w-full max-h-[75vh] sm:max-h-[calc(100vh-120px)] overflow-y-auto"
             style={{ touchAction: "none" }}
           >
             {books.map((book, index) => (
@@ -211,21 +210,23 @@ const CreateAssessmentForm = ({ books, setBooks, onChapterClick }) => {
                 onChapterDragEnd={handleChaptersDragEnd}
               />
             ))}
-
-            <Button
-              className="mt-4 sm:mt-auto w-full sm:w-75 fixed bottom-5"
-              onClick={() => {
-                setEditingBookIndex(null);
-                setNewBook("");
-                setOpenDialog(true);
-              }}
-            >
-              Add Book
-            </Button>
-
           </div>
         </SortableContext>
       </DndContext>
+
+      {/* ✅ Responsive Add Button */}
+      <div>
+        <Button
+          className="fixed bottom-4 "
+          onClick={() => {
+            setEditingBookIndex(null);
+            setNewBook("");
+            setOpenDialog(true);
+          }}
+        >
+          Add Book
+        </Button>
+      </div>
 
       <AddBook
         newBook={newBook}

@@ -42,20 +42,20 @@ function SortableItem({ id, question, type }) {
       style={style}
       className="flex items-center justify-between bg-card border border-border rounded-lg p-3 shadow-sm"
     >
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 min-w-0">
         <GripVertical
-          className="text-muted-foreground size-5 cursor-grab"
+          className="text-muted-foreground size-5 cursor-grab shrink-0"
           {...listeners}
           {...attributes}
         />
-        <div>
-          <p className="font-medium">{question}</p>
+        <div className="min-w-0">
+          <p className="font-medium truncate">{question}</p>
           <p className="text-sm text-muted-foreground">
             {type === "single" ? "Content Block" : "Video"}
           </p>
         </div>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 shrink-0">
         <SquarePen className="size-4 text-muted-foreground cursor-pointer" />
         <Trash2 className="size-4 text-muted-foreground cursor-pointer" />
       </div>
@@ -72,9 +72,7 @@ export default function ChapterMCQs({ chapter, setDrawerOpen }) {
   }, [chapter]);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: { distance: 5 },
-    })
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
   );
 
   function handleDragEnd(event) {
@@ -88,30 +86,21 @@ export default function ChapterMCQs({ chapter, setDrawerOpen }) {
 
   if (!chapter) {
     return (
-      <div className="flex-1 min-h-[60vh] flex flex-col items-center justify-center text-center p-6 text-muted-foreground gap-3">
+      <div className="min-h-[60vh] flex flex-col items-center justify-center text-center text-muted-foreground px-4">
         <img
           src="/data-not-found.svg"
           alt="No data"
-          className="w-40 h-40 sm:w-48 sm:h-48 object-contain"
+          className="w-32 h-32 sm:w-40 sm:h-40 object-contain"
         />
-        <h1 className="text-xl sm:text-2xl font-bold">No Data Found</h1>
-        <p className="text-sm sm:text-base">
-          Please select a chapter to view questions.
-        </p>
+        <h1 className="text-lg sm:text-xl font-bold">No Data Found</h1>
+        <p className="text-sm">Please select a chapter to view questions.</p>
       </div>
     );
   }
 
   return (
-    <div className="flex-1 min-w-0 p-6 bg-background font-[var(--font-roboto-para)] relative overflow-auto">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-[var(--font-monstrat-hadding)]">
-          {chapter.title}
-        </h2>
-      </div>
-
-      {/* Questions Table */}
+    <div className="relative px-4 sm:px-6 lg:px-8 pb-20">
+      {/* Scrollable Questions */}
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -121,7 +110,7 @@ export default function ChapterMCQs({ chapter, setDrawerOpen }) {
           items={questions.map((q) => q.id)}
           strategy={verticalListSortingStrategy}
         >
-          <div className="space-y-2">
+          <div className="space-y-3">
             {questions.map((q) => (
               <SortableItem
                 key={q.id}
@@ -134,15 +123,13 @@ export default function ChapterMCQs({ chapter, setDrawerOpen }) {
         </SortableContext>
       </DndContext>
 
-      {/* Add More Button */}
-      <div className="mt-6 fixed">
-        <Button
-          onClick={() => setDrawerOpen(true)}
-          className="mt-4 sm:mt-auto w-full sm:w-50 fixed bottom-5"
-        >
-          Add More
-        </Button>
-      </div>
+      {/* Floating Button */}
+      <Button
+        onClick={() => setDrawerOpen(true)}
+        className="fixed bottom-5 right-5 sm:right-8"
+      >
+        Add More
+      </Button>
     </div>
   );
 }

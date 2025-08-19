@@ -43,10 +43,7 @@ const AddBook = ({
             >
               Cancel
             </Button>
-            <Button
-              onClick={handleAddBook}
-              className="font-monstrat-hadding"
-            >
+            <Button onClick={handleAddBook} className="font-monstrat-hadding">
               {isEditing ? "Update" : "Add"}
             </Button>
           </div>
