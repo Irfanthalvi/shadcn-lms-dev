@@ -12,7 +12,16 @@ const SearchInput = ({ value, onChange, placeholder = "Search..." }) => {
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="pl-9 h-10 rounded-md border border-border focus-visible:ring-1 focus-visible:ring-ring"
+        className="
+          pl-9 h-10 rounded-md 
+          border border-border 
+          bg-background
+          focus-visible:ring-0 
+          focus-visible:border-ring
+          hover:border-border 
+          active:border-border
+          transition-none
+        "
       />
     </div>
   );

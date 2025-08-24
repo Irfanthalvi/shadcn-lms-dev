@@ -18,33 +18,54 @@ const SearchFilterSubject = ({
   subjects,
 }) => {
   return (
-    <div className=" w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-      {/* Search Input (same size as filter) */}
+    <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+      {/* Search Input */}
       <div className="w-full sm:w-56">
         <Input
           type="text"
           placeholder="Search subjects..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full "
+          className="
+            w-full h-10 rounded-md
+            border border-border 
+            bg-background
+            hover:border-border 
+            active:border-border 
+            focus-visible:ring-0 
+            focus-visible:border-ring
+            transition-none
+          "
         />
       </div>
 
-      {/* Filter Dropdown (same size as search) */}
+      {/* Filter Dropdown */}
       <div className="w-full sm:w-56">
         <Select value={filter} onValueChange={setFilter}>
-          <SelectTrigger className="w-full cursor-pointer">
+          <SelectTrigger
+            className="
+              w-full h-10 rounded-md 
+              border border-border 
+              bg-background 
+              hover:border-border 
+              active:border-border 
+              focus:ring-0 
+              focus:border-ring
+              transition-none 
+              cursor-pointer
+            "
+          >
             <SelectValue placeholder="Filter by subject" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all" className={"cursor-pointer"}>
+            <SelectItem value="all" className="cursor-pointer">
               All Subjects
             </SelectItem>
             {subjects.map((sub) => (
               <SelectItem
-                className={"cursor-pointer"}
                 key={sub.id}
                 value={sub.label.toLowerCase()}
+                className="cursor-pointer"
               >
                 {sub.label}
               </SelectItem>

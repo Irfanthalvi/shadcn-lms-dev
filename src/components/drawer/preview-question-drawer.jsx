@@ -36,85 +36,73 @@ const QuestionDrawer = ({ open, onClose, chapter }) => {
         </div>
 
         {/* Body */}
+        {/* Body */}
         <div className="space-y-8 mt-6">
           <ScrollArea className="h-[calc(100vh-100px)] -mr-6 pr-6">
-            {/* Assessment Title & Description */}
-            <div>
-              <h1 className="text-xl sm:text-2xl font-bold">
-                Final Assessment
-              </h1>
-              <h2 className="text-lg sm:text-xl font-semibold mt-2">
-                {chapter.title}
-              </h2>
-              <p className="text-gray-600 mt-2 max-w-prose">
-                Test your understanding of the concepts covered in this chapter.
-                This assessment consists of multiple-choice and single-choice
-                questions designed to evaluate your knowledge.
-              </p>
-            </div>
+            <div className="space-y-8 pb-20">
+              {/* Questions */}
+              {chapter.questions?.length > 0 ? (
+                chapter.questions.map((q, index) => (
+                  <div key={q.id} className="space-y-3">
+                    {/* Question */}
+                    <p className="font-semibold text-base sm:text-lg">
+                      {index + 1}. {q.question}
+                    </p>
 
-            {/* Questions */}
-            {chapter.questions?.length > 0 ? (
-              chapter.questions.map((q, index) => (
-                <div key={q.id} className="space-y-3">
-                  {/* Question */}
-                  <p className="font-semibold text-base sm:text-lg">
-                    {index + 1}. {q.question}
-                  </p>
-
-                  {/* Options */}
-                  <div className="space-y-2">
-                    {q.type === "single" ? (
-                      <RadioGroup>
-                        {q.options.map((opt, i) => (
-                          <label
-                            key={i}
-                            htmlFor={`q${q.id}-opt${i}`}
-                            className="flex flex-wrap items-center gap-3 w-full border rounded-lg px-4 py-2 "
-                          >
-                            <RadioGroupItem
-                              value={opt.value}
-                              id={`q${q.id}-opt${i}`}
-                              disabled
-                              className="pointer-events-none"
-                            />
-                            <span className="text-base break-words">
-                              {opt.value}
-                            </span>
-                          </label>
-                        ))}
-                      </RadioGroup>
-                    ) : (
-                      <>
-                        {q.options.map((opt, i) => (
-                          <label
-                            key={i}
-                            htmlFor={`q${q.id}-opt${i}`}
-                            className="flex flex-wrap items-center gap-3 w-full border rounded-lg px-4 py-2"
-                          >
-                            <Checkbox
-                              id={`q${q.id}-opt${i}`}
-                              disabled
-                              className="pointer-events-none"
-                            />
-                            <span className="text-base break-words">
-                              {opt.value}
-                            </span>
-                          </label>
-                        ))}
-                        <p className="text-sm mt-1 uppercase font-medium">
-                          Select all that apply
-                        </p>
-                      </>
-                    )}
+                    {/* Options */}
+                    <div className="space-y-2">
+                      {q.type === "single" ? (
+                        <RadioGroup>
+                          {q.options.map((opt, i) => (
+                            <label
+                              key={i}
+                              htmlFor={`q${q.id}-opt${i}`}
+                              className="flex flex-wrap items-center gap-3 w-full border rounded-lg px-4 py-2 "
+                            >
+                              <RadioGroupItem
+                                value={opt.value}
+                                id={`q${q.id}-opt${i}`}
+                                disabled
+                                className="pointer-events-none"
+                              />
+                              <span className="text-base break-words">
+                                {opt.value}
+                              </span>
+                            </label>
+                          ))}
+                        </RadioGroup>
+                      ) : (
+                        <>
+                          {q.options.map((opt, i) => (
+                            <label
+                              key={i}
+                              htmlFor={`q${q.id}-opt${i}`}
+                              className="flex flex-wrap items-center gap-3 w-full border rounded-lg px-4 py-2"
+                            >
+                              <Checkbox
+                                id={`q${q.id}-opt${i}`}
+                                disabled
+                                className="pointer-events-none"
+                              />
+                              <span className="text-base break-words">
+                                {opt.value}
+                              </span>
+                            </label>
+                          ))}
+                          <p className="text-sm mt-1 uppercase font-medium">
+                            Select all that apply
+                          </p>
+                        </>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))
-            ) : (
-              <p className="text-muted-foreground italic mt-4">
-                No questions added in this chapter yet.
-              </p>
-            )}
+                ))
+              ) : (
+                <p className="text-muted-foreground italic mt-4">
+                  No questions added in this chapter yet.
+                </p>
+              )}
+            </div>
           </ScrollArea>
         </div>
       </DrawerContent>
