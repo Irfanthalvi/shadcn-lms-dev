@@ -19,7 +19,51 @@ const Subject = lazy(() => import("@/student-layout/subject"));
 const Assessment = lazy(() => import("@/student-layout/create-subjects-mcqs"));
 const SubjectChapters = lazy(() => import("@/components/subject/chapter"));
 
-// 📌 Title Manager Component (Inline)
+// 📌 Centralized Titles + Descriptions
+const titlesConfig = [
+  {
+    path: "/",
+    title: "Login",
+    description: "Login to access your School System dashboard.",
+  },
+  {
+    path: "/login",
+    title: "Login",
+    description: "Login to access your School System dashboard.",
+  },
+  {
+    path: "/register",
+    title: "Register",
+    description: "Create your School System account.",
+  },
+  {
+    path: "/forget",
+    title: "Forgot Password",
+    description: "Recover your School System account.",
+  },
+  {
+    path: "/otp",
+    title: "Verify OTP",
+    description: "Verify your identity using OTP.",
+  },
+  {
+    path: "/subjects",
+    title: "Subjects",
+    description: "Browse all available subjects.",
+  },
+  {
+    path: "/assessment-page",
+    title: "Assessment Page",
+    description: "Manage and create assessment page.",
+  },
+  {
+    path: "/assessment",
+    title: "Assessments",
+    description: "Manage and create assessments.",
+  },
+];
+
+// 📌 Title Manager Component
 function TitleManager() {
   const location = useLocation();
   const params = useParams();
@@ -27,16 +71,37 @@ function TitleManager() {
   useEffect(() => {
     const path = location.pathname;
     let title = "School System";
+    let description = "School System dashboard and learning platform.";
 
-    if (path === "/" || path === "/login") title = "Login";
-    else if (path === "/register") title = "Register";
-    else if (path === "/forget") title = "Forgot Password";
-    else if (path === "/otp") title = "Verify OTP";
-    else if (path === "/subjects") title = "Subjects";
-    else if (path.startsWith("/chapter/")) title = `Chapter `;
-    else if (path.startsWith("/assessment/")) title = `Assessment`;
+    // Exact matches first
+    const found = titlesConfig.find((item) => item.path === path);
+    if (found) {
+      title = found.title;
+      description = found.description;
+    }
 
+    // Dynamic routes
+    else if (path.startsWith("/chapter/")) {
+      title = `Chapter ${params.id || ""}`;
+      description = `Study materials for chapter ${params.id || ""}.`;
+    } else if (path.startsWith("/assessment/")) {
+      title = "Assessment";
+      description = "Take assessments to test your knowledge.";
+    }
+
+    // ✅ Set document.title
     document.title = title;
+
+    // ✅ Update meta description
+    const metaDescription = document.querySelector("meta[name='description']");
+    if (metaDescription) {
+      metaDescription.setAttribute("content", description);
+    } else {
+      const meta = document.createElement("meta");
+      meta.name = "description";
+      meta.content = description;
+      document.head.appendChild(meta);
+    }
   }, [location, params]);
 
   return null;
@@ -57,7 +122,7 @@ function RouteChangeLoader({ loadingBarRef }) {
   return null;
 }
 
-// 📌 App Router Wrapper (required to use `useLocation`)
+// 📌 App Router Wrapper
 function AppRoutes({ loadingBarRef }) {
   return (
     <>

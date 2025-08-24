@@ -21,36 +21,31 @@ export default function Breadcrumbs() {
     }
   }, [id]);
 
-  // Generate breadcrumb items
-  const items = [];
+  // 👉 Split current path into parts
+  const pathParts = location.pathname.split("/").filter(Boolean);
 
-  if (location.pathname.includes("/assessment/") && subject) {
-    items.push({
-      label: subject.charAt(0).toUpperCase() + subject.slice(1),
-      link: `/chapter/${subject}`,
-    });
-  }
+  // 👉 Map to breadcrumb items
+  const items = pathParts.map((part, index) => {
+    const to = "/" + pathParts.slice(0, index + 1).join("/");
 
-  if (location.pathname.includes("/assessment/") && chapterId) {
-    items.push({
-      label: chapterId.replace("chapter", "Chapter "),
-      link: null,
-    });
-  }
+    // Human readable labels
+    let label = part;
 
-  if (location.pathname.includes("/assessment/")) {
-    items.push({
-      label: "Assessment",
-      link: null,
-    });
-  }
+    if (part === "subjects") label = "Subjects";
+    else if (part === "chapter" && chapterTitle) label = chapterTitle;
+    else if (part === "chapter") label = "Chapter";
+    else if (part === "assessment") label = "Assessment";
+    else if (part === "assessment-page") label = "Assessment Page";
+    else if (subject && part === subject)
+      label = subject.charAt(0).toUpperCase() + subject.slice(1);
+    else if (chapterId && part === chapterId)
+      label = chapterId.replace("chapter", "Chapter ");
 
-  if (location.pathname.startsWith("/chapter/") && id && chapterTitle) {
-    items.push({
-      label: chapterTitle,
-      link: null,
-    });
-  }
+    return {
+      label,
+      link: index < pathParts.length - 1 ? to : null, // last item no link
+    };
+  });
 
   return (
     <Breadcrumb className="w-full">
