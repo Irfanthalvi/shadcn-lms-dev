@@ -79,7 +79,7 @@ export default function AssessmentPage() {
   return (
     <div className="flex flex-col sm:flex-row h-screen bg-muted/50 text-foreground overflow-hidden">
       {/* Left Sidebar (desktop only) */}
-      <div className="hidden sm:block w-[280px] lg:w-[360px] border-r border-border bg-background p-3 sm:p-6 overflow-y-auto">
+      <div className="hidden sm:block w-[320px] lg:w-[400px] border-r border-border bg-background p-3 sm:p-6 overflow-y-auto">
         <CreateAssessmentForm
           books={books}
           setBooks={setBooks}
@@ -90,7 +90,7 @@ export default function AssessmentPage() {
       {/* Right Content Area */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top Navbar (fixed for mobile + desktop) */}
-        <div className="sticky top-0 z-40 h-16 sm:h-20 flex items-center justify-between px-4 sm:px-6 border-b border-border bg-background">
+        <div className="sticky top-0 h-16 sm:h-20 flex items-center justify-between px-4 sm:px-6 border-b border-border bg-background">
           {/* Left Section: Menu + Title */}
           <div className="flex items-center gap-3">
             {/* Mobile menu */}

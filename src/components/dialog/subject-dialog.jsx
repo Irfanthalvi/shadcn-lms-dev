@@ -22,8 +22,8 @@ const AddBook = ({
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogContent className="sm:max-w-md font-roboto-para">
         <DialogHeader>
-          <DialogTitle className="font-monstrat-hadding">
-            {isEditing ? "Edit Book" : "Add Book"}
+          <DialogTitle className="font-monstrat-hadding text-left">
+            {isEditing ? "Edit Book" : "Add Subject"}
           </DialogTitle>
         </DialogHeader>
 
@@ -35,15 +35,18 @@ const AddBook = ({
             className="font-roboto-para"
           />
 
-          <div className="flex justify-end gap-2">
+          <div className="flex flex-col sm:flex-row justify-end gap-2">
             <Button
               variant="secondary"
               onClick={() => setOpenDialog(false)}
-              className="font-monstrat-hadding"
+              className="w-full sm:w-auto font-monstrat-hadding"
             >
               Cancel
             </Button>
-            <Button onClick={handleAddBook} className="font-monstrat-hadding">
+            <Button
+              onClick={handleAddBook}
+              className="w-full sm:w-auto font-monstrat-hadding"
+            >
               {isEditing ? "Update" : "Add"}
             </Button>
           </div>

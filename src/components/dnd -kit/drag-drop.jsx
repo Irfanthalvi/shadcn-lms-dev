@@ -1,13 +1,7 @@
 "use client";
 
 import React from "react";
-import {
-  Trash2,
-  ChevronDown,
-  ChevronUp,
-  GripVertical,
-  SquarePen,
-} from "lucide-react";
+import { ChevronDown, ChevronUp, GripVertical, SquarePen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -23,6 +17,7 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import DeleteConfirm from "../create-subject-mcqs/ConfirmDelete";
 
 // ----------------- Sortable Chapter Item -----------------
 function SortableChapterItem({
@@ -55,30 +50,44 @@ function SortableChapterItem({
     <div
       ref={setNodeRef}
       style={style}
-      className="flex items-center justify-between py-2 rounded-md hover:bg-muted hover:shadow-sm cursor-pointer transition-colors"
+      className="
+    chapter-item
+    flex items-center justify-between mt-2 h-10 px-5 py-2 rounded-md cursor-pointer transition-colors
+    hover:bg-muted hover:shadow-sm
+  "
       {...attributes}
       {...listeners}
+      onClick={(e) => {
+        // 🔹 pehle sab chapter se active class hatao
+        document
+          .querySelectorAll(".chapter-item")
+          .forEach((el) => el.classList.remove("bg-muted", "shadow-sm"));
+
+        // 🔹 jis chapter pe click hua usko active class do
+        e.currentTarget.classList.add("bg-muted", "shadow-sm");
+
+        // aapka pehla handler bhi call karo
+        onChapterClick(bookIndex, chapterIndex);
+      }}
+      tabIndex={0}
     >
       {/* Chapter title with drag handle */}
-      <div
-        className="flex items-center gap-3 w-full min-w-0"
-        onClick={() => onChapterClick(bookIndex, chapterIndex)}
-      >
-        <GripVertical className="size-4 text-muted-foreground shrink-0 cursor-grab" />
+      <div className="flex items-center gap-3 w-full min-w-0">
+        <GripVertical className="size-4 text-muted-foreground shrink-0 cursor-grab pointer-events-auto" />
         <span className="text-sm font-medium text-foreground truncate hover:text-primary">
           {chapter.title}
         </span>
       </div>
 
       {/* Chapter icons aligned in a single row */}
-      <div className="flex items-center gap-3 shrink-0">
+      <div className="flex items-center gap-3 shrink-0 pointer-events-auto">
         <SquarePen
           className="size-4 text-muted-foreground cursor-pointer hover:text-foreground"
           onClick={() => openChapterModal(bookIndex, chapterIndex)}
         />
-        <Trash2
-          className="size-4 text-destructive cursor-pointer hover:text-red-600"
-          onClick={() => handleDeleteChapter(bookIndex, chapterIndex)}
+        <DeleteConfirm
+          type="chapter"
+          onConfirm={() => handleDeleteChapter(bookIndex, chapterIndex)}
         />
         <Button variant="ghost" size="icon">
           <ChevronDown className="size-4" />
@@ -112,7 +121,7 @@ function ChapterSortableList({
         strategy={verticalListSortingStrategy}
       >
         {/* Responsive padding: pl-0 on mobile, pl-5 on sm+ */}
-        <div className="pl-0 sm:pl-5 space-y-2">
+        <div className="pl-5 space-y-2">
           {chapters.map((chap, cIndex) => (
             <SortableChapterItem
               key={chap.title}
@@ -131,7 +140,7 @@ function ChapterSortableList({
             onClick={() => openChapterModal(bookIndex)}
           >
             <div className="flex items-center gap-3 w-full min-w-0">
-              <label className="text-sm text-primary font-medium p-1">
+              <label className="text-sm text-primary font-medium p-1 cursor-pointer">
                 + Add Chapter
               </label>
             </div>
@@ -185,18 +194,22 @@ function SortableBook({
     >
       {/* Book header */}
       <div
-        className="flex items-center justify-between py-3 h-12 rounded-md hover:bg-muted hover:shadow-sm cursor-pointer transition-colors"
+        className="flex items-center  justify-between p-5 h-12 rounded-md
+             cursor-pointer transition-colors
+             hover:bg-muted hover:shadow-sm
+             active:bg-muted active:shadow-sm
+             focus-within:bg-muted focus-within:shadow-sm"
         onClick={() => toggleExpand(index)}
+        tabIndex={0} // keyboard focus ke liye
       >
         <div className="flex items-center gap-3 w-full min-w-0">
-          <GripVertical className="size-4 text-muted-foreground shrink-0 cursor-grab" />
+          <GripVertical className="size-4 text-muted-foreground shrink-0 cursor-grab pointer-events-auto" />
           <span className="text-base font-medium text-foreground truncate hover:text-primary">
             {book.title}
           </span>
         </div>
 
-        {/* Book icons */}
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-3 shrink-0 pointer-events-auto">
           <SquarePen
             className="size-4 text-muted-foreground cursor-pointer hover:text-foreground"
             onClick={() => {
@@ -205,9 +218,9 @@ function SortableBook({
               setOpenDialog(true);
             }}
           />
-          <Trash2
-            className="size-4 text-destructive cursor-pointer"
-            onClick={() => handleDeleteBook(index)}
+          <DeleteConfirm
+            type="book"
+            onConfirm={() => handleDeleteBook(index)}
           />
           <Button variant="ghost" size="icon">
             {expandedIndex === index ? (

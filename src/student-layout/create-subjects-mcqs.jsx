@@ -8,7 +8,7 @@ import DataTable from "@/components/create-subject-mcqs/data-table";
 
 const PER_PAGE = 5;
 
-export default function Listing() {
+export default function Assessment() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
@@ -26,7 +26,9 @@ export default function Listing() {
         <p className="text-sm text-muted-foreground">
           You have {filtered.length} assessments
         </p>
-        <Button onClick={() => navigate("/assessment-page")}>+ Add Assessment</Button>
+        <Button onClick={() => navigate("/assessment-page")}>
+          + Add Assessment
+        </Button>
       </div>
 
       <div className="flex flex-col md:flex-row justify-between gap-4 mb-4">

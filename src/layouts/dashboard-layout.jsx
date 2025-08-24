@@ -109,7 +109,7 @@ const DashboardLayout = ({ children }) => {
               {isSidebarOpen && "Subjects"}
             </NavLink>
             <NavLink
-              to="/listing"
+              to="/assessment"
               className={({ isActive }) =>
                 `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium transition-colors font-monstrat-hadding
                  ${
@@ -120,7 +120,7 @@ const DashboardLayout = ({ children }) => {
               }
             >
               <List size={20} />
-              {isSidebarOpen && "Listing"}
+              {isSidebarOpen && "Assessment"}
             </NavLink>
           </nav>
         </aside>
@@ -220,10 +220,7 @@ const DashboardLayout = ({ children }) => {
 
       {/* Profile Modal (Global Layer) */}
       {isModalOpen && (
-        <ProfileModal
-          setIsModalOpen={setIsModalOpen}
-          setProfile={setProfile}
-        />
+        <ProfileModal setIsModalOpen={setIsModalOpen} setProfile={setProfile} />
       )}
     </div>
   );

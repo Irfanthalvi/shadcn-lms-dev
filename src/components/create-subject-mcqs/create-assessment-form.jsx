@@ -16,7 +16,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 
-import AddBook from "../dialog/book-dialog";
+import AddBook from "../dialog/subject-dialog";
 import AddChapter from "../dialog/chapter-dialog";
 import { SortableBook } from "../dnd -kit/drag-drop";
 
@@ -217,14 +217,14 @@ const CreateAssessmentForm = ({ books, setBooks, onChapterClick }) => {
       {/* ✅ Responsive Add Button */}
       <div>
         <Button
-          className="fixed bottom-4 "
+          className="fixed bottom-4 w-full max-w-75 sm:max-w-50"
           onClick={() => {
             setEditingBookIndex(null);
             setNewBook("");
             setOpenDialog(true);
           }}
         >
-          Add Book
+          Add Subject
         </Button>
       </div>
 

@@ -16,7 +16,7 @@ const AuthLayout = lazy(() => import("@/layouts/auth-layout"));
 const DashboardLayout = lazy(() => import("@/layouts/dashboard-layout"));
 const LoginPage = lazy(() => import("@/auth-layout/component"));
 const Subject = lazy(() => import("@/student-layout/subject"));
-const Listing = lazy(() => import("@/student-layout/create-subjects-mcqs"));
+const Assessment = lazy(() => import("@/student-layout/create-subjects-mcqs"));
 const SubjectChapters = lazy(() => import("@/components/subject/chapter"));
 
 // 📌 Title Manager Component (Inline)
@@ -136,15 +136,21 @@ function AppRoutes({ loadingBarRef }) {
             }
           />
           <Route
-            path="/listing"
+            path="/assessment"
             element={
               <DashboardLayout>
-                <Listing />
+                <Assessment />
               </DashboardLayout>
             }
           />
-          <Route path="/assessment-page" element={<AssessmentPage />} />
-          {/* <Route path="/assessmentpage" element={<DashboardLayout><AssessmentPage /></DashboardLayout>} /> */}
+          <Route
+            path="/assessment-page"
+            element={
+              // <DashboardLayout>
+              <AssessmentPage />
+              // </DashboardLayout>
+            }
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

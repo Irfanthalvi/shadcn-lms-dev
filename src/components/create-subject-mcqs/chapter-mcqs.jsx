@@ -123,13 +123,15 @@ export default function ChapterMCQs({ chapter, setDrawerOpen }) {
         </SortableContext>
       </DndContext>
 
-      {/* Floating Button */}
-      <Button
-        onClick={() => setDrawerOpen(true)}
-        className="fixed bottom-5 right-5 sm:right-8"
-      >
-        Add More
-      </Button>
+      {/* Responsive Button */}
+      <div className="mt-8 flex justify-center lg:justify-start">
+        <Button
+          onClick={() => setDrawerOpen(true)}
+          className="w-full lg:w-auto"
+        >
+          Add More
+        </Button>
+      </div>
     </div>
   );
 }
