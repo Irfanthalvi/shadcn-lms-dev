@@ -217,7 +217,7 @@ const CreateAssessmentForm = ({ books, setBooks, onChapterClick }) => {
       {/* ✅ Responsive Add Button */}
       <div>
         <Button
-          className="fixed bottom-4 w-full max-w-75 sm:max-w-50"
+          className="fixed bottom-4 w-full max-w-70 sm:max-w-50"
           onClick={() => {
             setEditingBookIndex(null);
             setNewBook("");

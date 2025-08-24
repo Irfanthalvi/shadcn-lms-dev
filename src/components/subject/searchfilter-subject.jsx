@@ -18,7 +18,7 @@ const SearchFilterSubject = ({
   subjects,
 }) => {
   return (
-    <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+    <div className=" w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
       {/* Search Input (same size as filter) */}
       <div className="w-full sm:w-56">
         <Input
@@ -26,20 +26,26 @@ const SearchFilterSubject = ({
           placeholder="Search subjects..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full"
+          className="w-full "
         />
       </div>
 
       {/* Filter Dropdown (same size as search) */}
       <div className="w-full sm:w-56">
         <Select value={filter} onValueChange={setFilter}>
-          <SelectTrigger className="w-full">
+          <SelectTrigger className="w-full cursor-pointer">
             <SelectValue placeholder="Filter by subject" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Subjects</SelectItem>
+            <SelectItem value="all" className={"cursor-pointer"}>
+              All Subjects
+            </SelectItem>
             {subjects.map((sub) => (
-              <SelectItem key={sub.id} value={sub.label.toLowerCase()}>
+              <SelectItem
+                className={"cursor-pointer"}
+                key={sub.id}
+                value={sub.label.toLowerCase()}
+              >
                 {sub.label}
               </SelectItem>
             ))}
