@@ -17,7 +17,7 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import DeleteConfirm from "../create-subject-mcqs/ConfirmDelete";
+import DeleteConfirm from "@/components/create-subject-mcqs/ConfirmDelete";
 
 // ----------------- Sortable Chapter Item -----------------
 function SortableChapterItem({

@@ -211,9 +211,9 @@ function AppRoutes({ loadingBarRef }) {
           <Route
             path="/assessment-page"
             element={
-              // <DashboardLayout>
-              <AssessmentPage />
-              /* </DashboardLayout> */
+              <DashboardLayout>
+                <AssessmentPage />
+              </DashboardLayout>
             }
           />
           <Route path="*" element={<NotFound />} />

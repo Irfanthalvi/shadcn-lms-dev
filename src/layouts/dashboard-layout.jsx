@@ -229,7 +229,7 @@ const DashboardLayout = ({ children }) => {
           </header>
 
           {/* Page Content */}
-          <div className="flex-1 overflow-y-auto p-4">
+          <div className="flex-1 overflow-y-auto">
             {loading ? (
               <div className="h-full flex items-center justify-center text-muted-foreground">
                 <Loader className="w-6 h-6 mr-2 animate-spin" />

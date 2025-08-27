@@ -177,7 +177,8 @@ const CreateAssessmentForm = ({ books, setBooks, onChapterClick }) => {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-3 sm:p-6 flex flex-col gap-6">
+    <div className="w-full h-full flex flex-col">
+      {/* Books List (scrollable area) */}
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -188,7 +189,7 @@ const CreateAssessmentForm = ({ books, setBooks, onChapterClick }) => {
           strategy={verticalListSortingStrategy}
         >
           <div
-            className="flex flex-col divide-y w-full max-h-[75vh] sm:max-h-[calc(100vh-120px)] overflow-y-auto"
+            className="flex-1 flex flex-col divide-y overflow-y-auto px-3 sm:px-4"
             style={{ touchAction: "none" }}
           >
             {books.map((book, index) => (
@@ -214,10 +215,10 @@ const CreateAssessmentForm = ({ books, setBooks, onChapterClick }) => {
         </SortableContext>
       </DndContext>
 
-      {/* ✅ Responsive Add Button */}
-      <div>
+      {/* Add Button (sticky at bottom inside sidebar) */}
+      <div className="p-3 border-t bg-background sticky bottom-0">
         <Button
-          className="fixed bottom-4 w-full max-w-70 sm:max-w-50"
+          className="w-full"
           onClick={() => {
             setEditingBookIndex(null);
             setNewBook("");
@@ -228,6 +229,7 @@ const CreateAssessmentForm = ({ books, setBooks, onChapterClick }) => {
         </Button>
       </div>
 
+      {/* Dialogs */}
       <AddBook
         newBook={newBook}
         setNewBook={setNewBook}

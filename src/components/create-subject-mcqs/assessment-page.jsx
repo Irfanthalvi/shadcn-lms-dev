@@ -26,10 +26,9 @@ export default function AssessmentPage() {
     }))
   );
 
-  const [drawerOpen, setDrawerOpen] = useState(false); // Add Question Drawer
-  const [leftSheetOpen, setLeftSheetOpen] = useState(false); // Mobile left sheet
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedChapter, setSelectedChapter] = useState(null);
-  const [previewQuestionDrawer, setPreviewQuestionDrawer] = useState(false); // Preview Drawer
+  const [previewQuestionDrawer, setPreviewQuestionDrawer] = useState(false);
 
   // Add Question Handler
   const handleAddQuestion = (newData) => {
@@ -73,13 +72,17 @@ export default function AssessmentPage() {
       title: chapter.title,
       questions: chapter.questions || [],
     });
-    setLeftSheetOpen(false); // close mobile sheet
   };
 
   return (
-    <div className="flex flex-col sm:flex-row h-screen bg-muted/50 text-foreground overflow-hidden">
-      {/* Left Sidebar (desktop only) */}
-      <div className="hidden sm:block w-[320px] lg:w-[400px] border-r border-border bg-background p-3 sm:p-6 overflow-y-auto">
+    <div className="flex flex-col sm:flex-row h-[90vh] bg-muted/50 text-foreground overflow-hidden">
+      {/* ✅ LEFT SIDEBAR (desktop always visible, mobile only if no chapter selected) */}
+      <div
+        className={`
+          w-full sm:w-[320px] lg:w-[400px] border-r border-border bg-background p-3 sm:p-6 overflow-y-auto
+          ${selectedChapter ? "hidden sm:block" : "block"}
+        `}
+      >
         <CreateAssessmentForm
           books={books}
           setBooks={setBooks}
@@ -87,73 +90,69 @@ export default function AssessmentPage() {
         />
       </div>
 
-      {/* Right Content Area */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Top Navbar (fixed for mobile + desktop) */}
-        <div className="sticky top-0 h-16 sm:h-20 flex items-center justify-between px-4 sm:px-6 border-b border-border bg-background">
-          {/* Left Section: Menu + Title */}
-          <div className="flex items-center gap-3">
-            {/* Mobile menu */}
-            <div className="sm:hidden">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setLeftSheetOpen(true)}
-              >
-                <Menu className="size-5" />
-              </Button>
+      {/* ✅ RIGHT CONTENT (desktop always visible, mobile only if chapter selected) */}
+      <div
+        className={`
+          flex-1 flex flex-col overflow-hidden
+          ${selectedChapter ? "block" : "hidden sm:block"}
+        `}
+      >
+        {selectedChapter ? (
+          <>
+            {/* Top Navbar */}
+            <div className="sticky top-0 h-16 sm:h-20 flex items-center justify-between px-4 sm:px-6 border-b border-border bg-background">
+              {/* Left Section: Back on mobile + Title */}
+              <div className="flex items-center gap-3">
+                {/* Mobile back button */}
+                <div className="sm:hidden">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setSelectedChapter(null)}
+                  >
+                    ←
+                  </Button>
+                </div>
+                <h2 className="text-base sm:text-lg font-medium truncate">
+                  {selectedChapter.title}
+                </h2>
+              </div>
+
+              {/* Right Section: Preview button */}
+              <div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setPreviewQuestionDrawer(true)}
+                >
+                  <Eye className="size-4 mr-2" />
+                  Preview
+                </Button>
+              </div>
             </div>
-            {/* left Section: Preview button */}
-            <h2 className="text-base sm:text-lg font-medium truncate">
-              {selectedChapter ? selectedChapter.title : "Select Chapter"}
-            </h2>
-          </div>
 
-          {/* Right Section: Preview button */}
-          <div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setPreviewQuestionDrawer(true)}
-              disabled={!selectedChapter}
-            >
-              <Eye className="size-4 mr-2" />
-              Preview
-            </Button>
-          </div>
-        </div>
-
-        {/* Chapter Questions (scrollable) */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6">
-          <ChapterMCQs
-            chapter={selectedChapter}
-            setDrawerOpen={setDrawerOpen}
-          />
-        </div>
-      </div>
-
-      {/* ✅ Mobile Sheet (sidebar for small devices) */}
-      <div className="sm:hidden">
-        <Sheet open={leftSheetOpen} onOpenChange={setLeftSheetOpen}>
-          <SheetContent
-            side="left"
-            className="h-screen w-full max-w-md border-r bg-background flex flex-col"
-          >
-            <SheetHeader className="flex justify-between items-center border-b px-4 py-3">
-              <SheetTitle className="text-lg font-semibold">
-                Books & Chapters
-              </SheetTitle>
-            </SheetHeader>
-
-            <div className="flex-1 overflow-y-auto px-4 py-4">
-              <CreateAssessmentForm
-                books={books}
-                setBooks={setBooks}
-                onChapterClick={handleChapterClick}
+            {/* Chapter Questions */}
+            <div className="flex-1 overflow-y-auto sm:p-6">
+              <ChapterMCQs
+                chapter={selectedChapter}
+                setDrawerOpen={setDrawerOpen}
               />
             </div>
-          </SheetContent>
-        </Sheet>
+          </>
+        ) : (
+          // Placeholder for desktop when no chapter selected
+          <div className="hidden sm:flex flex-1 h-full flex-col items-center justify-center text-center">
+            <img
+              src="/data-not-found.svg"
+              alt="No data"
+              className="w-48 h-48 object-contain mb-4"
+            />
+            <h1 className="text-2xl font-bold">No Data Found</h1>
+            <p className="text-base text-muted-foreground">
+              Sorry, no assessments were found for your criteria.
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Add Question Drawer */}
@@ -163,7 +162,7 @@ export default function AssessmentPage() {
         onSubmit={handleAddQuestion}
       />
 
-      {/* Preview Question Drawer */}
+      {/* Preview Drawer */}
       <QuestionDrawer
         open={previewQuestionDrawer}
         onClose={() => setPreviewQuestionDrawer(false)}
