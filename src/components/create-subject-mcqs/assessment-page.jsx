@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Eye, Menu } from "lucide-react";
+import { Eye, Menu, SkipBack } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -79,7 +79,7 @@ export default function AssessmentPage() {
       {/* ✅ LEFT SIDEBAR (desktop always visible, mobile only if no chapter selected) */}
       <div
         className={`
-          w-full sm:w-[320px] lg:w-[400px] border-r border-border bg-background p-3 sm:p-6 overflow-y-auto
+          w-full sm:w-[320px] lg:w-[400px] border-r border-border bg-background pt-6 p-2  overflow-y-auto
           ${selectedChapter ? "hidden sm:block" : "block"}
         `}
       >
@@ -100,7 +100,7 @@ export default function AssessmentPage() {
         {selectedChapter ? (
           <>
             {/* Top Navbar */}
-            <div className="sticky top-0 h-16 sm:h-20 flex items-center justify-between px-4 sm:px-6 border-b border-border bg-background">
+            <div className="sticky top-0 h-20 sm:h-20 flex items-center justify-between px-4 sm:px-6 border-b border-border bg-background">
               {/* Left Section: Back on mobile + Title */}
               <div className="flex items-center gap-3">
                 {/* Mobile back button */}
@@ -110,7 +110,7 @@ export default function AssessmentPage() {
                     size="icon"
                     onClick={() => setSelectedChapter(null)}
                   >
-                    ←
+                    <SkipBack />
                   </Button>
                 </div>
                 <h2 className="text-base sm:text-lg font-medium truncate">
@@ -132,7 +132,7 @@ export default function AssessmentPage() {
             </div>
 
             {/* Chapter Questions */}
-            <div className="flex-1 overflow-y-auto sm:p-6">
+            <div className="flex-1 overflow-y-auto">
               <ChapterMCQs
                 chapter={selectedChapter}
                 setDrawerOpen={setDrawerOpen}
@@ -141,7 +141,7 @@ export default function AssessmentPage() {
           </>
         ) : (
           // Placeholder for desktop when no chapter selected
-          <div className="hidden sm:flex flex-1 h-full flex-col items-center justify-center text-center">
+          <div className=" bg-background hidden sm:flex flex-1 h-full flex-col items-center justify-center text-center">
             <img
               src="/data-not-found.svg"
               alt="No data"

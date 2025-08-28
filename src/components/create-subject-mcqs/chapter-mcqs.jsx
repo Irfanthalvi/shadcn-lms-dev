@@ -86,7 +86,7 @@ export default function ChapterMCQs({ chapter, setDrawerOpen }) {
 
   if (!chapter) {
     return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center text-center text-muted-foreground px-4">
+      <div className=" bg-background min-h-[60vh] flex flex-col items-center justify-center text-center text-muted-foreground px-4">
         <img
           src="/data-not-found.svg"
           alt="No data"
@@ -99,7 +99,7 @@ export default function ChapterMCQs({ chapter, setDrawerOpen }) {
   }
 
   return (
-    <div className="relative px-4 sm:px-6 lg:px-8 pb-20">
+    <div className=" bg-background relative p-10 h-full">
       {/* Scrollable Questions */}
       <DndContext
         sensors={sensors}
@@ -124,7 +124,7 @@ export default function ChapterMCQs({ chapter, setDrawerOpen }) {
       </DndContext>
 
       {/* Responsive Button */}
-      <div className="mt-8 flex justify-center lg:justify-start">
+      <div className="pb-5 mt-8 flex justify-center lg:justify-start">
         <Button
           onClick={() => setDrawerOpen(true)}
           className="w-full lg:w-auto"
