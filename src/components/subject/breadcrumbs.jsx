@@ -51,6 +51,19 @@ export default function Breadcrumbs() {
       link: null,
     });
   }
+  if (location.pathname === "/create-assessment") {
+    items.push({
+      label: "Create Assessment",
+      link: null,
+    });
+  }
+
+  if (location.pathname === "/assessment-page") {
+    items.push({
+      label: "Assessment Page",
+      link: null,
+    });
+  }
 
   return (
     <Breadcrumb className="w-full">

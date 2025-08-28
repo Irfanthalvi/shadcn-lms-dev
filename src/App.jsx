@@ -201,7 +201,7 @@ function AppRoutes({ loadingBarRef }) {
             }
           />
           <Route
-            path="/assessment"
+            path="/create-assessment"
             element={
               <DashboardLayout>
                 <Assessment />

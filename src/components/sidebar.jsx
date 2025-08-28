@@ -55,7 +55,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
         </NavLink>
 
         <NavLink
-          to="/assessment"
+          to="/create-assessment"
           onClick={closeSidebar}
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium transition-colors font-monstrat-hadding 
@@ -67,7 +67,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
           }
         >
           <List size={20} />
-          {isSidebarOpen && "Assessment"}
+          {isSidebarOpen && "Create-Assessment"}
         </NavLink>
       </nav>
     </aside>
