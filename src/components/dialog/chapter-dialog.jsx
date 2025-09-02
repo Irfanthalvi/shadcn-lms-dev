@@ -113,10 +113,12 @@ const AddChapter = ({
 
           {/* Actions */}
           <div className="flex justify-end gap-2 pt-2">
-            <Button type="button" variant="secondary" onClick={handleClose}>
+            <Button type="button" onClick={handleClose}>
               Cancel
             </Button>
-            <Button type="submit">{isEditing ? "Update" : "Add"}</Button>
+            <Button type="submit" variant="destructive">
+              {isEditing ? "Update" : "Add"}
+            </Button>
           </div>
         </form>
       </DialogContent>

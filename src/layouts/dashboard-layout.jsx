@@ -55,34 +55,31 @@ const DashboardLayout = ({ children }) => {
 
   return (
     <div className="flex min-h-screen bg-background text-foreground relative">
-      <div
-        className={`flex flex-1 transition-all duration-300 ${
-          isModalOpen ? "blur-sm opacity-30 pointer-events-none" : ""
-        }`}
-      >
-        {/* Sidebar Overlay (Mobile) */}
-        {isMobile && isSidebarOpen && (
-          <div
-            className="fixed inset-0 z-40 bg-black/40"
-            onClick={toggleSidebar}
-          />
-        )}
+      {/* Sidebar (Fixed) */}
+      <Sidebar
+        isSidebarOpen={isSidebarOpen}
+        isMobile={isMobile}
+        toggleSidebar={toggleSidebar}
+        closeSidebar={closeSidebar}
+        className="fixed left-0 top-0 h-full z-40"
+      />
 
-        {/* Sidebar */}
-        <Sidebar
-          isSidebarOpen={isSidebarOpen}
-          isMobile={isMobile}
-          toggleSidebar={toggleSidebar}
-          closeSidebar={closeSidebar}
+      {/* Overlay (Mobile) */}
+      {isMobile && isSidebarOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black/40"
+          onClick={toggleSidebar}
         />
+      )}
 
-        {/* Main Content */}
-        <main
-          className={`flex flex-col flex-1 min-w-0 transition-all duration-300
-            ${!isMobile && (isSidebarOpen ? "ml-[260px]" : "ml-[70px]")}
-          `}
-        >
-          {/* Topbar */}
+      {/* Main Content */}
+      <main
+        className={`flex flex-col flex-1 min-w-0 transition-all duration-300 ml-0
+          ${!isMobile && (isSidebarOpen ? "ml-[260px]" : "ml-[70px]")}
+        `}
+      >
+        {/* Topbar (Sticky) */}
+        <div className="sticky top-0 z-30 bg-background border-b">
           <Topbar
             toggleSidebar={toggleSidebar}
             dropdownRef={dropdownRef}
@@ -92,20 +89,20 @@ const DashboardLayout = ({ children }) => {
             profile={profile}
             isMobile={isMobile}
           />
+        </div>
 
-          {/* Page Content */}
-          <div className="flex-1 overflow-y-auto">
-            {loading ? (
-              <div className="h-full flex items-center justify-center text-muted-foreground">
-                <Loader className="w-6 h-6 mr-2 animate-spin" />
-                Loading page...
-              </div>
-            ) : (
-              children
-            )}
-          </div>
-        </main>
-      </div>
+        {/* Page Content (Scrollable) */}
+        <div className="flex-1 overflow-y-auto">
+          {loading ? (
+            <div className="h-full flex items-center justify-center text-muted-foreground">
+              <Loader className="w-6 h-6 mr-2 animate-spin" />
+              Loading page...
+            </div>
+          ) : (
+            children
+          )}
+        </div>
+      </main>
 
       {/* Profile Modal */}
       {isModalOpen && (

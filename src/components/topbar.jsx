@@ -1,5 +1,3 @@
-"use client";
-import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { FaChevronDown } from "react-icons/fa";
 import { LogOut, Settings } from "lucide-react";
@@ -14,7 +12,6 @@ const Topbar = ({
   setIsDropdownOpen,
   setIsModalOpen,
   profile,
-  isMobile,
 }) => {
   return (
     <header className="sticky top-0 z-30 flex items-center justify-between h-[75px] px-4 border-b border-border bg-background">

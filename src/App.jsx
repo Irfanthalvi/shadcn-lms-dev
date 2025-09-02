@@ -57,8 +57,8 @@ const titlesConfig = [
     description: "Manage and create assessment page.",
   },
   {
-    path: "/assessment",
-    title: "Assessments",
+    path: "/create-assessment",
+    title: "Create-Assessment",
     description: "Manage and create assessments.",
   },
 ];

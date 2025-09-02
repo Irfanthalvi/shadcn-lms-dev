@@ -122,11 +122,7 @@ const SubjectChapters = () => {
 
       {hasMore && (
         <div className="flex justify-center mt-6">
-          <Button
-            variant="ghost"
-            onClick={handleLoadMore}
-            className="bg-muted text-muted-foreground hover:bg-muted/80 font-monstrat-hadding"
-          >
+          <Button onClick={handleLoadMore} className=" font-monstrat-hadding">
             Load More
           </Button>
         </div>

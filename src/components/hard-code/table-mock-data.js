@@ -1,5 +1,6 @@
 export const assessments = [
   {
+    id: 1,
     title: "Treatment Modalities & Basic Principles",
     subtitle: "Module-End Quiz",
     avgScore: 93,
@@ -9,6 +10,7 @@ export const assessments = [
     lastUpdated: "Apr 15, 2025",
   },
   {
+    id: 2,
     title: "Treatment Modalities & Basic Principles",
     subtitle: "Final Comprehensive Assessment",
     avgScore: 67,
@@ -18,6 +20,7 @@ export const assessments = [
     lastUpdated: "Apr 14, 2025",
   },
   {
+    id: 3,
     title: "Physiotherapy Fundamentals",
     subtitle: "Final Comprehensive Assessment",
     avgScore: 29,
@@ -27,6 +30,7 @@ export const assessments = [
     lastUpdated: "Apr 13, 2025",
   },
   {
+    id: 4,
     title: "Rehab & Conditioning Training",
     subtitle: "Exercise Selection Quiz",
     avgScore: 73,
@@ -36,6 +40,7 @@ export const assessments = [
     lastUpdated: "Apr 12, 2025",
   },
   {
+    id: 5,
     title: "Rehab & Conditioning Training",
     subtitle: "Final Assessment",
     avgScore: 35,
@@ -45,6 +50,7 @@ export const assessments = [
     lastUpdated: "Apr 11, 2025",
   },
   {
+    id: 6,
     title: "Clinical Pilates Principles",
     subtitle: "Principles & Alignment Quiz",
     avgScore: 90,
@@ -54,6 +60,7 @@ export const assessments = [
     lastUpdated: "Apr 10, 2025",
   },
   {
+    id: 7,
     title: "Clinical Pilates Principles",
     subtitle: "Final Assessment",
     avgScore: 93,

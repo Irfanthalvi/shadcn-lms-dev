@@ -48,10 +48,10 @@ const DeleteConfirm = ({ type, onConfirm }) => {
         </DialogHeader>
 
         <DialogFooter className="sm:justify-end">
-          <Button variant="outline" onClick={() => setOpen(false)}>
-            Cancel
+          <Button onClick={() => setOpen(false)}>Cancel</Button>
+          <Button onClick={handleDelete} variant="destructive">
+            Delete
           </Button>
-          <Button onClick={handleDelete}>Confirm Delete</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

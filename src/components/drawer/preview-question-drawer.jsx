@@ -29,7 +29,7 @@ const QuestionDrawer = ({ open, onClose, chapter }) => {
             </DrawerDescription>
           </DrawerHeader>
           <DrawerClose asChild>
-            <Button variant="ghost" size="icon" onClick={onClose}>
+            <Button size="icon" onClick={onClose}>
               <X className="size-5" />
             </Button>
           </DrawerClose>

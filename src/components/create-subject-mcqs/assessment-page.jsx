@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Eye, Menu, SkipBack } from "lucide-react";
+import { Eye, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -14,7 +14,7 @@ import ChapterMCQs from "./chapter-mcqs";
 import { bookMockData } from "../hard-code/book-mock-data";
 import { chapterMockData } from "../hard-code/chapter-mock-data";
 
-import CreateDrawer from "@/components/drawer/question-drawer"; // Add Question Drawer
+import CreateDrawer from "@/components/drawer/question-drawer"; // Add/Edit Drawer
 import QuestionDrawer from "@/components/drawer/preview-question-drawer"; // Preview Drawer
 import CreateAssessmentForm from "@/components/create-subject-mcqs/create-assessment-form"; // Left Sidebar/Sheet Content
 
@@ -28,7 +28,9 @@ export default function AssessmentPage() {
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedChapter, setSelectedChapter] = useState(null);
+  const [editingQuestion, setEditingQuestion] = useState(null);
   const [previewQuestionDrawer, setPreviewQuestionDrawer] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Add Question Handler
   const handleAddQuestion = (newData) => {
@@ -41,25 +43,31 @@ export default function AssessmentPage() {
       options: newData.options,
     };
 
+    const updatedQuestions = [
+      ...(selectedChapter.questions || []),
+      newQuestion,
+    ];
+    updateChapterQuestions(updatedQuestions);
+  };
+
+  // Update Chapter Questions
+  const updateChapterQuestions = (updatedQuestions) => {
+    if (!selectedChapter) return;
+
     setBooks((prevBooks) =>
       prevBooks.map((book, bIndex) => {
         if (bIndex !== selectedChapter.bookIndex) return book;
-
         const updatedChapters = book.chapters.map((chapter, cIndex) => {
           if (cIndex !== selectedChapter.chapterIndex) return chapter;
-          return {
-            ...chapter,
-            questions: [...(chapter.questions || []), newQuestion],
-          };
+          return { ...chapter, questions: updatedQuestions };
         });
-
         return { ...book, chapters: updatedChapters };
       })
     );
 
     setSelectedChapter((prev) => ({
       ...prev,
-      questions: [...(prev.questions || []), newQuestion],
+      questions: updatedQuestions,
     }));
   };
 
@@ -72,17 +80,13 @@ export default function AssessmentPage() {
       title: chapter.title,
       questions: chapter.questions || [],
     });
+    setSidebarOpen(false);
   };
 
   return (
-    <div className="flex flex-col sm:flex-row h-[90vh] bg-muted/50 text-foreground overflow-hidden">
-      {/* ✅ LEFT SIDEBAR (desktop always visible, mobile only if no chapter selected) */}
-      <div
-        className={`
-          w-full sm:w-[320px] lg:w-[400px] border-r border-border bg-background pt-6 p-2  overflow-y-auto
-          ${selectedChapter ? "hidden sm:block" : "block"}
-        `}
-      >
+    <div className="flex flex-col sm:flex-row h-[85vh] bg-muted/50 text-foreground overflow-hidden">
+      {/* LEFT SIDEBAR */}
+      <div className="hidden sm:block w-[320px] lg:w-[400px] border-r border-border bg-background pt-6 overflow-y-auto">
         <CreateAssessmentForm
           books={books}
           setBooks={setBooks}
@@ -90,27 +94,34 @@ export default function AssessmentPage() {
         />
       </div>
 
-      {/* ✅ RIGHT CONTENT (desktop always visible, mobile only if chapter selected) */}
-      <div
-        className={`
-          flex-1 flex flex-col overflow-hidden
-          ${selectedChapter ? "block" : "hidden sm:block"}
-        `}
-      >
+      {/* Mobile Sidebar */}
+      <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
+        <SheetContent side="left" className="p-0 w-[300px] sm:hidden">
+          <SheetHeader>
+            <SheetTitle className="px-4 pt-4 text-lg font-semibold">
+              Select Chapter
+            </SheetTitle>
+          </SheetHeader>
+          <div className="h-full overflow-y-auto">
+            <CreateAssessmentForm
+              books={books}
+              setBooks={setBooks}
+              onChapterClick={handleChapterClick}
+            />
+          </div>
+        </SheetContent>
+      </Sheet>
+
+      {/* RIGHT CONTENT */}
+      <div className="flex-1 flex flex-col overflow-hidden">
         {selectedChapter ? (
           <>
             {/* Top Navbar */}
-            <div className="sticky top-0 h-20 sm:h-20 flex items-center justify-between px-4 sm:px-6 border-b border-border bg-background">
-              {/* Left Section: Back on mobile + Title */}
+            <div className="sticky top-0 h-20 flex items-center justify-between px-4 sm:px-6 border-b border-border bg-background">
               <div className="flex items-center gap-3">
-                {/* Mobile back button */}
                 <div className="sm:hidden">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setSelectedChapter(null)}
-                  >
-                    <SkipBack />
+                  <Button size="icon" onClick={() => setSidebarOpen(true)}>
+                    <Menu />
                   </Button>
                 </div>
                 <h2 className="text-base sm:text-lg font-medium truncate">
@@ -118,10 +129,8 @@ export default function AssessmentPage() {
                 </h2>
               </div>
 
-              {/* Right Section: Preview button */}
               <div>
                 <Button
-                  variant="outline"
                   size="sm"
                   onClick={() => setPreviewQuestionDrawer(true)}
                 >
@@ -136,12 +145,18 @@ export default function AssessmentPage() {
               <ChapterMCQs
                 chapter={selectedChapter}
                 setDrawerOpen={setDrawerOpen}
+                setEditingQuestion={setEditingQuestion}
+                onUpdateQuestions={updateChapterQuestions}
               />
             </div>
           </>
         ) : (
-          // Placeholder for desktop when no chapter selected
-          <div className=" bg-background hidden sm:flex flex-1 h-full flex-col items-center justify-center text-center">
+          <div className="bg-background flex-1 h-full flex flex-col items-center justify-center text-center relative">
+            <div className="sm:hidden absolute top-4 left-4 ">
+              <Button size="icon" onClick={() => setSidebarOpen(true)}>
+                <Menu />
+              </Button>
+            </div>
             <img
               src="/data-not-found.svg"
               alt="No data"
@@ -155,11 +170,24 @@ export default function AssessmentPage() {
         )}
       </div>
 
-      {/* Add Question Drawer */}
+      {/* Add/Edit Drawer */}
       <CreateDrawer
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
-        onSubmit={handleAddQuestion}
+        onSubmit={(data) => {
+          if (editingQuestion) {
+            // EDIT
+            const updated = selectedChapter.questions.map((q) =>
+              q.id === editingQuestion.id ? { ...q, ...data } : q
+            );
+            updateChapterQuestions(updated);
+          } else {
+            // ADD
+            handleAddQuestion(data);
+          }
+          setEditingQuestion(null);
+        }}
+        question={editingQuestion}
       />
 
       {/* Preview Drawer */}

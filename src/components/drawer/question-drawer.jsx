@@ -1,23 +1,16 @@
 "use client";
 
 import { useEffect } from "react";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerClose,
-} from "@/components/ui/drawer";
+import { Drawer, DrawerContent, DrawerClose } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from "@/components/ui/radio-group";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Plus, Trash, X } from "lucide-react";
 import { useForm, useFieldArray } from "react-hook-form";
 
-const CreateDrawer = ({ open, onClose, onSubmit }) => {
+const CreateDrawer = ({ open, onClose, onSubmit, question }) => {
   const {
     register,
     control,
@@ -43,37 +36,46 @@ const CreateDrawer = ({ open, onClose, onSubmit }) => {
   });
 
   useEffect(() => {
-    if (!open) reset();
-  }, [open, reset]);
+    if (question) {
+      reset(question);
+    } else if (!open) {
+      reset();
+    }
+  }, [question, open, reset]);
 
   const onFormSubmit = (data) => {
-    onSubmit(data);  // Call parent handler once
+    onSubmit(data);
     reset();
     onClose();
   };
 
   return (
     <Drawer open={open} onOpenChange={onClose} direction="right">
-      <DrawerContent size='xl' className="fixed right-0 top-0 h-screen max-sm:!w-full border-l bg-background text-foreground z-50 shadow-lg flex flex-col">
-        {/* Header */}
+      <DrawerContent
+        size="xl"
+        className="fixed right-0 top-0 h-screen max-sm:!w-full border-l bg-background text-foreground z-50 shadow-lg flex flex-col"
+      >
         <div className="flex items-center justify-between px-6 py-4 border-b">
-          <h2 className="text-lg font-semibold">Add Question</h2>
+          <h2 className="text-lg font-semibold">
+            {question ? "Edit Question" : "Add Question"}
+          </h2>
           <DrawerClose asChild>
-            <Button variant="ghost" size="icon" onClick={onClose}>
+            <Button size="icon" onClick={onClose}>
               <X className="size-5" />
             </Button>
           </DrawerClose>
         </div>
 
-        {/* Form Body */}
-        <form onSubmit={handleSubmit(onFormSubmit)} className="flex flex-col justify-between h-full">
+        <form
+          onSubmit={handleSubmit(onFormSubmit)}
+          className="flex flex-col justify-between h-full"
+        >
           <div className="p-6 space-y-6 overflow-y-auto">
-
             {/* Question Type */}
             <div>
               <Label>Question Type</Label>
               <RadioGroup
-                defaultValue="single"
+                value={question?.type || "single"}
                 onValueChange={(val) => setValue("type", val)}
                 className="flex gap-6 mt-2"
               >
@@ -97,7 +99,9 @@ const CreateDrawer = ({ open, onClose, onSubmit }) => {
                 {...register("question", { required: "Question is required" })}
               />
               {errors.question && (
-                <p className="text-sm text-destructive">{errors.question.message}</p>
+                <p className="text-sm text-destructive">
+                  {errors.question.message}
+                </p>
               )}
             </div>
 
@@ -132,7 +136,6 @@ const CreateDrawer = ({ open, onClose, onSubmit }) => {
                   </div>
                   <Button
                     type="button"
-                    variant="ghost"
                     size="icon"
                     onClick={() => remove(index)}
                   >
@@ -142,23 +145,21 @@ const CreateDrawer = ({ open, onClose, onSubmit }) => {
               ))}
               <Button
                 type="button"
-                variant="outline"
                 size="sm"
                 onClick={() => append({ value: "", isCorrect: "no" })}
                 className="mt-2"
               >
-                <Plus className="w-4 h-4 mr-1" />
-                Add More
+                <Plus className="w-4 h-4 mr-1" /> Add More
               </Button>
             </div>
           </div>
 
           {/* Footer */}
           <div className="flex justify-end gap-2 px-6 py-4 border-t">
-            <Button type="button" variant="secondary" onClick={onClose}>
+            <Button type="button" onClick={onClose}>
               Cancel
             </Button>
-            <Button type="submit" className="bg-primary hover:bg-primary/90">
+            <Button type="submit" variant="destructive">
               Submit
             </Button>
           </div>

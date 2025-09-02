@@ -3,10 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { loadQuestions } from "@/components/questions";
 import { BadgeCheck, Timer, Repeat, Percent, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from "@/components/ui/radio-group";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "sonner";
 
 const ChapterAssessment = () => {
@@ -101,9 +98,14 @@ const ChapterAssessment = () => {
 
       {submitted && result && (
         <div className="p-6 rounded-xl space-y-6 border border-border font-monstrat-hadding">
-          <h2 className="text-xl font-semibold text-destructive font-roboto-para">🎉 Well Done!</h2>
+          <h2 className="text-xl font-semibold text-destructive font-roboto-para">
+            🎉 Well Done!
+          </h2>
           <p className="text-muted-foreground font-roboto-para">
-            You completed the assessment for <strong>{subject} {chapterId}</strong>
+            You completed the assessment for{" "}
+            <strong>
+              {subject} {chapterId}
+            </strong>
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-center font-roboto-para95">
@@ -120,7 +122,11 @@ const ChapterAssessment = () => {
                 <BadgeCheck className="w-4 h-4 mr-2" />
                 <p className="text-sm">Status</p>
               </div>
-              <p className={`text-lg font-semibold ${result.passed ? "text-primary" : "text-destructive"}`}>
+              <p
+                className={`text-lg font-semibold ${
+                  result.passed ? "text-primary" : "text-destructive"
+                }`}
+              >
                 {result.passed ? "Passed" : "Failed"}
               </p>
             </div>
@@ -143,7 +149,11 @@ const ChapterAssessment = () => {
           </div>
 
           <div className="flex flex-wrap justify-between items-center pt-6 gap-4">
-            <Button variant="outline" className="px-6 py-2 rounded-xl shadow-sm" onClick={handleRetry}>
+            <Button
+              variant="outline"
+              className="px-6 py-2 rounded-xl shadow-sm"
+              onClick={handleRetry}
+            >
               🔄 Try Again
             </Button>
           </div>
@@ -171,10 +181,13 @@ const ChapterAssessment = () => {
                   {qIndex + 1}. {question.text}
                 </h2>
                 {submitted && (
-                  <span className={`text-xs font-semibold px-2 py-1 rounded-full ${isCorrect
-                    ? "bg-green-100 text-green-800 border border-green-300"
-                    : "bg-red-100 text-red-800 border border-red-300"
-                    }`}>
+                  <span
+                    className={`text-xs font-semibold px-2 py-1 rounded-full ${
+                      isCorrect
+                        ? "bg-green-100 text-green-800 border border-green-300"
+                        : "bg-red-100 text-red-800 border border-red-300"
+                    }`}
+                  >
                     {isCorrect ? "Correct ✅" : "Wrong ❌"}
                   </span>
                 )}
@@ -197,11 +210,13 @@ const ChapterAssessment = () => {
 
                   if (submitted) {
                     if (isUserCorrect) {
-                      labelClass += " bg-green-100 border-green-500 text-green-800";
+                      labelClass +=
+                        " bg-green-100 border-green-500 text-green-800";
                     } else if (isUserIncorrect) {
                       labelClass += " bg-red-100 border-red-500 text-red-800";
                     } else if (isMissedCorrect) {
-                      labelClass += " bg-yellow-100 border-yellow-500 text-yellow-800";
+                      labelClass +=
+                        " bg-yellow-100 border-yellow-500 text-yellow-800";
                     } else {
                       labelClass += " border-border";
                     }

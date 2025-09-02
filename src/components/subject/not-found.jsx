@@ -10,13 +10,16 @@ const NotFound = () => {
     <div className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground px-4">
       <div className="max-w-md text-center space-y-6">
         <div className="flex justify-center">
-          <img src="404.svg" alt="not found" className="size-60"/>
+          <img src="404.svg" alt="not found" className="size-60" />
         </div>
         <h1 className="text-4xl font-bold">404 - Page Not Found</h1>
         <p className="text-muted-foreground text-base">
           Sorry, the page you're looking for doesn't exist or has been moved.
         </p>
-        <Button onClick={() => navigate("/")} className="text-base px-6 py-2 cursor-pointer">
+        <Button
+          onClick={() => navigate("/")}
+          className="text-background px-6 py-2 bg-foreground"
+        >
           Go to Homepage
         </Button>
       </div>

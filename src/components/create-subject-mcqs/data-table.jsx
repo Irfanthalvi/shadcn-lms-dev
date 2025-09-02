@@ -6,12 +6,29 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 import { ChevronDown, Pencil, Trash2 } from "lucide-react";
 import ScoreCircle from "@/components/create-subject-mcqs/score-circle";
 import StatusBadge from "@/components/create-subject-mcqs/status-badge";
-import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
-export default function DataTable({ data = [] }) {
+export default function DataTable({ data = [], onDelete }) {
+  const navigate = useNavigate();
+
+  const handleEdit = (id, e) => {
+    e.stopPropagation();
+    navigate("/assessment-page");
+  };
+
+  const handleDelete = (id, e) => {
+    e.stopPropagation();
+    onDelete?.(id); // ✅ parent ko call
+  };
+
+  const handleRowClick = (id) => {
+    navigate("/assessment-page");
+  };
+
   return (
     <div className="overflow-x-auto">
       <Table className="min-w-[900px]">
@@ -24,7 +41,7 @@ export default function DataTable({ data = [] }) {
               "Avg. Attempts",
               "Status",
               "Last Updated",
-              "Actions", // keep action column
+              "Actions",
             ].map((head) => (
               <TableHead key={head}>
                 <div className="flex items-center gap-1 font-monstrat-hadding">
@@ -57,8 +74,12 @@ export default function DataTable({ data = [] }) {
               </TableCell>
             </TableRow>
           ) : (
-            data.map((a, idx) => (
-              <TableRow key={a.id || idx}>
+            data.map((a) => (
+              <TableRow
+                key={a.id}
+                onClick={() => handleRowClick(a.id)}
+                className="cursor-pointer"
+              >
                 <TableCell>
                   <div className="font-medium font-monstrat-hadding">
                     {a.title}
@@ -76,12 +97,20 @@ export default function DataTable({ data = [] }) {
                   <StatusBadge status={a.status} />
                 </TableCell>
                 <TableCell>{a.lastUpdated}</TableCell>
-                <TableCell className="space-x-2">
-                  <Button variant="ghost" size="icon">
-                    <Pencil className="w-4 h-4" />
+                <TableCell>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={(e) => handleEdit(a.id, e)}
+                  >
+                    <Pencil className="size-4" />
                   </Button>
-                  <Button variant="ghost" size="icon">
-                    <Trash2 className="w-4 h-4" />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={(e) => handleDelete(a.id, e)}
+                  >
+                    <Trash2 className="size-4" />
                   </Button>
                 </TableCell>
               </TableRow>

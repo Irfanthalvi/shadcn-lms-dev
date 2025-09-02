@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { assessments as defaultAssessments } from "@/components/hard-code/table-mock-data"; // mock data
+import { assessments as defaultAssessments } from "@/components/hard-code/table-mock-data";
 import SearchInput from "@/components/create-subject-mcqs/search-input";
 import AssessmentFilters from "@/components/create-subject-mcqs/AssessmentFilters";
 import DataTable from "@/components/create-subject-mcqs/data-table";
@@ -10,10 +10,16 @@ const PER_PAGE = 5;
 
 export default function Assessment() {
   const navigate = useNavigate();
+  const [assessments, setAssessments] = useState(defaultAssessments);
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
 
-  const filtered = defaultAssessments.filter((a) =>
+  // ✅ delete handler
+  const handleDelete = (id) => {
+    setAssessments((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const filtered = assessments.filter((a) =>
     a.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -39,7 +45,8 @@ export default function Assessment() {
         <AssessmentFilters />
       </div>
 
-      <DataTable data={visible} />
+      {/* ✅ delete callback pass karo */}
+      <DataTable data={visible} onDelete={handleDelete} />
 
       {hasMore && (
         <div className="flex justify-center mt-4">

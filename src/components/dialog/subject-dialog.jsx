@@ -37,13 +37,13 @@ const AddBook = ({
 
           <div className="flex flex-col sm:flex-row justify-end gap-2">
             <Button
-              variant="secondary"
               onClick={() => setOpenDialog(false)}
               className="w-full sm:w-auto font-monstrat-hadding"
             >
               Cancel
             </Button>
             <Button
+              variant="destructive"
               onClick={handleAddBook}
               className="w-full sm:w-auto font-monstrat-hadding"
             >

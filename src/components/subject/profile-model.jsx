@@ -64,7 +64,7 @@ const ProfileModal = ({ setIsModalOpen, setProfile }) => {
       onClick={handleClose}
     >
       <div
-        className="bg-white dark:bg-background border border-border rounded-xl shadow-xl w-full max-w-xl max-h-[90vh] overflow-y-auto px-6 py-6 space-y-6"
+        className="bg-primary dark:bg-background border border-border rounded-xl shadow-xl w-full max-w-xl max-h-[90vh] overflow-y-auto px-6 py-6 space-y-6"
         onClick={(e) => e.stopPropagation()}
       >
         <div>
@@ -78,23 +78,40 @@ const ProfileModal = ({ setIsModalOpen, setProfile }) => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="firstName">First Name</Label>
-              <Input id="firstName" {...register("firstName")} placeholder="John" />
+              <Input
+                id="firstName"
+                {...register("firstName")}
+                placeholder="John"
+              />
               {errors.firstName && (
-                <p className="text-sm text-red-500">{errors.firstName.message}</p>
+                <p className="text-sm text-red-500">
+                  {errors.firstName.message}
+                </p>
               )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="lastName">Last Name</Label>
-              <Input id="lastName" {...register("lastName")} placeholder="Doe" />
+              <Input
+                id="lastName"
+                {...register("lastName")}
+                placeholder="Doe"
+              />
               {errors.lastName && (
-                <p className="text-sm text-red-500">{errors.lastName.message}</p>
+                <p className="text-sm text-red-500">
+                  {errors.lastName.message}
+                </p>
               )}
             </div>
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" {...register("email")} placeholder="you@example.com" />
+            <Input
+              id="email"
+              type="email"
+              {...register("email")}
+              placeholder="you@example.com"
+            />
             {errors.email && (
               <p className="text-sm text-red-500">{errors.email.message}</p>
             )}
@@ -116,7 +133,9 @@ const ProfileModal = ({ setIsModalOpen, setProfile }) => {
                 }}
               />
               {errors.profilePicture && (
-                <p className="text-sm text-red-500">{errors.profilePicture.message}</p>
+                <p className="text-sm text-red-500">
+                  {errors.profilePicture.message}
+                </p>
               )}
             </div>
             <Avatar className="h-14 w-14 mt-6">
@@ -135,7 +154,9 @@ const ProfileModal = ({ setIsModalOpen, setProfile }) => {
                 placeholder="********"
               />
               {errors.newPassword && (
-                <p className="text-sm text-red-500">{errors.newPassword.message}</p>
+                <p className="text-sm text-red-500">
+                  {errors.newPassword.message}
+                </p>
               )}
             </div>
             <div className="space-y-2">
@@ -147,16 +168,20 @@ const ProfileModal = ({ setIsModalOpen, setProfile }) => {
                 placeholder="********"
               />
               {errors.confirmPassword && (
-                <p className="text-sm text-red-500">{errors.confirmPassword.message}</p>
+                <p className="text-sm text-red-500">
+                  {errors.confirmPassword.message}
+                </p>
               )}
             </div>
           </div>
 
           <div className="flex justify-end gap-2 pt-2">
-            <Button type="button" variant="outline" onClick={handleClose}>
+            <Button type="button" onClick={handleClose}>
               Cancel
             </Button>
-            <Button type="submit">Update</Button>
+            <Button type="submit" variant="destructive">
+              Update
+            </Button>
           </div>
         </form>
       </div>
