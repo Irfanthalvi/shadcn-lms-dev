@@ -29,7 +29,6 @@ const ProfileModal = ({ setIsModalOpen, setProfile }) => {
     },
   });
 
-  // Automatically open modal when mounted
   useEffect(() => {
     setOpen(true);
   }, []);
@@ -60,21 +59,24 @@ const ProfileModal = ({ setIsModalOpen, setProfile }) => {
 
   return (
     <div
-      className="fixed inset-0 z-[99] bg-black/40 flex items-center justify-center px-4 sm:px-6"
+      className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center px-4 sm:px-6"
       onClick={handleClose}
     >
       <div
-        className="bg-primary dark:bg-background border border-border rounded-xl shadow-xl w-full max-w-xl max-h-[90vh] overflow-y-auto px-6 py-6 space-y-6"
+        className="bg-background border border-border rounded-2xl shadow-lg w-full max-w-xl max-h-[90vh] overflow-y-auto p-6 space-y-6"
         onClick={(e) => e.stopPropagation()}
       >
         <div>
-          <h2 className="text-xl font-semibold">Update Profile</h2>
+          <h2 className="text-lg font-semibold text-foreground">
+            Update Profile
+          </h2>
           <p className="text-sm text-muted-foreground mt-1">
             Change your personal details and password.
           </p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {/* Name */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="firstName">First Name</Label>
@@ -84,7 +86,7 @@ const ProfileModal = ({ setIsModalOpen, setProfile }) => {
                 placeholder="John"
               />
               {errors.firstName && (
-                <p className="text-sm text-red-500">
+                <p className="text-xs text-destructive">
                   {errors.firstName.message}
                 </p>
               )}
@@ -97,13 +99,14 @@ const ProfileModal = ({ setIsModalOpen, setProfile }) => {
                 placeholder="Doe"
               />
               {errors.lastName && (
-                <p className="text-sm text-red-500">
+                <p className="text-xs text-destructive">
                   {errors.lastName.message}
                 </p>
               )}
             </div>
           </div>
 
+          {/* Email */}
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -113,10 +116,11 @@ const ProfileModal = ({ setIsModalOpen, setProfile }) => {
               placeholder="you@example.com"
             />
             {errors.email && (
-              <p className="text-sm text-red-500">{errors.email.message}</p>
+              <p className="text-xs text-destructive">{errors.email.message}</p>
             )}
           </div>
 
+          {/* Profile Picture */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <div className="w-full space-y-2">
               <Label htmlFor="profilePicture">Profile Picture</Label>
@@ -133,17 +137,18 @@ const ProfileModal = ({ setIsModalOpen, setProfile }) => {
                 }}
               />
               {errors.profilePicture && (
-                <p className="text-sm text-red-500">
+                <p className="text-xs text-destructive">
                   {errors.profilePicture.message}
                 </p>
               )}
             </div>
-            <Avatar className="h-14 w-14 mt-6">
+            <Avatar className="h-14 w-14 mt-6 ring-1 ring-border">
               <AvatarImage src={preview} />
               <AvatarFallback>PP</AvatarFallback>
             </Avatar>
           </div>
 
+          {/* Passwords */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="newPassword">New Password</Label>
@@ -154,7 +159,7 @@ const ProfileModal = ({ setIsModalOpen, setProfile }) => {
                 placeholder="********"
               />
               {errors.newPassword && (
-                <p className="text-sm text-red-500">
+                <p className="text-xs text-destructive">
                   {errors.newPassword.message}
                 </p>
               )}
@@ -168,18 +173,19 @@ const ProfileModal = ({ setIsModalOpen, setProfile }) => {
                 placeholder="********"
               />
               {errors.confirmPassword && (
-                <p className="text-sm text-red-500">
+                <p className="text-xs text-destructive">
                   {errors.confirmPassword.message}
                 </p>
               )}
             </div>
           </div>
 
+          {/* Actions */}
           <div className="flex justify-end gap-2 pt-2">
-            <Button type="button" onClick={handleClose}>
+            <Button type="button" variant="outline" onClick={handleClose}>
               Cancel
             </Button>
-            <Button type="submit" variant="destructive">
+            <Button type="submit" variant="default">
               Update
             </Button>
           </div>
