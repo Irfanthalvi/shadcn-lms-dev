@@ -72,7 +72,7 @@ export default function Breadcrumbs() {
         <div className="hidden sm:flex items-center gap-1">
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link className="text-muted-foreground">Home</Link>
+              <Link className="text-muted-foreground">Subjects</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
 

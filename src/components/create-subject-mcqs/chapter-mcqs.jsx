@@ -1,6 +1,6 @@
 import React from "react";
-import { Trash2, GripVertical, SquarePen } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Trash2, GripVertical, SquarePen } from "lucide-react";
 
 import {
   DndContext,

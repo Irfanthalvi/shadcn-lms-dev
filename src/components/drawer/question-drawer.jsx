@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect } from "react";
 import { Drawer, DrawerContent, DrawerClose } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
@@ -35,11 +33,20 @@ const CreateDrawer = ({ open, onClose, onSubmit, question }) => {
     name: "options",
   });
 
+  // 🔥 Fix: Reset logic (Add → blank, Edit → prefilled)
   useEffect(() => {
-    if (question) {
+    if (question && open) {
       reset(question);
-    } else if (!open) {
-      reset();
+    } else if (!question && open) {
+      reset({
+        type: "single",
+        question: "",
+        options: [
+          { value: "", isCorrect: "no" },
+          { value: "", isCorrect: "no" },
+          { value: "", isCorrect: "no" },
+        ],
+      });
     }
   }, [question, open, reset]);
 
@@ -55,6 +62,7 @@ const CreateDrawer = ({ open, onClose, onSubmit, question }) => {
         size="xl"
         className="fixed right-0 top-0 h-screen max-sm:!w-full border-l bg-background text-foreground z-50 shadow-lg flex flex-col"
       >
+        {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b">
           <h2 className="text-lg font-semibold">
             {question ? "Edit Question" : "Add Question"}
@@ -66,6 +74,7 @@ const CreateDrawer = ({ open, onClose, onSubmit, question }) => {
           </DrawerClose>
         </div>
 
+        {/* Form */}
         <form
           onSubmit={handleSubmit(onFormSubmit)}
           className="flex flex-col justify-between h-full"
@@ -75,7 +84,7 @@ const CreateDrawer = ({ open, onClose, onSubmit, question }) => {
             <div>
               <Label>Question Type</Label>
               <RadioGroup
-                value={question?.type || "single"}
+                defaultValue="single"
                 onValueChange={(val) => setValue("type", val)}
                 className="flex gap-6 mt-2"
               >
@@ -105,9 +114,9 @@ const CreateDrawer = ({ open, onClose, onSubmit, question }) => {
               )}
             </div>
 
-            {/* Dynamic Options */}
+            {/* Options */}
             <div className="space-y-2">
-              <Label>Option</Label>
+              <Label>Options</Label>
               {fields.map((field, index) => (
                 <div key={field.id} className="flex items-center gap-2">
                   <Input
@@ -149,7 +158,8 @@ const CreateDrawer = ({ open, onClose, onSubmit, question }) => {
                 onClick={() => append({ value: "", isCorrect: "no" })}
                 className="mt-2"
               >
-                <Plus className="w-4 h-4 mr-1" /> Add More
+                <Plus className="w-4 h-4 mr-1" />
+                Add More
               </Button>
             </div>
           </div>

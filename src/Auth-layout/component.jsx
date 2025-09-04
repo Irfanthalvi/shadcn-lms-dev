@@ -33,7 +33,6 @@ const LoginPage = ({ activeForm = "login" }) => {
         {active === "forget" && <Forget setActive={handleSetActive} />}
       </div>
     </div>
-
   );
 };
 

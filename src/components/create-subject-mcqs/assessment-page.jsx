@@ -9,12 +9,10 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-
 import ChapterMCQs from "./chapter-mcqs";
 import { bookMockData } from "../hard-code/book-mock-data";
-import { chapterMockData } from "../hard-code/chapter-mock-data";
-
 import CreateDrawer from "@/components/drawer/question-drawer"; // Add/Edit Drawer
+import { chapterMockData } from "../hard-code/chapter-mock-data";
 import QuestionDrawer from "@/components/drawer/preview-question-drawer"; // Preview Drawer
 import CreateAssessmentForm from "@/components/create-subject-mcqs/create-assessment-form"; // Left Sidebar/Sheet Content
 
@@ -84,7 +82,7 @@ export default function AssessmentPage() {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row h-[85vh] bg-muted/50 text-foreground overflow-hidden">
+    <div className="flex flex-col sm:flex-row h-[90vh] bg-muted/50 text-foreground overflow-hidden">
       {/* LEFT SIDEBAR */}
       <div className="hidden sm:block w-[320px] lg:w-[400px] border-r border-border bg-background pt-6 overflow-y-auto">
         <CreateAssessmentForm
