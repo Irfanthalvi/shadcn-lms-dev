@@ -12,12 +12,14 @@ import AssessmentPage from "@/components/create-subject-mcqs/assessment-page";
 import ChapterAssessment from "@/components/subject/test-subject-assessment";
 
 // Lazy loaded components
-const AuthLayout = lazy(() => import("@/layouts/auth-layout"));
-const DashboardLayout = lazy(() => import("@/layouts/dashboard-layout"));
-const LoginPage = lazy(() => import("@/auth-layout/layout"));
-const Subject = lazy(() => import("@/student-layout/subject"));
-const Assessment = lazy(() => import("@/student-layout/create-subjects-mcqs"));
-const SubjectChapters = lazy(() => import("@/components/subject/chapter"));
+const AuthLayout = lazy(() => import("@/layouts/auth-layout.jsx"));
+const DashboardLayout = lazy(() => import("@/layouts/dashboard-layout.jsx"));
+const LoginPage = lazy(() => import("@/auth-layout/layout.jsx"));
+const Subject = lazy(() => import("@/student-layout/subject.jsx"));
+const Assessment = lazy(() =>
+  import("@/student-layout/create-subjects-mcqs.jsx")
+);
+const SubjectChapters = lazy(() => import("@/components/subject/chapter.jsx"));
 
 // 📌 Centralized Titles + Descriptions
 const titlesConfig = [
