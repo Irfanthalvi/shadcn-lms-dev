@@ -93,7 +93,6 @@ const Subject = () => {
       {!loading && hasMore && (
         <div className="flex justify-center mt-8">
           <Button
-            variant="ghost"
             onClick={handleLoadMore}
             className="bg-muted text-muted-foreground hover:bg-muted/80 transition"
           >
