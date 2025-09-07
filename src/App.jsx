@@ -12,7 +12,7 @@ import AssessmentPage from "@/components/create-subject-mcqs/assessment-page";
 import ChapterAssessment from "@/components/subject/test-subject-assessment";
 
 // Lazy loaded components
-const AuthLayout = lazy(() => import("../src/layouts/auth-layout"));
+const AuthLayout = lazy(() => import("@/layouts/auth-layout"));
 const DashboardLayout = lazy(() => import("@/layouts/dashboard-layout"));
 const LoginPage = lazy(() => import("@/auth-layout/layout"));
 const Subject = lazy(() => import("@/student-layout/subject"));
