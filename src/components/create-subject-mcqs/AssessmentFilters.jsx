@@ -1,5 +1,4 @@
 // /listing/AssessmentFilters.jsx
-
 import {
   Select,
   SelectTrigger,
@@ -10,10 +9,10 @@ import {
 
 export default function AssessmentFilters() {
   return (
-    <div className="flex gap-4 font-[var(--font-roboto-para)]">
+    <div className="flex gap-4 w-full font-[var(--font-roboto-para)]">
       {/* Status Filter */}
       <Select>
-        <SelectTrigger className="w-[160px] font-[var(--font-monstrat-hadding)] cursor-pointer">
+        <SelectTrigger className="flex-1 min-w-0 h-10 font-[var(--font-monstrat-hadding)] cursor-pointer">
           <SelectValue placeholder="Filter by Status" />
         </SelectTrigger>
         <SelectContent>
@@ -28,7 +27,7 @@ export default function AssessmentFilters() {
 
       {/* Course Filter */}
       <Select>
-        <SelectTrigger className="w-[220px] font-[var(--font-monstrat-hadding)] cursor-pointer">
+        <SelectTrigger className="flex-1 min-w-0 h-10 font-[var(--font-monstrat-hadding)] cursor-pointer">
           <SelectValue placeholder="Filter by Course" />
         </SelectTrigger>
         <SelectContent className="font-[var(--font-roboto-para)]">

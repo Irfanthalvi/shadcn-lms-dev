@@ -1,9 +1,9 @@
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 
-const SearchInput = ({ value, onChange, placeholder = "Search..." }) => {
+const SearchInput = ({ value, onChange, placeholder = "Search Subject" }) => {
   return (
-    <div className="relative w-1/3">
+    <div className="relative w-full sm:w-1/3">
       {/* Icon */}
       <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
 

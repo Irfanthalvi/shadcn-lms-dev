@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Plus, Trash, X } from "lucide-react";
+import { Plus, Trash2, X } from "lucide-react";
 import { useForm, useFieldArray } from "react-hook-form";
 
 const CreateDrawer = ({ open, onClose, onSubmit, question }) => {
@@ -148,7 +148,7 @@ const CreateDrawer = ({ open, onClose, onSubmit, question }) => {
                     size="icon"
                     onClick={() => remove(index)}
                   >
-                    <Trash size={16} />
+                    <Trash2 size={16} />
                   </Button>
                 </div>
               ))}

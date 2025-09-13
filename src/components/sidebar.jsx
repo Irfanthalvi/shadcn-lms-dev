@@ -12,37 +12,41 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
               ? "translate-x-0 w-full max-w-[500px]"
               : "-translate-x-full w-full max-w-[260px]"
             : isSidebarOpen
-            ? "w-[260px]"
-            : "w-[70px]"
+            ? "w-[260px]" /* fixed width when open */
+            : "w-[70px]" /* fixed width when collapsed */
         }
       `}
     >
-      {/* Sidebar Header */}
+      {/* Header */}
       <div className="flex items-center justify-between px-4 h-[75px] border-b border-border">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-muted rounded-lg border border-border">
+          <div className="p-2 bg-muted rounded-lg border border-border shrink-0">
             <Layers size={24} />
           </div>
           {isSidebarOpen && !isMobile && (
-            <span className="font-monstrat-hadding text-lg font-semibold whitespace-nowrap">
+            <span className="font-monstrat-hadding text-lg font-semibold whitespace-nowrap overflow-hidden">
               School System
             </span>
           )}
         </div>
+
         {isMobile && isSidebarOpen && (
-          <button onClick={toggleSidebar} className="text-lg font-bold">
+          <button
+            onClick={toggleSidebar}
+            className="text-lg font-bold shrink-0"
+          >
             ✕
           </button>
         )}
       </div>
 
-      {/* Nav Links */}
+      {/* Links */}
       <nav className="flex-1 px-1 py-4 space-y-2 overflow-y-auto">
         <NavLink
           to="/subjects"
           onClick={closeSidebar}
           className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium transition-colors font-monstrat-hadding 
+            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
              ${
                isActive
                  ? "bg-accent text-accent-foreground"
@@ -50,24 +54,24 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
              }`
           }
         >
-          <NotebookPen size={20} />
-          {isSidebarOpen && "Subjects"}
+          <NotebookPen size={20} className="shrink-0" />
+          {isSidebarOpen && <span className="truncate">Subjects</span>}
         </NavLink>
 
         <NavLink
           to="/create-assessment"
           onClick={closeSidebar}
           className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium transition-colors font-monstrat-hadding 
+            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
              ${
                isActive
-                 ? "bg-accent text-accent-foreground "
+                 ? "bg-accent text-accent-foreground"
                  : "hover:bg-muted hover:text-foreground"
              }`
           }
         >
-          <List size={20} />
-          {isSidebarOpen && "Create-Assessment"}
+          <List size={20} className="shrink-0" />
+          {isSidebarOpen && <span className="truncate">Create-Assessment</span>}
         </NavLink>
       </nav>
     </aside>

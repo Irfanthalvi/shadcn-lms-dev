@@ -188,7 +188,7 @@ const CreateAssessmentForm = ({ books, setBooks, onChapterClick }) => {
           strategy={verticalListSortingStrategy}
         >
           <div
-            className="flex-1 flex flex-col divide-y overflow-y-auto px-3 sm:px-4"
+            className="flex-1 flex flex-col divide-y overflow-y-auto p-1 "
             style={{ touchAction: "none" }}
           >
             {books.map((book, index) => (
@@ -215,7 +215,7 @@ const CreateAssessmentForm = ({ books, setBooks, onChapterClick }) => {
       </DndContext>
 
       {/* Add Button (sticky at bottom inside sidebar) */}
-      <div className="p-3 border-t bg-background sticky bottom-0">
+      <div className="p-3 bg-background sticky bottom-0">
         <Button
           className="w-full"
           onClick={() => {

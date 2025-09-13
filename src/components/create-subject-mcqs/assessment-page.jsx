@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Eye, Menu } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Eye, PanelLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -11,10 +11,10 @@ import {
 } from "@/components/ui/sheet";
 import ChapterMCQs from "./chapter-mcqs";
 import { bookMockData } from "../hard-code/book-mock-data";
-import CreateDrawer from "@/components/drawer/question-drawer"; // Add/Edit Drawer
+import CreateDrawer from "@/components/drawer/question-drawer";
 import { chapterMockData } from "../hard-code/chapter-mock-data";
-import QuestionDrawer from "@/components/drawer/preview-question-drawer"; // Preview Drawer
-import CreateAssessmentForm from "@/components/create-subject-mcqs/create-assessment-form"; // Left Sidebar/Sheet Content
+import QuestionDrawer from "@/components/drawer/preview-question-drawer";
+import CreateAssessmentForm from "@/components/create-subject-mcqs/create-assessment-form";
 
 export default function AssessmentPage() {
   const [books, setBooks] = useState(
@@ -29,6 +29,18 @@ export default function AssessmentPage() {
   const [editingQuestion, setEditingQuestion] = useState(null);
   const [previewQuestionDrawer, setPreviewQuestionDrawer] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Auto-select first chapter when books load
+  useEffect(() => {
+    if (books.length > 0 && books[0].chapters.length > 0) {
+      setSelectedChapter({
+        bookIndex: 0,
+        chapterIndex: 0,
+        title: books[0].chapters[0].title,
+        questions: books[0].chapters[0].questions || [],
+      });
+    }
+  }, [books]);
 
   // Add Question Handler
   const handleAddQuestion = (newData) => {
@@ -89,6 +101,7 @@ export default function AssessmentPage() {
           books={books}
           setBooks={setBooks}
           onChapterClick={handleChapterClick}
+          selectedChapter={selectedChapter} // 👈 pass selectedChapter
         />
       </div>
 
@@ -105,6 +118,7 @@ export default function AssessmentPage() {
               books={books}
               setBooks={setBooks}
               onChapterClick={handleChapterClick}
+              selectedChapter={selectedChapter} // 👈 pass here too
             />
           </div>
         </SheetContent>
@@ -112,14 +126,18 @@ export default function AssessmentPage() {
 
       {/* RIGHT CONTENT */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {selectedChapter ? (
+        {selectedChapter && (
           <>
             {/* Top Navbar */}
             <div className="sticky top-0 h-20 flex items-center justify-between px-4 sm:px-6 border-b border-border bg-background">
               <div className="flex items-center gap-3">
                 <div className="sm:hidden">
-                  <Button size="icon" onClick={() => setSidebarOpen(true)}>
-                    <Menu />
+                  <Button
+                    size="icon"
+                    onClick={() => setSidebarOpen(true)}
+                    className="border border-none shadow-none"
+                  >
+                    <PanelLeft />
                   </Button>
                 </div>
                 <h2 className="text-base sm:text-lg font-medium truncate">
@@ -127,15 +145,10 @@ export default function AssessmentPage() {
                 </h2>
               </div>
 
-              <div>
-                <Button
-                  size="sm"
-                  onClick={() => setPreviewQuestionDrawer(true)}
-                >
-                  <Eye className="size-4 mr-2" />
-                  Preview
-                </Button>
-              </div>
+              <Button size="sm" onClick={() => setPreviewQuestionDrawer(true)}>
+                <Eye className="size-4 mr-2" />
+                Preview
+              </Button>
             </div>
 
             {/* Chapter Questions */}
@@ -148,23 +161,6 @@ export default function AssessmentPage() {
               />
             </div>
           </>
-        ) : (
-          <div className="bg-background flex-1 h-full flex flex-col items-center justify-center text-center relative">
-            <div className="sm:hidden absolute top-4 left-4 ">
-              <Button size="icon" onClick={() => setSidebarOpen(true)}>
-                <Menu />
-              </Button>
-            </div>
-            <img
-              src="/data-not-found.svg"
-              alt="No data"
-              className="w-48 h-48 object-contain mb-4"
-            />
-            <h1 className="text-2xl font-bold">No Data Found</h1>
-            <p className="text-base text-muted-foreground">
-              Sorry, no assessments were found for your criteria.
-            </p>
-          </div>
         )}
       </div>
 
@@ -174,13 +170,11 @@ export default function AssessmentPage() {
         onClose={() => setDrawerOpen(false)}
         onSubmit={(data) => {
           if (editingQuestion) {
-            // EDIT
             const updated = selectedChapter.questions.map((q) =>
               q.id === editingQuestion.id ? { ...q, ...data } : q
             );
             updateChapterQuestions(updated);
           } else {
-            // ADD
             handleAddQuestion(data);
           }
           setEditingQuestion(null);

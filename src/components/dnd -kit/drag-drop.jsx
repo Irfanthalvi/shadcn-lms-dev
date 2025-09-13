@@ -121,7 +121,7 @@ function ChapterSortableList({
         strategy={verticalListSortingStrategy}
       >
         {/* Responsive padding: pl-0 on mobile, pl-5 on sm+ */}
-        <div className="pl-5 space-y-2">
+        <div className="pl-2 space-y-2">
           {chapters.map((chap, cIndex) => (
             <SortableChapterItem
               key={chap.title}
@@ -140,7 +140,14 @@ function ChapterSortableList({
             onClick={() => openChapterModal(bookIndex)}
           >
             <div className="flex items-center gap-3 w-full min-w-0">
-              <label className="text-sm text-primary font-medium p-1 cursor-pointer">
+              <label
+                className="
+      relative text-sm text-primary font-medium p-1 cursor-pointer
+      after:content-[''] after:absolute after:left-0 after:bottom-0
+      after:h-[2px] after:w-0 after:bg-primary
+      hover:after:w-full after:transition-all after:duration-300
+    "
+              >
                 + Add Chapter
               </label>
             </div>
