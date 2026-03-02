@@ -49,7 +49,7 @@ const Otp = ({ email }) => {
 
   const onSubmit = (data) => {
     console.log("OTP submitted:", data.otp, "for", email);
-    navigate("/Subjects");
+    navigate("/subjects");
   };
 
   return (

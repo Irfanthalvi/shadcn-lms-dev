@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import LoginForm from "./login";
-import Otp from "./otp";
-import Register from "./register";
-import Forget from "./Forget";
+import LoginForm from "./Login";
+import Otp from "./Otp";
+import Register from "./Register";
+import Forget from "./forget";
 
 const LoginPage = ({ activeForm = "login" }) => {
   const [active, setActive] = useState(activeForm);
