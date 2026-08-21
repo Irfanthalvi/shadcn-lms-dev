@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import { useLocation, useParams, Link } from "react-router-dom";
 import {
   Breadcrumb,
@@ -7,99 +7,111 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { subjectsData } from "@/components/subject/subject-data";
+import { Home, ChevronRight } from "lucide-react";
 
 export default function Breadcrumbs() {
   const location = useLocation();
-  const { id, subject, chapterId } = useParams();
-  const [chapterTitle, setChapterTitle] = useState("");
+  const { id, subject, chapterId, classId } = useParams();
+  const path = location.pathname;
 
-  useEffect(() => {
-    if (id) {
-      const matched = subjectsData.find((s) => s.slug === `/chapter/${id}`);
-      setChapterTitle(matched?.title || `Chapter: ${id}`);
+  const getBreadcrumbs = () => {
+    const crumbs = [];
+
+    if (path === "/" || path === "/dashboard") {
+      crumbs.push({ label: "Dashboard", link: null });
+      return crumbs;
     }
-  }, [id]);
 
-  // Generate breadcrumb items
-  const items = [];
+    // Classes Routes
+    if (path === "/classes") {
+      crumbs.push({ label: "Classes", link: null });
+      return crumbs;
+    }
 
-  if (location.pathname.includes("/assessment/") && subject) {
-    items.push({
-      label: subject.charAt(0).toUpperCase() + subject.slice(1),
-      link: `/chapter/${subject}`,
-    });
-  }
+    if (path.startsWith("/classes/") && classId) {
+      crumbs.push({ label: "Classes", link: "/classes" });
+      crumbs.push({ label: `Class ${classId}`, link: null });
+      return crumbs;
+    }
 
-  if (location.pathname.includes("/assessment/") && chapterId) {
-    items.push({
-      label: chapterId.replace("chapter", "Chapter "),
-      link: null,
-    });
-  }
+    // Standard LMS Section Routes
+    if (path === "/papers") crumbs.push({ label: "Exam Papers", link: null });
+    else if (path === "/students") crumbs.push({ label: "Students Directory", link: null });
+    else if (path === "/teachers") crumbs.push({ label: "Faculty Directory", link: null });
+    else if (path === "/results") crumbs.push({ label: "Exam Results", link: null });
+    else if (path === "/assignments") crumbs.push({ label: "Assignments", link: null });
+    else if (path === "/study-material") crumbs.push({ label: "Study Material", link: null });
+    else if (path === "/announcements") crumbs.push({ label: "Announcements", link: null });
+    else if (path === "/settings") crumbs.push({ label: "Settings", link: null });
+    else if (path === "/subjects") crumbs.push({ label: "Subjects", link: null });
+    else if (path === "/create-assessment") crumbs.push({ label: "Create Assessment", link: null });
+    else if (path === "/assessment-page") crumbs.push({ label: "Assessment Builder", link: null });
 
-  if (location.pathname.includes("/assessment/")) {
-    items.push({
-      label: "Assessment",
-      link: null,
-    });
-  }
+    // Dynamic routes for subject chapters
+    else if (path.startsWith("/chapter/") && id) {
+      crumbs.push({ label: "Subjects", link: "/subjects" });
+      crumbs.push({
+        label: id.charAt(0).toUpperCase() + id.slice(1) + " Chapters",
+        link: null,
+      });
+    }
 
-  if (location.pathname.startsWith("/chapter/") && id && chapterTitle) {
-    items.push({
-      label: chapterTitle,
-      link: null,
-    });
-  }
-  if (location.pathname === "/create-assessment") {
-    items.push({
-      label: "Create Assessment",
-      link: null,
-    });
-  }
+    // Dynamic routes for taking assessment
+    else if (path.startsWith("/assessment/") && subject && chapterId) {
+      crumbs.push({ label: "Subjects", link: "/subjects" });
+      crumbs.push({
+        label: subject.charAt(0).toUpperCase() + subject.slice(1),
+        link: `/chapter/${subject}`,
+      });
+      crumbs.push({
+        label: chapterId.replace("chapter", "Chapter "),
+        link: null,
+      });
+    }
 
-  if (location.pathname === "/assessment-page") {
-    items.push({
-      label: "Assessment Page",
-      link: null,
-    });
-  }
+    return crumbs;
+  };
+
+  const crumbs = getBreadcrumbs();
 
   return (
     <Breadcrumb className="w-full">
-      <BreadcrumbList className="flex items-center gap-1 w-full overflow-x-auto whitespace-nowrap scrollbar-hide">
-        {/* Desktop: full breadcrumb */}
-        <div className="hidden sm:flex items-center gap-1">
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link className="text-muted-foreground">Subjects</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
+      <BreadcrumbList className="flex items-center gap-1.5 text-xs text-muted-foreground whitespace-nowrap overflow-x-auto scrollbar-none">
+        <BreadcrumbItem>
+          <BreadcrumbLink asChild>
+            <Link
+              to="/dashboard"
+              className="flex items-center gap-1 text-muted-foreground hover:text-foreground font-medium transition-colors"
+            >
+              <Home className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">LMS</span>
+            </Link>
+          </BreadcrumbLink>
+        </BreadcrumbItem>
 
-          {items.map((item, index) => (
-            <span key={index} className="flex items-center gap-1">
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                {item.link ? (
-                  <BreadcrumbLink asChild>
-                    <Link to={item.link} className="text-muted-foreground">
-                      {item.label}
-                    </Link>
-                  </BreadcrumbLink>
-                ) : (
-                  <span className="text-muted-foreground font-medium">
-                    {item.label}
-                  </span>
-                )}
-              </BreadcrumbItem>
-            </span>
-          ))}
-        </div>
-
-        {/* Mobile: only last item */}
-        <div className="sm:hidden block font-medium text-sm text-muted-foreground truncate">
-          {items.length > 0 ? items[items.length - 1].label : "Home"}
-        </div>
+        {crumbs.map((crumb, idx) => (
+          <React.Fragment key={idx}>
+            <BreadcrumbSeparator className="text-muted-foreground/50">
+              <ChevronRight className="h-3.5 w-3.5" />
+            </BreadcrumbSeparator>
+            <BreadcrumbItem>
+              {crumb.link ? (
+                <BreadcrumbLink asChild>
+                  <Link
+                    to={crumb.link}
+                    className="text-muted-foreground hover:text-foreground font-medium transition-colors"
+                  >
+                    {crumb.label}
+                  </Link>
+                </BreadcrumbLink>
+              ) : (
+                <span className="font-semibold text-foreground">
+                  {crumb.label}
+                </span>
+              )}
+            </BreadcrumbItem>
+          </React.Fragment>
+        ))}
       </BreadcrumbList>
     </Breadcrumb>
   );

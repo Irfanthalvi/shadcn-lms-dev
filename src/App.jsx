@@ -7,26 +7,92 @@ import {
   useParams,
 } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar";
+import { LmsProvider } from "@/context/LmsContext";
 import NotFound from "@/components/subject/not-found";
 import AssessmentPage from "@/components/create-subject-mcqs/assessment-page";
 import ChapterAssessment from "@/components/subject/test-subject-assessment";
 
-// Lazy loaded components
+// Lazy loaded layout components
 const AuthLayout = lazy(() => import("@/layouts/auth-layout.jsx"));
 const DashboardLayout = lazy(() => import("@/layouts/dashboard-layout.jsx"));
 const LoginPage = lazy(() => import("@/Auth-layout/layout.jsx"));
+
+// LMS Pages
+const DashboardPage = lazy(() => import("@/pages/DashboardPage.jsx"));
+const ClassesPage = lazy(() => import("@/pages/ClassesPage.jsx"));
+const ClassDetailPage = lazy(() => import("@/pages/ClassDetailPage.jsx"));
+const PapersMasterPage = lazy(() => import("@/pages/PapersMasterPage.jsx"));
+const StudentsPage = lazy(() => import("@/pages/StudentsPage.jsx"));
+const TeachersPage = lazy(() => import("@/pages/TeachersPage.jsx"));
+const ResultsPage = lazy(() => import("@/pages/ResultsPage.jsx"));
+const AssignmentsPage = lazy(() => import("@/pages/AssignmentsPage.jsx"));
+const StudyMaterialPage = lazy(() => import("@/pages/StudyMaterialPage.jsx"));
+const AnnouncementsPage = lazy(() => import("@/pages/AnnouncementsPage.jsx"));
+const SettingsPage = lazy(() => import("@/pages/SettingsPage.jsx"));
+
+// Existing Components
 const Subject = lazy(() => import("@/student-layout/subject.jsx"));
 const Assessment = lazy(() =>
   import("@/student-layout/create-subjects-mcqs.jsx")
 );
 const SubjectChapters = lazy(() => import("@/components/subject/chapter.jsx"));
 
-// 📌 Centralized Titles + Descriptions
+// Centralized Titles + Descriptions
 const titlesConfig = [
   {
     path: "/",
-    title: "Login",
-    description: "Login to access your School System dashboard.",
+    title: "LMS Dashboard",
+    description: "Overview of your School Learning Management System.",
+  },
+  {
+    path: "/dashboard",
+    title: "LMS Dashboard",
+    description: "Overview of your School Learning Management System.",
+  },
+  {
+    path: "/classes",
+    title: "Classes (8 - 12)",
+    description: "Manage classes 8 through 12 and class paper banks.",
+  },
+  {
+    path: "/papers",
+    title: "Exam Papers Bank",
+    description: "Browse, view, edit and manage assessment papers.",
+  },
+  {
+    path: "/students",
+    title: "Students Directory",
+    description: "Manage student enrollments and academic performance.",
+  },
+  {
+    path: "/teachers",
+    title: "Teachers Directory",
+    description: "Faculty directory and subject assignments.",
+  },
+  {
+    path: "/results",
+    title: "Examination Results",
+    description: "View term results, scoreboards, and grade reports.",
+  },
+  {
+    path: "/assignments",
+    title: "Assignments",
+    description: "Manage student coursework and project submissions.",
+  },
+  {
+    path: "/study-material",
+    title: "Study Material",
+    description: "Download curriculum textbooks, notes, and past papers.",
+  },
+  {
+    path: "/announcements",
+    title: "Announcements",
+    description: "Official school notices and circulars.",
+  },
+  {
+    path: "/settings",
+    title: "LMS Settings",
+    description: "Configure system themes and academic preferences.",
   },
   {
     path: "/login",
@@ -55,24 +121,24 @@ const titlesConfig = [
   },
   {
     path: "/assessment-page",
-    title: "Assessment Page",
+    title: "Assessment Builder",
     description: "Manage and create assessment page.",
   },
   {
     path: "/create-assessment",
-    title: "Create-Assessment",
+    title: "Create Assessment",
     description: "Manage and create assessments.",
   },
 ];
 
-// 📌 Title Manager Component
+// Title Manager Component
 function TitleManager() {
   const location = useLocation();
   const params = useParams();
 
   useEffect(() => {
     const path = location.pathname;
-    let title = "School System";
+    let title = "LMS School System";
     let description = "School System dashboard and learning platform.";
 
     // Exact matches first
@@ -81,20 +147,25 @@ function TitleManager() {
       title = found.title;
       description = found.description;
     }
-
-    // Dynamic routes
+    // Dynamic Class Route
+    else if (path.startsWith("/classes/")) {
+      const classId = path.split("/")[2];
+      title = `Class ${classId} Assessment Hub`;
+      description = `Exam papers and assessments for Class ${classId}.`;
+    }
+    // Dynamic Subject Chapters
     else if (path.startsWith("/chapter/")) {
       title = `Chapter ${params.id || ""}`;
       description = `Study materials for chapter ${params.id || ""}.`;
-    } else if (path.startsWith("/assessment/")) {
+    }
+    // Dynamic Assessment
+    else if (path.startsWith("/assessment/")) {
       title = "Assessment";
       description = "Take assessments to test your knowledge.";
     }
 
-    // ✅ Set document.title
     document.title = title;
 
-    // ✅ Update meta description
     const metaDescription = document.querySelector("meta[name='description']");
     if (metaDescription) {
       metaDescription.setAttribute("content", description);
@@ -109,7 +180,7 @@ function TitleManager() {
   return null;
 }
 
-// 📌 Route Change Loading Bar
+// Route Change Loading Bar
 function RouteChangeLoader({ loadingBarRef }) {
   const location = useLocation();
 
@@ -117,14 +188,14 @@ function RouteChangeLoader({ loadingBarRef }) {
     loadingBarRef.current?.continuousStart();
     const timeout = setTimeout(() => {
       loadingBarRef.current?.complete();
-    }, 400);
+    }, 300);
     return () => clearTimeout(timeout);
   }, [location]);
 
   return null;
 }
 
-// 📌 App Router Wrapper
+// App Router Wrapper
 function AppRoutes({ loadingBarRef }) {
   return (
     <>
@@ -132,52 +203,132 @@ function AppRoutes({ loadingBarRef }) {
       <TitleManager />
       <Suspense
         fallback={
-          <div className="flex items-center justify-center h-screen text-xl">
-            Loading...
+          <div className="flex items-center justify-center h-screen text-base text-muted-foreground">
+            <div className="flex flex-col items-center gap-3">
+              <div className="w-8 h-8 border-3 border-primary border-t-transparent rounded-full animate-spin" />
+              <span>Loading LMS Dashboard...</span>
+            </div>
           </div>
         }
       >
         <Routes>
+          {/* LMS Main Dashboard */}
           <Route
             path="/"
             element={
-              <AuthLayout>
-                <LoginPage />
-              </AuthLayout>
+              <DashboardLayout>
+                <DashboardPage />
+              </DashboardLayout>
             }
           />
           <Route
-            path="/login"
+            path="/dashboard"
             element={
-              <AuthLayout>
-                <LoginPage activeForm="login" />
-              </AuthLayout>
+              <DashboardLayout>
+                <DashboardPage />
+              </DashboardLayout>
+            }
+          />
+
+          {/* Classes 8 through 12 Routes */}
+          <Route
+            path="/classes"
+            element={
+              <DashboardLayout>
+                <ClassesPage />
+              </DashboardLayout>
             }
           />
           <Route
-            path="/register"
+            path="/classes/:classId"
             element={
-              <AuthLayout>
-                <LoginPage activeForm="register" />
-              </AuthLayout>
+              <DashboardLayout>
+                <ClassDetailPage />
+              </DashboardLayout>
             }
           />
+
+          {/* Global Papers Bank */}
           <Route
-            path="/forget"
+            path="/papers"
             element={
-              <AuthLayout>
-                <LoginPage activeForm="forget" />
-              </AuthLayout>
+              <DashboardLayout>
+                <PapersMasterPage />
+              </DashboardLayout>
             }
           />
+
+          {/* Students Directory */}
           <Route
-            path="/otp"
+            path="/students"
             element={
-              <AuthLayout>
-                <LoginPage activeForm="otp" />
-              </AuthLayout>
+              <DashboardLayout>
+                <StudentsPage />
+              </DashboardLayout>
             }
           />
+
+          {/* Teachers Directory */}
+          <Route
+            path="/teachers"
+            element={
+              <DashboardLayout>
+                <TeachersPage />
+              </DashboardLayout>
+            }
+          />
+
+          {/* Examination Results */}
+          <Route
+            path="/results"
+            element={
+              <DashboardLayout>
+                <ResultsPage />
+              </DashboardLayout>
+            }
+          />
+
+          {/* Assignments */}
+          <Route
+            path="/assignments"
+            element={
+              <DashboardLayout>
+                <AssignmentsPage />
+              </DashboardLayout>
+            }
+          />
+
+          {/* Study Material */}
+          <Route
+            path="/study-material"
+            element={
+              <DashboardLayout>
+                <StudyMaterialPage />
+              </DashboardLayout>
+            }
+          />
+
+          {/* Announcements */}
+          <Route
+            path="/announcements"
+            element={
+              <DashboardLayout>
+                <AnnouncementsPage />
+              </DashboardLayout>
+            }
+          />
+
+          {/* Settings */}
+          <Route
+            path="/settings"
+            element={
+              <DashboardLayout>
+                <SettingsPage />
+              </DashboardLayout>
+            }
+          />
+
+          {/* Existing Student Subject & Chapter Routes */}
           <Route
             path="/subjects"
             element={
@@ -218,6 +369,42 @@ function AppRoutes({ loadingBarRef }) {
               </DashboardLayout>
             }
           />
+
+          {/* Auth Layout Routes */}
+          <Route
+            path="/login"
+            element={
+              <AuthLayout>
+                <LoginPage activeForm="login" />
+              </AuthLayout>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <AuthLayout>
+                <LoginPage activeForm="register" />
+              </AuthLayout>
+            }
+          />
+          <Route
+            path="/forget"
+            element={
+              <AuthLayout>
+                <LoginPage activeForm="forget" />
+              </AuthLayout>
+            }
+          />
+          <Route
+            path="/otp"
+            element={
+              <AuthLayout>
+                <LoginPage activeForm="otp" />
+              </AuthLayout>
+            }
+          />
+
+          {/* 404 Fallback */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
@@ -225,20 +412,22 @@ function AppRoutes({ loadingBarRef }) {
   );
 }
 
-// ✅ Final App component
+// Final App component wrapped in LmsProvider
 function App() {
   const loadingBarRef = useRef(null);
 
   return (
-    <Router>
-      <LoadingBar
-        color="var(--primary)"
-        ref={loadingBarRef}
-        height={2}
-        shadow={true}
-      />
-      <AppRoutes loadingBarRef={loadingBarRef} />
-    </Router>
+    <LmsProvider>
+      <Router>
+        <LoadingBar
+          color="var(--primary)"
+          ref={loadingBarRef}
+          height={3}
+          shadow={true}
+        />
+        <AppRoutes loadingBarRef={loadingBarRef} />
+      </Router>
+    </LmsProvider>
   );
 }
 

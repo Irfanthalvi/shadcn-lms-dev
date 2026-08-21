@@ -65,24 +65,31 @@ const Subject = () => {
               <div
                 key={index}
                 onClick={() => navigate(subject.id)}
-                className="bg-card text-card-foreground border border-border rounded-md flex flex-col transition overflow-hidden cursor-pointer"
+                className="group bg-card text-card-foreground border border-border rounded-2xl flex flex-col transition-all duration-200 overflow-hidden cursor-pointer hover:border-primary/40 hover:shadow-lg"
               >
-                <div className="aspect-[320/200] w-full">
+                <div className="aspect-[320/200] w-full overflow-hidden bg-muted">
                   <img
                     src={subject.img}
                     alt={subject.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     onError={(e) => {
                       e.currentTarget.onerror = null;
                       e.currentTarget.src = "/fallback-image.png";
                     }}
                   />
                 </div>
-                <div className="p-4 flex flex-col flex-1">
-                  <h2 className="text-base font-semibold">{subject.title}</h2>
-                  <p className="text-primary mb-3">{subject.description}</p>
-                  <Button className="mt-auto inline-flex items-center justify-center gap-1 bg-primary text-primary-foreground text-sm font-medium px-4 py-2 rounded-md transition w-fit">
-                    Continue Study <ArrowRight size={16} />
+                <div className="p-5 flex flex-col flex-1">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-primary mb-1">
+                    {subject.label}
+                  </span>
+                  <h2 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
+                    {subject.title}
+                  </h2>
+                  <p className="text-xs text-muted-foreground mt-1 mb-4 line-clamp-2">
+                    {subject.description}
+                  </p>
+                  <Button className="mt-auto inline-flex items-center justify-center gap-1.5 bg-primary text-primary-foreground text-xs font-semibold px-4 py-2 rounded-xl transition w-fit shadow-sm">
+                    Continue Study <ArrowRight size={14} />
                   </Button>
                 </div>
               </div>
