@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation, useParams, Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -11,7 +11,6 @@ import { Home, ChevronRight } from "lucide-react";
 
 export default function Breadcrumbs() {
   const location = useLocation();
-  const { id, subject, chapterId, classId } = useParams();
   const path = location.pathname;
 
   const getBreadcrumbs = () => {
@@ -22,54 +21,45 @@ export default function Breadcrumbs() {
       return crumbs;
     }
 
-    // Classes Routes
     if (path === "/classes") {
       crumbs.push({ label: "Classes", link: null });
       return crumbs;
     }
 
-    if (path.startsWith("/classes/") && classId) {
-      crumbs.push({ label: "Classes", link: "/classes" });
-      crumbs.push({ label: `Class ${classId}`, link: null });
+    if (path === "/students") {
+      crumbs.push({ label: "Students Directory", link: null });
       return crumbs;
     }
 
-    // Standard LMS Section Routes
-    if (path === "/papers") crumbs.push({ label: "Exam Papers", link: null });
-    else if (path === "/students") crumbs.push({ label: "Students Directory", link: null });
-    else if (path === "/teachers") crumbs.push({ label: "Faculty Directory", link: null });
-    else if (path === "/results") crumbs.push({ label: "Exam Results", link: null });
-    else if (path === "/assignments") crumbs.push({ label: "Assignments", link: null });
-    else if (path === "/study-material") crumbs.push({ label: "Study Material", link: null });
-    else if (path === "/announcements") crumbs.push({ label: "Announcements", link: null });
-    else if (path === "/settings") crumbs.push({ label: "Settings", link: null });
-    else if (path === "/subjects") crumbs.push({ label: "Subjects", link: null });
-    else if (path === "/create-assessment") crumbs.push({ label: "Create Assessment", link: null });
-    else if (path === "/assessment-page") crumbs.push({ label: "Assessment Builder", link: null });
-
-    // Dynamic routes for subject chapters
-    else if (path.startsWith("/chapter/") && id) {
-      crumbs.push({ label: "Subjects", link: "/subjects" });
-      crumbs.push({
-        label: id.charAt(0).toUpperCase() + id.slice(1) + " Chapters",
-        link: null,
-      });
+    if (path === "/profile") {
+      crumbs.push({ label: "Profile", link: null });
+      return crumbs;
     }
 
-    // Dynamic routes for taking assessment
-    else if (path.startsWith("/assessment/") && subject && chapterId) {
-      crumbs.push({ label: "Subjects", link: "/subjects" });
-      crumbs.push({
-        label: subject.charAt(0).toUpperCase() + subject.slice(1),
-        link: `/chapter/${subject}`,
-      });
-      crumbs.push({
-        label: chapterId.replace("chapter", "Chapter "),
-        link: null,
-      });
+    // Nested Class Routes: /classes/:classId/subjects/...
+    if (path.startsWith("/classes/")) {
+      const parts = path.split("/").filter(Boolean); // ['classes', classId, 'subjects', subjectId, 'chapters', chapterId, 'quiz']
+      crumbs.push({ label: "Classes", link: "/classes" });
+
+      if (parts.length >= 3 && parts[2] === "subjects") {
+        crumbs.push({ label: "Subjects", link: `/classes/${parts[1]}/subjects` });
+      }
+
+      if (parts.length >= 5 && parts[4] === "chapters") {
+        crumbs.push({
+          label: "Chapters",
+          link: `/classes/${parts[1]}/subjects/${parts[3]}/chapters`,
+        });
+      }
+
+      if (parts.length >= 7 && parts[6] === "quiz") {
+        crumbs.push({ label: "Quizzes", link: null });
+      }
+
+      return crumbs;
     }
 
-    return crumbs;
+    return [{ label: "Portal", link: null }];
   };
 
   const crumbs = getBreadcrumbs();

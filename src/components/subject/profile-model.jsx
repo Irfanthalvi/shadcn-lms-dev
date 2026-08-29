@@ -6,11 +6,17 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
 
 const ProfileModal = ({ setIsModalOpen, setProfile }) => {
-  const [preview, setPreview] = useState("/images/profile.png");
+  const { user, userProfile, updateProfile } = useAuth();
+  const [preview, setPreview] = useState(userProfile?.photoURL || "/images/profile.png");
   const [open, setOpen] = useState(false);
+
+  const nameParts = (userProfile?.name || user?.displayName || "IRFAN ALI").split(" ");
+  const initialFirst = nameParts[0] || "";
+  const initialLast = nameParts.slice(1).join(" ") || "";
 
   const {
     register,
@@ -20,9 +26,9 @@ const ProfileModal = ({ setIsModalOpen, setProfile }) => {
   } = useForm({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
+      firstName: initialFirst,
+      lastName: initialLast,
+      email: userProfile?.email || user?.email || "",
       newPassword: "",
       confirmPassword: "",
       profilePicture: undefined,
@@ -40,19 +46,32 @@ const ProfileModal = ({ setIsModalOpen, setProfile }) => {
     }, 150);
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const fullName = `${data.firstName} ${data.lastName}`.trim();
     const imageUrl = data.profilePicture
       ? URL.createObjectURL(data.profilePicture)
       : preview;
 
-    setProfile({
-      name: fullName || "IRFAN ALI",
-      image: imageUrl,
-    });
+    try {
+      if (user) {
+        await updateProfile({
+          name: fullName || "IRFAN ALI",
+        });
+      }
 
-    toast.success("✅ Profile updated successfully!");
-    handleClose();
+      if (setProfile) {
+        setProfile({
+          name: fullName || "IRFAN ALI",
+          image: imageUrl,
+        });
+      }
+
+      toast.success("✅ Profile updated successfully!");
+      handleClose();
+    } catch (err) {
+      console.error("Profile update error:", err);
+      toast.error("Failed to update profile in database.");
+    }
   };
 
   if (!open) return null;

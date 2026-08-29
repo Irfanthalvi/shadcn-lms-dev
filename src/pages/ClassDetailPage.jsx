@@ -4,19 +4,22 @@ import { useLms } from "@/context/LmsContext";
 import {
   Plus,
   Search,
-  Filter,
   Layers,
-  GraduationCap,
   Users,
   Award,
   BookOpen,
-  Calendar,
   CheckCircle2,
-  FileSpreadsheet,
   LayoutGrid,
   List,
-  Sparkles,
   ChevronLeft,
+  ChevronDown,
+  ChevronRight,
+  Pencil,
+  Trash2,
+  FileText,
+  Clock,
+  Trophy,
+  GraduationCap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -43,15 +46,76 @@ export default function ClassDetailPage() {
     deletePaper,
     duplicatePaper,
     togglePaperStatus,
+    getSubjectsByClass,
+    addSubject,
+    updateSubject,
+    deleteSubject,
+    addChapter,
+    updateChapter,
+    deleteChapter,
   } = useLms();
 
   const currentClass = classes.find((c) => c.id === String(classId)) || classes[0];
+  const classSubjects = getSubjectsByClass(classId);
 
-  // Filters & State
+  // Active tab: "papers" | "subjects"
+  const [activeTab, setActiveTab] = useState("papers");
+
+  // Expanded subjects (for chapter accordion)
+  const [expandedSubjects, setExpandedSubjects] = useState({});
+  const toggleSubjectExpand = (id) =>
+    setExpandedSubjects((prev) => ({ ...prev, [id]: !prev[id] }));
+
+  // Subject inline form
+  const [subjectForm, setSubjectForm] = useState(null); // null | { mode: "add"|"edit", data }
+  const [subjectDraft, setSubjectDraft] = useState({ name: "", slug: "", description: "", icon: "📚" });
+
+  const openAddSubject = () => {
+    setSubjectDraft({ name: "", slug: "", description: "", icon: "📚" });
+    setSubjectForm({ mode: "add" });
+  };
+  const openEditSubject = (subject) => {
+    setSubjectDraft({ name: subject.name, slug: subject.slug, description: subject.description, icon: subject.icon || "📚" });
+    setSubjectForm({ mode: "edit", subjectId: subject.id });
+  };
+  const handleSubjectSave = () => {
+    if (!subjectDraft.name.trim()) return;
+    if (subjectForm.mode === "add") {
+      addSubject(classId, subjectDraft);
+    } else {
+      updateSubject(subjectForm.subjectId, subjectDraft);
+    }
+    setSubjectForm(null);
+  };
+
+  // Chapter inline form
+  const [chapterForm, setChapterForm] = useState(null); // null | { mode, subjectId, chapterId? }
+  const [chapterDraft, setChapterDraft] = useState({ title: "", slug: "", marks: 35, durationMins: 35 });
+
+  const openAddChapter = (subjectId) => {
+    setChapterDraft({ title: "", slug: `chapter${Date.now()}`, marks: 35, durationMins: 35 });
+    setChapterForm({ mode: "add", subjectId });
+    setExpandedSubjects((prev) => ({ ...prev, [subjectId]: true }));
+  };
+  const openEditChapter = (subjectId, chapter) => {
+    setChapterDraft({ title: chapter.title, slug: chapter.slug, marks: chapter.marks, durationMins: chapter.durationMins });
+    setChapterForm({ mode: "edit", subjectId, chapterId: chapter.id });
+  };
+  const handleChapterSave = () => {
+    if (!chapterDraft.title.trim()) return;
+    if (chapterForm.mode === "add") {
+      addChapter(chapterForm.subjectId, chapterDraft);
+    } else {
+      updateChapter(chapterForm.subjectId, chapterForm.chapterId, chapterDraft);
+    }
+    setChapterForm(null);
+  };
+
+  // Papers filters & state
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("all");
   const [selectedStatus, setSelectedStatus] = useState("all");
-  const [viewMode, setViewMode] = useState("grid"); // 'grid' | 'table'
+  const [viewMode, setViewMode] = useState("grid");
 
   // Modals state
   const [formModalOpen, setFormModalOpen] = useState(false);
@@ -126,17 +190,14 @@ export default function ClassDetailPage() {
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
-              {currentClass.name} Assessment Hub
+              {currentClass.name} — Admin Hub
             </h1>
             <p className="text-sm text-muted-foreground leading-relaxed">
               {currentClass.description}
             </p>
-
             <div className="flex flex-wrap items-center gap-4 pt-2 text-xs text-muted-foreground">
               <div>
-                <span className="font-semibold text-foreground">
-                  Class Incharge:
-                </span>{" "}
+                <span className="font-semibold text-foreground">Class Incharge:</span>{" "}
                 {currentClass.teacher}
               </div>
               <span>•</span>
@@ -151,81 +212,322 @@ export default function ClassDetailPage() {
               </div>
             </div>
           </div>
-
-          {/* Quick Action Button */}
-          <div className="flex sm:flex-col items-center sm:items-end gap-3 shrink-0">
+          <div className="flex sm:flex-col items-center sm:items-end gap-2 shrink-0">
             <Button
-              size="default"
-              onClick={handleOpenAddModal}
-              className="gap-2 shadow-lg shadow-primary/20 px-5 font-semibold"
+              size="sm"
+              variant="outline"
+              onClick={() => navigate(`/classes/${classId}/subjects`)}
+              className="gap-2 text-xs"
             >
-              <Plus className="h-4 w-4" />
-              Add {currentClass.name} Paper
+              <GraduationCap className="h-3.5 w-3.5" />
+              Student View
             </Button>
-            <span className="text-xs text-muted-foreground hidden sm:block">
-              {classPapers.length} Total Papers in Repository
-            </span>
           </div>
         </div>
-
-        {/* Background glow decoration */}
         <div className="absolute right-0 top-0 -mt-8 -mr-8 w-64 h-64 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
       </div>
 
-      {/* Class Quick Metric Counters */}
+      {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div className="bg-card text-card-foreground border border-border rounded-xl p-4 space-y-1">
           <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-xs font-medium">Total Students</span>
+            <span className="text-xs font-medium">Students</span>
             <Users className="h-4 w-4 text-blue-500" />
           </div>
-          <p className="text-2xl font-bold text-foreground">
-            {currentClass.studentCount}
-          </p>
-          <span className="text-[11px] text-muted-foreground">Enrolled in 2025</span>
+          <p className="text-2xl font-bold text-foreground">{currentClass.studentCount}</p>
+          <span className="text-[11px] text-muted-foreground">Enrolled 2025</span>
         </div>
-
         <div className="bg-card text-card-foreground border border-border rounded-xl p-4 space-y-1">
           <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-xs font-medium">Active Papers</span>
-            <BookOpen className="h-4 w-4 text-emerald-500" />
+            <span className="text-xs font-medium">Subjects</span>
+            <BookOpen className="h-4 w-4 text-violet-500" />
           </div>
-          <p className="text-2xl font-bold text-foreground">
-            {classPapers.filter((p) => p.status === "Published").length}
-          </p>
-          <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
-            Published for Exam
-          </span>
+          <p className="text-2xl font-bold text-foreground">{classSubjects.length}</p>
+          <span className="text-[11px] text-violet-600 dark:text-violet-400 font-medium">Configured</span>
         </div>
-
         <div className="bg-card text-card-foreground border border-border rounded-xl p-4 space-y-1">
           <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-xs font-medium">Average Performance</span>
+            <span className="text-xs font-medium">Avg Score</span>
             <Award className="h-4 w-4 text-amber-500" />
           </div>
-          <p className="text-2xl font-bold text-foreground">
-            {currentClass.avgPerformance}%
-          </p>
-          <span className="text-[11px] text-muted-foreground">Passing benchmark</span>
+          <p className="text-2xl font-bold text-foreground">{currentClass.avgPerformance}%</p>
+          <span className="text-[11px] text-muted-foreground">Performance</span>
         </div>
-
         <div className="bg-card text-card-foreground border border-border rounded-xl p-4 space-y-1">
           <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-xs font-medium">Attendance Rate</span>
+            <span className="text-xs font-medium">Attendance</span>
             <CheckCircle2 className="h-4 w-4 text-purple-500" />
           </div>
-          <p className="text-2xl font-bold text-foreground">
-            {currentClass.attendanceRate}%
-          </p>
-          <span className="text-[11px] text-purple-600 dark:text-purple-400 font-medium">
-            Class Attendance
-          </span>
+          <p className="text-2xl font-bold text-foreground">{currentClass.attendanceRate}%</p>
+          <span className="text-[11px] text-purple-600 dark:text-purple-400 font-medium">Class Rate</span>
         </div>
       </div>
 
-      {/* Filter & Search Bar */}
-      <div className="bg-card border border-border rounded-xl p-4 space-y-4 shadow-sm">
-        {/* Search and Main Controls */}
+      {/* Tab Switcher */}
+      <div className="flex items-center gap-1 p-1 bg-muted/40 border border-border rounded-xl w-fit">
+        <button
+          onClick={() => setActiveTab("papers")}
+          className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
+            activeTab === "papers"
+              ? "bg-card text-foreground shadow-sm border border-border"
+              : "text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          <span className="flex items-center gap-1.5">
+            <FileText className="h-3.5 w-3.5" />
+            Exam Papers
+          </span>
+        </button>
+        <button
+          onClick={() => setActiveTab("subjects")}
+          className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
+            activeTab === "subjects"
+              ? "bg-card text-foreground shadow-sm border border-border"
+              : "text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          <span className="flex items-center gap-1.5">
+            <BookOpen className="h-3.5 w-3.5" />
+            Subjects & Chapters
+          </span>
+        </button>
+      </div>
+
+      {/* TAB: Subjects & Chapters */}
+      {activeTab === "subjects" && (
+        <div className="space-y-4">
+          {/* Header */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-base font-bold text-foreground">Subjects & Chapters</h2>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Changes are immediately visible to students on the class subjects page.
+              </p>
+            </div>
+            <Button size="sm" className="gap-2" onClick={openAddSubject}>
+              <Plus className="h-3.5 w-3.5" /> Add Subject
+            </Button>
+          </div>
+
+          {/* Add/Edit Subject Inline Form */}
+          {subjectForm && (
+            <div className="bg-card border border-primary/30 rounded-xl p-4 space-y-3">
+              <h3 className="text-sm font-bold text-foreground">
+                {subjectForm.mode === "add" ? "New Subject" : "Edit Subject"}
+              </h3>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <Input
+                  placeholder="Subject name"
+                  value={subjectDraft.name}
+                  onChange={(e) => setSubjectDraft((d) => ({ ...d, name: e.target.value }))}
+                  className="col-span-2"
+                />
+                <Input
+                  placeholder="Slug (e.g. math, physics)"
+                  value={subjectDraft.slug}
+                  onChange={(e) => setSubjectDraft((d) => ({ ...d, slug: e.target.value }))}
+                />
+                <Input
+                  placeholder="Icon emoji (e.g. 📐)"
+                  value={subjectDraft.icon}
+                  onChange={(e) => setSubjectDraft((d) => ({ ...d, icon: e.target.value }))}
+                />
+                <Input
+                  placeholder="Short description"
+                  value={subjectDraft.description}
+                  onChange={(e) => setSubjectDraft((d) => ({ ...d, description: e.target.value }))}
+                  className="col-span-2 sm:col-span-4"
+                />
+              </div>
+              <div className="flex gap-2 justify-end">
+                <Button variant="ghost" size="sm" onClick={() => setSubjectForm(null)}>Cancel</Button>
+                <Button size="sm" onClick={handleSubjectSave}>Save Subject</Button>
+              </div>
+            </div>
+          )}
+
+          {/* Subjects List */}
+          {classSubjects.length === 0 ? (
+            <div className="text-center py-12 px-4 bg-card border border-dashed border-border rounded-2xl space-y-3">
+              <div className="p-4 bg-primary/10 text-primary rounded-full w-14 h-14 mx-auto flex items-center justify-center">
+                <BookOpen className="h-7 w-7" />
+              </div>
+              <h3 className="text-base font-bold text-foreground">No subjects yet</h3>
+              <p className="text-sm text-muted-foreground max-w-xs mx-auto">
+                Add subjects to make them visible to students in {currentClass.name}.
+              </p>
+              <Button size="sm" onClick={openAddSubject} className="gap-2">
+                <Plus className="h-3.5 w-3.5" /> Add First Subject
+              </Button>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {classSubjects.map((subject) => {
+                const isExpanded = expandedSubjects[subject.id];
+                return (
+                  <div key={subject.id} className="bg-card border border-border rounded-xl overflow-hidden">
+                    {/* Subject Header Row */}
+                    <div className="flex items-center gap-3 p-4">
+                      <span className="text-xl shrink-0">{subject.icon || "📚"}</span>
+                      <button
+                        className="flex-1 text-left"
+                        onClick={() => toggleSubjectExpand(subject.id)}
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="font-semibold text-foreground text-sm">{subject.name}</span>
+                          <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-muted text-muted-foreground font-mono">
+                            {subject.slug}
+                          </span>
+                          <span className="text-[10px] text-muted-foreground">
+                            {subject.chapters?.length || 0} ch.
+                          </span>
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{subject.description}</p>
+                      </button>
+                      <div className="flex items-center gap-1 shrink-0">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-7 w-7"
+                          onClick={() => openAddChapter(subject.id)}
+                          title="Add chapter"
+                        >
+                          <Plus className="h-3.5 w-3.5" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-7 w-7"
+                          onClick={() => openEditSubject(subject)}
+                          title="Edit subject"
+                        >
+                          <Pencil className="h-3.5 w-3.5" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-7 w-7 text-destructive hover:text-destructive"
+                          onClick={() => deleteSubject(subject.id)}
+                          title="Delete subject"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </Button>
+                        <button onClick={() => toggleSubjectExpand(subject.id)} className="p-1 text-muted-foreground">
+                          {isExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Chapter List (accordion) */}
+                    {isExpanded && (
+                      <div className="border-t border-border bg-muted/20 p-3 space-y-2">
+                        {/* Add Chapter Inline Form */}
+                        {chapterForm && chapterForm.subjectId === subject.id && (
+                          <div className="bg-card border border-primary/30 rounded-lg p-3 space-y-2">
+                            <p className="text-xs font-bold text-foreground">
+                              {chapterForm.mode === "add" ? "New Chapter" : "Edit Chapter"}
+                            </p>
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                              <Input
+                                placeholder="Chapter title"
+                                value={chapterDraft.title}
+                                onChange={(e) => setChapterDraft((d) => ({ ...d, title: e.target.value }))}
+                                className="sm:col-span-3 text-xs h-8"
+                              />
+                              <Input
+                                placeholder="Slug (e.g. chapter1)"
+                                value={chapterDraft.slug}
+                                onChange={(e) => setChapterDraft((d) => ({ ...d, slug: e.target.value }))}
+                                className="text-xs h-8"
+                              />
+                              <Input
+                                type="number"
+                                placeholder="Marks"
+                                value={chapterDraft.marks}
+                                onChange={(e) => setChapterDraft((d) => ({ ...d, marks: Number(e.target.value) }))}
+                                className="text-xs h-8"
+                              />
+                              <Input
+                                type="number"
+                                placeholder="Duration (mins)"
+                                value={chapterDraft.durationMins}
+                                onChange={(e) => setChapterDraft((d) => ({ ...d, durationMins: Number(e.target.value) }))}
+                                className="text-xs h-8"
+                              />
+                            </div>
+                            <div className="flex gap-2 justify-end">
+                              <Button variant="ghost" size="sm" className="h-7 text-xs" onClick={() => setChapterForm(null)}>Cancel</Button>
+                              <Button size="sm" className="h-7 text-xs" onClick={handleChapterSave}>Save</Button>
+                            </div>
+                          </div>
+                        )}
+
+                        {subject.chapters?.length === 0 && !chapterForm && (
+                          <p className="text-xs text-muted-foreground text-center py-4">
+                            No chapters yet. Click + to add the first chapter.
+                          </p>
+                        )}
+
+                        {subject.chapters?.map((chapter) => (
+                          <div
+                            key={chapter.id}
+                            className="flex items-center gap-3 p-2.5 bg-card border border-border rounded-lg text-xs"
+                          >
+                            <div className="h-6 w-6 rounded-md bg-primary/10 text-primary font-bold text-[10px] flex items-center justify-center shrink-0">
+                              {chapter.slug.replace("chapter", "")}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium text-foreground truncate">{chapter.title}</p>
+                              <p className="text-muted-foreground">
+                                {chapter.marks} marks · {chapter.durationMins} min
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-1 shrink-0">
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-6 w-6"
+                                onClick={() => openEditChapter(subject.id, chapter)}
+                              >
+                                <Pencil className="h-3 w-3" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-6 w-6 text-destructive hover:text-destructive"
+                                onClick={() => deleteChapter(subject.id, chapter.id)}
+                              >
+                                <Trash2 className="h-3 w-3" />
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* TAB: Exam Papers */}
+      {activeTab === "papers" && (
+        <div className="space-y-5">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-base font-bold text-foreground">Exam Papers</h2>
+              <p className="text-xs text-muted-foreground mt-0.5">{classPapers.length} papers in repository</p>
+            </div>
+            <Button size="sm" className="gap-2" onClick={handleOpenAddModal}>
+              <Plus className="h-3.5 w-3.5" /> Add Paper
+            </Button>
+          </div>
+
+          {/* Filter & Search Bar */}
+          <div className="bg-card border border-border rounded-xl p-4 space-y-4 shadow-sm">
+            {/* Search and Main Controls */}
         <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
           {/* Search Input */}
           <div className="relative flex-1 max-w-md">
@@ -441,6 +743,8 @@ export default function ClassDetailPage() {
             <Plus className="h-4 w-4" />
             Create {currentClass.name} Paper
           </Button>
+        </div>
+      )}
         </div>
       )}
 

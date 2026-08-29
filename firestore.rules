@@ -1,0 +1,182 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ==========================================
+    // PRIMARY ADMIN
+    // ==========================================
+
+    function isPrimaryAdmin() {
+      return request.auth != null
+        && request.auth.uid == "sN5Ua7O0vobaxH69qqlbYMcYiwf1";
+    }
+
+    // ==========================================
+    // AUTH HELPERS
+    // ==========================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function currentUserDocExists() {
+      return isAuthenticated()
+        && exists(
+          /databases/$(database)/documents/users/$(request.auth.uid)
+        );
+    }
+
+    function currentUserDoc() {
+      return get(
+        /databases/$(database)/documents/users/$(request.auth.uid)
+      ).data;
+    }
+
+    function isApprovedAdmin() {
+      return isPrimaryAdmin()
+        || (
+          currentUserDocExists()
+          && currentUserDoc().role == "admin"
+          && currentUserDoc().isApproved == true
+        );
+    }
+
+    function isApprovedUser() {
+      return isPrimaryAdmin()
+        || (
+          currentUserDocExists()
+          && currentUserDoc().isApproved == true
+        );
+    }
+
+    // ==========================================
+    // USERS
+    // ==========================================
+
+    match /users/{userId} {
+
+      // User can read own profile.
+      // Approved admin can read all users.
+      allow read: if isAuthenticated()
+        && (
+          request.auth.uid == userId
+          || isApprovedAdmin()
+        );
+
+      // User registration + admin creation.
+      allow create: if isAuthenticated()
+        && (
+          isPrimaryAdmin()
+
+          || isApprovedAdmin()
+
+          || (
+            request.auth.uid == userId
+            && request.resource.data.role == "student"
+            && request.resource.data.isApproved == false
+          )
+
+          || (
+            request.auth.uid == userId
+            && request.resource.data.role == "admin"
+            && request.resource.data.isApproved == true
+          )
+        );
+
+      // Admin can approve/revoke students.
+      // Users can update their own profile without changing
+      // role or approval status.
+      allow update: if isAuthenticated()
+        && (
+          isPrimaryAdmin()
+
+          || (
+            isApprovedAdmin()
+            && request.resource.data.role == resource.data.role
+          )
+
+          || (
+            request.auth.uid == userId
+            && request.resource.data.role == resource.data.role
+            && request.resource.data.isApproved == resource.data.isApproved
+          )
+        );
+
+      // Only admin can delete users.
+      allow delete: if isApprovedAdmin();
+    }
+
+    // ==========================================
+    // CLASSES
+    // ==========================================
+
+    match /classes/{classId} {
+      allow read: if isApprovedUser();
+      allow create, update, delete: if isApprovedAdmin();
+    }
+
+    // ==========================================
+    // SUBJECTS
+    // ==========================================
+
+    match /subjects/{subjectId} {
+      allow read: if isApprovedUser();
+      allow create, update, delete: if isApprovedAdmin();
+    }
+
+    // ==========================================
+    // CHAPTERS
+    // ==========================================
+
+    match /chapters/{chapterId} {
+      allow read: if isApprovedUser();
+      allow create, update, delete: if isApprovedAdmin();
+    }
+
+    // ==========================================
+    // QUIZZES
+    // ==========================================
+
+    match /quizzes/{quizId} {
+      allow read: if isApprovedUser();
+      allow create, update, delete: if isApprovedAdmin();
+
+      match /questions/{questionId} {
+        allow read: if isApprovedUser();
+        allow create, update, delete: if isApprovedAdmin();
+      }
+    }
+
+    // ==========================================
+    // QUIZ ATTEMPTS
+    // ==========================================
+
+    match /quiz_attempts/{attemptId} {
+
+      // Admin can read all attempts.
+      // Student can read only their own attempts.
+      allow read: if isApprovedAdmin()
+        || (
+          isApprovedUser()
+          && resource.data.userId == request.auth.uid
+        );
+
+      // Approved student can submit only their own attempt.
+      allow create: if isApprovedUser()
+        && request.resource.data.userId == request.auth.uid;
+
+      // Only admin can modify/delete attempts.
+      allow update, delete: if isApprovedAdmin();
+    }
+
+    // ==========================================
+    // CATCH-ALL
+    // ==========================================
+
+    match /{document=**} {
+      allow read: if isApprovedUser();
+      allow write: if isApprovedAdmin();
+    }
+  }
+}

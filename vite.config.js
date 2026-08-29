@@ -6,6 +6,7 @@ import { defineConfig } from "vite"
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  envPrefix: ["VITE_", "NEXT_PUBLIC_"],
 //  base: process.env.VITE_BASE_PATH || "/shadcn-lms-dev",
 
   resolve: {

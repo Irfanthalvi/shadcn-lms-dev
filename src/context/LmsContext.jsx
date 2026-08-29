@@ -1,33 +1,42 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import {
-  classesList as defaultClasses,
-  initialPapers as defaultPapers,
-  studentsList as defaultStudents,
-  teachersList as defaultTeachers,
-  resultsList as defaultResults,
-  assignmentsList as defaultAssignments,
-  studyMaterialsList as defaultStudyMaterials,
-  announcementsList as defaultAnnouncements,
-} from "@/data/mock-lms-data";
+  subscribeToClasses,
+  subscribeToSubjects,
+  subscribeToChapters,
+  subscribeToQuizzes,
+  subscribeToStudents,
+  seedInitialLmsDataIfEmpty,
+  addClass as apiAddClass,
+  updateClass as apiUpdateClass,
+  deleteClass as apiDeleteClass,
+  addSubject as apiAddSubject,
+  updateSubject as apiUpdateSubject,
+  deleteSubject as apiDeleteSubject,
+  addChapter as apiAddChapter,
+  updateChapter as apiUpdateChapter,
+  deleteChapter as apiDeleteChapter,
+  addQuiz as apiAddQuiz,
+  updateQuiz as apiUpdateQuiz,
+  deleteQuiz as apiDeleteQuiz,
+  submitQuizAttempt as apiSubmitQuizAttempt,
+  getStudentAttempts as apiGetStudentAttempts,
+  updateStudentApproval as apiUpdateStudentApproval,
+  deleteStudentAccount as apiDeleteStudentAccount,
+  getQuizById,
+} from "@/services/lmsService";
+import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
 
 const LmsContext = createContext(null);
 
-const STORAGE_KEYS = {
-  PAPERS: "lms_papers_store_v1",
-  STUDENTS: "lms_students_store_v1",
-  ASSIGNMENTS: "lms_assignments_store_v1",
-  ANNOUNCEMENTS: "lms_announcements_store_v1",
-  THEME: "lms_theme_preference_v1",
-};
-
 export const LmsProvider = ({ children }) => {
-  // Theme state
+  const { user, isAdmin } = useAuth();
+
+  // Theme State
   const [theme, setTheme] = useState(() => {
-    return localStorage.getItem(STORAGE_KEYS.THEME) || "light";
+    return localStorage.getItem("lms_theme_pref") || "light";
   });
 
-  // Apply theme to document
   useEffect(() => {
     const root = document.documentElement;
     if (theme === "dark") {
@@ -35,206 +44,265 @@ export const LmsProvider = ({ children }) => {
     } else {
       root.classList.remove("dark");
     }
-    localStorage.setItem(STORAGE_KEYS.THEME, theme);
+    localStorage.setItem("lms_theme_pref", theme);
   }, [theme]);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   };
 
-  // Papers State with LocalStorage
-  const [papers, setPapers] = useState(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEYS.PAPERS);
-      return saved ? JSON.parse(saved) : defaultPapers;
-    } catch {
-      return defaultPapers;
-    }
-  });
+  // Realtime LMS Data States from Firestore
+  const [classes, setClasses] = useState([]);
+  const [subjects, setSubjects] = useState([]);
+  const [chapters, setChapters] = useState([]);
+  const [quizzes, setQuizzes] = useState([]);
+  const [students, setStudents] = useState([]);
+  const [studentAttempts, setStudentAttempts] = useState([]);
+  const [loadingLms, setLoadingLms] = useState(true);
 
+  // Initialize Seeder if Admin and Collection is empty
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.PAPERS, JSON.stringify(papers));
-  }, [papers]);
-
-  // Students State
-  const [students, setStudents] = useState(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEYS.STUDENTS);
-      return saved ? JSON.parse(saved) : defaultStudents;
-    } catch {
-      return defaultStudents;
+    if (isAdmin) {
+      seedInitialLmsDataIfEmpty();
     }
-  });
+  }, [isAdmin]);
 
+  // Realtime Subscriptions
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.STUDENTS, JSON.stringify(students));
-  }, [students]);
-
-  // Assignments State
-  const [assignments, setAssignments] = useState(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEYS.ASSIGNMENTS);
-      return saved ? JSON.parse(saved) : defaultAssignments;
-    } catch {
-      return defaultAssignments;
+    if (!user) {
+      setClasses([]);
+      setSubjects([]);
+      setChapters([]);
+      setQuizzes([]);
+      setStudents([]);
+      setLoadingLms(false);
+      return;
     }
-  });
 
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.ASSIGNMENTS, JSON.stringify(assignments));
-  }, [assignments]);
+    setLoadingLms(true);
 
-  // Announcements State
-  const [announcements, setAnnouncements] = useState(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEYS.ANNOUNCEMENTS);
-      return saved ? JSON.parse(saved) : defaultAnnouncements;
-    } catch {
-      return defaultAnnouncements;
+    const unsubClasses = subscribeToClasses((list) => {
+      setClasses(list);
+      setLoadingLms(false);
+    });
+
+    const unsubSubjects = subscribeToSubjects(null, (list) => {
+      setSubjects(list);
+    });
+
+    const unsubChapters = subscribeToChapters(null, (list) => {
+      setChapters(list);
+    });
+
+    const unsubQuizzes = subscribeToQuizzes(null, (list) => {
+      setQuizzes(list);
+    });
+
+    let unsubStudents = () => {};
+    if (isAdmin) {
+      unsubStudents = subscribeToStudents((list) => {
+        setStudents(list);
+      });
     }
-  });
 
+    return () => {
+      unsubClasses();
+      unsubSubjects();
+      unsubChapters();
+      unsubQuizzes();
+      unsubStudents();
+    };
+  }, [user, isAdmin]);
+
+  // Load student attempts when user is present
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.ANNOUNCEMENTS, JSON.stringify(announcements));
-  }, [announcements]);
+    if (user && !isAdmin) {
+      apiGetStudentAttempts(user.uid).then((res) => {
+        setStudentAttempts(res);
+      });
+    }
+  }, [user, isAdmin]);
 
-  // Read-only reference lists
-  const classes = defaultClasses;
-  const teachers = defaultTeachers;
-  const results = defaultResults;
-  const studyMaterials = defaultStudyMaterials;
-
-  // --- PAPER ACTIONS ---
-
-  // Add Paper
-  const addPaper = (paperData) => {
-    const classObj = classes.find((c) => c.id === String(paperData.classId));
-    const newPaper = {
-      ...paperData,
-      id: `p-${Date.now()}`,
-      className: classObj ? classObj.name : `Class ${paperData.classId}`,
-      dateCreated: new Date().toISOString().split("T")[0],
-      attemptsCount: 0,
-      avgScore: 0,
-      status: paperData.status || "Draft",
-      questions: paperData.questions || [],
-    };
-
-    setPapers((prev) => [newPaper, ...prev]);
-    toast.success(`🎉 Paper "${newPaper.title}" added to ${newPaper.className}!`);
-    return newPaper;
+  // Class Actions
+  const handleAddClass = async (data) => {
+    try {
+      const id = await apiAddClass(data);
+      toast.success(`Class "${data.name}" added successfully.`);
+      return id;
+    } catch (err) {
+      console.error("Error adding class:", err);
+      toast.error(err?.message || "Failed to add class.");
+      throw err;
+    }
   };
 
-  // Update / Edit Paper
-  const updatePaper = (paperId, updatedFields) => {
-    setPapers((prev) =>
-      prev.map((paper) => {
-        if (paper.id === paperId) {
-          const classObj = updatedFields.classId
-            ? classes.find((c) => c.id === String(updatedFields.classId))
-            : null;
-          return {
-            ...paper,
-            ...updatedFields,
-            className: classObj ? classObj.name : paper.className,
-            lastModified: new Date().toISOString().split("T")[0],
-          };
-        }
-        return paper;
-      })
-    );
-    toast.success("✅ Paper updated successfully!");
+  const handleUpdateClass = async (id, data) => {
+    try {
+      await apiUpdateClass(id, data);
+      toast.success("Class updated successfully.");
+    } catch (err) {
+      console.error("Error updating class:", err);
+      toast.error(err?.message || "Failed to update class.");
+      throw err;
+    }
   };
 
-  // Delete Paper
-  const deletePaper = (paperId) => {
-    const target = papers.find((p) => p.id === paperId);
-    setPapers((prev) => prev.filter((p) => p.id !== paperId));
-    toast.success(`🗑️ Paper "${target?.title || "Assessment"}" deleted.`);
+  const handleDeleteClass = async (id) => {
+    try {
+      await apiDeleteClass(id);
+      toast.success("Class deleted successfully.");
+    } catch (err) {
+      console.error("Error deleting class:", err);
+      toast.error(err?.message || "Failed to delete class.");
+      throw err;
+    }
   };
 
-  // Duplicate Paper
-  const duplicatePaper = (paperId) => {
-    const original = papers.find((p) => p.id === paperId);
-    if (!original) return;
-
-    const duplicated = {
-      ...original,
-      id: `p-${Date.now()}`,
-      title: `${original.title} (Copy)`,
-      status: "Draft",
-      examCode: `${original.examCode}-COPY`,
-      dateCreated: new Date().toISOString().split("T")[0],
-      attemptsCount: 0,
-      avgScore: 0,
-    };
-
-    setPapers((prev) => [duplicated, ...prev]);
-    toast.success(`📋 Duplicated "${original.title}" as Draft`);
+  // Subject Actions
+  const handleAddSubject = async (data) => {
+    try {
+      const id = await apiAddSubject(data);
+      toast.success(`Subject "${data.name}" added.`);
+      return id;
+    } catch (err) {
+      console.error("Error adding subject:", err);
+      toast.error(err?.message || "Failed to add subject.");
+      throw err;
+    }
   };
 
-  // Toggle Paper Status (Published / Draft / Archived)
-  const togglePaperStatus = (paperId, newStatus) => {
-    setPapers((prev) =>
-      prev.map((p) => (p.id === paperId ? { ...p, status: newStatus } : p))
-    );
-    toast.info(`Status changed to ${newStatus}`);
+  const handleUpdateSubject = async (id, data) => {
+    try {
+      await apiUpdateSubject(id, data);
+      toast.success("Subject updated.");
+    } catch (err) {
+      console.error("Error updating subject:", err);
+      toast.error(err?.message || "Failed to update subject.");
+      throw err;
+    }
   };
 
-  // Get papers for a specific class
-  const getPapersByClass = (classId) => {
-    return papers.filter((p) => String(p.classId) === String(classId));
+  const handleDeleteSubject = async (id) => {
+    try {
+      await apiDeleteSubject(id);
+      toast.success("Subject deleted.");
+    } catch (err) {
+      console.error("Error deleting subject:", err);
+      toast.error(err?.message || "Failed to delete subject.");
+      throw err;
+    }
   };
 
-  // --- STUDENT ACTIONS ---
-  const addStudent = (studentData) => {
-    const classObj = classes.find((c) => c.id === String(studentData.classId));
-    const newStudent = {
-      ...studentData,
-      id: `s-${Date.now()}`,
-      className: classObj ? classObj.name : `Class ${studentData.classId}`,
-      gpa: studentData.gpa || "3.50",
-      score: studentData.score || "85%",
-      attendance: studentData.attendance || "95%",
-      status: "Active",
-    };
-    setStudents((prev) => [newStudent, ...prev]);
-    toast.success(`👤 Student ${newStudent.name} registered!`);
+  // Chapter Actions
+  const handleAddChapter = async (data) => {
+    try {
+      const id = await apiAddChapter(data);
+      toast.success(`Chapter ${data.chapterNumber} added.`);
+      return id;
+    } catch (err) {
+      console.error("Error adding chapter:", err);
+      toast.error(err?.message || "Failed to add chapter.");
+      throw err;
+    }
   };
 
-  const deleteStudent = (studentId) => {
-    setStudents((prev) => prev.filter((s) => s.id !== studentId));
-    toast.success("Student record removed.");
+  const handleUpdateChapter = async (id, data) => {
+    try {
+      await apiUpdateChapter(id, data);
+      toast.success("Chapter updated.");
+    } catch (err) {
+      console.error("Error updating chapter:", err);
+      toast.error(err?.message || "Failed to update chapter.");
+      throw err;
+    }
   };
 
-  // --- ASSIGNMENT ACTIONS ---
-  const addAssignment = (assignmentData) => {
-    const classObj = classes.find((c) => c.id === String(assignmentData.classId));
-    const newAssignment = {
-      ...assignmentData,
-      id: `a-${Date.now()}`,
-      className: classObj ? classObj.name : `Class ${assignmentData.classId}`,
-      submissions: 0,
-      totalStudents: classObj ? classObj.studentCount : 60,
-      status: "Active",
-    };
-    setAssignments((prev) => [newAssignment, ...prev]);
-    toast.success(`📝 Assignment "${newAssignment.title}" published!`);
+  const handleDeleteChapter = async (id) => {
+    try {
+      await apiDeleteChapter(id);
+      toast.success("Chapter deleted.");
+    } catch (err) {
+      console.error("Error deleting chapter:", err);
+      toast.error(err?.message || "Failed to delete chapter.");
+      throw err;
+    }
   };
 
-  // --- ANNOUNCEMENT ACTIONS ---
-  const addAnnouncement = (announcementData) => {
-    const newAnn = {
-      ...announcementData,
-      id: `ann-${Date.now()}`,
-      date: new Date().toLocaleDateString("en-US", {
-        month: "short",
-        day: "2-digit",
-        year: "numeric",
-      }),
-    };
-    setAnnouncements((prev) => [newAnn, ...prev]);
-    toast.success("📢 Announcement published!");
+  // Quiz Actions
+  const handleAddQuiz = async (data) => {
+    try {
+      const id = await apiAddQuiz(data);
+      toast.success(`Quiz "${data.title}" created.`);
+      return id;
+    } catch (err) {
+      console.error("Error creating quiz:", err);
+      toast.error(err?.message || "Failed to create quiz.");
+      throw err;
+    }
+  };
+
+  const handleUpdateQuiz = async (id, data) => {
+    try {
+      await apiUpdateQuiz(id, data);
+      toast.success("Quiz updated.");
+    } catch (err) {
+      console.error("Error updating quiz:", err);
+      toast.error(err?.message || "Failed to update quiz.");
+      throw err;
+    }
+  };
+
+  const handleDeleteQuiz = async (id) => {
+    try {
+      await apiDeleteQuiz(id);
+      toast.success("Quiz deleted.");
+    } catch (err) {
+      console.error("Error deleting quiz:", err);
+      toast.error(err?.message || "Failed to delete quiz.");
+      throw err;
+    }
+  };
+
+  // Quiz Attempt
+  const handleQuizSubmit = async (attemptData) => {
+    try {
+      const attemptId = await apiSubmitQuizAttempt(attemptData);
+      // Refresh local attempts
+      if (user) {
+        const refreshed = await apiGetStudentAttempts(user.uid);
+        setStudentAttempts(refreshed);
+      }
+      return attemptId;
+    } catch (err) {
+      console.error("Error submitting quiz attempt:", err);
+      toast.error(err?.message || "Failed to submit quiz.");
+      throw err;
+    }
+  };
+
+  // Student Approval
+  const handleUpdateStudentApproval = async (uid, isApproved) => {
+    try {
+      await apiUpdateStudentApproval(uid, isApproved);
+      toast.success(
+        `Student access ${isApproved ? "approved" : "revoked"} successfully.`
+      );
+    } catch (err) {
+      console.error("Error updating student approval:", err);
+      toast.error(err?.message || "Failed to update student status.");
+      throw err;
+    }
+  };
+
+  const handleDeleteStudent = async (uid) => {
+    try {
+      await apiDeleteStudentAccount(uid);
+      toast.success("Student account removed.");
+    } catch (err) {
+      console.error("Error deleting student:", err);
+      toast.error(err?.message || "Failed to remove student.");
+      throw err;
+    }
   };
 
   return (
@@ -243,26 +311,33 @@ export const LmsProvider = ({ children }) => {
         theme,
         toggleTheme,
         classes,
-        papers,
+        subjects,
+        chapters,
+        quizzes,
         students,
-        teachers,
-        results,
-        assignments,
-        studyMaterials,
-        announcements,
-        // Paper methods
-        addPaper,
-        updatePaper,
-        deletePaper,
-        duplicatePaper,
-        togglePaperStatus,
-        getPapersByClass,
-        // Student methods
-        addStudent,
-        deleteStudent,
-        // Assignment & Announcement methods
-        addAssignment,
-        addAnnouncement,
+        studentAttempts,
+        loadingLms,
+        // Class methods
+        addClass: handleAddClass,
+        updateClass: handleUpdateClass,
+        deleteClass: handleDeleteClass,
+        // Subject methods
+        addSubject: handleAddSubject,
+        updateSubject: handleUpdateSubject,
+        deleteSubject: handleDeleteSubject,
+        // Chapter methods
+        addChapter: handleAddChapter,
+        updateChapter: handleUpdateChapter,
+        deleteChapter: handleDeleteChapter,
+        // Quiz methods
+        addQuiz: handleAddQuiz,
+        updateQuiz: handleUpdateQuiz,
+        deleteQuiz: handleDeleteQuiz,
+        getQuizById,
+        submitQuizAttempt: handleQuizSubmit,
+        // Student Admin methods
+        updateStudentApproval: handleUpdateStudentApproval,
+        deleteStudent: handleDeleteStudent,
       }}
     >
       {children}
@@ -277,3 +352,5 @@ export const useLms = () => {
   }
   return context;
 };
+
+export default LmsContext;

@@ -4,16 +4,13 @@ import {
   Menu,
   Sun,
   Moon,
-  Bell,
-  Search,
   LogOut,
-  Settings,
   User,
   GraduationCap,
   ChevronDown,
-  Sparkles,
 } from "lucide-react";
 import { useLms } from "@/context/LmsContext";
+import { useAuth } from "@/context/AuthContext";
 import Breadcrumbs from "@/components/subject/breadcrumbs";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -21,14 +18,34 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const Topbar = ({ toggleSidebar, setIsModalOpen, profile }) => {
+const Topbar = ({ toggleSidebar, setIsModalOpen, profile: layoutProfile }) => {
   const navigate = useNavigate();
-  const { theme, toggleTheme, classes, announcements } = useLms();
+  const { theme, toggleTheme, classes } = useLms();
+  const { user, userProfile, isAdmin, logout } = useAuth();
+
+  const displayName = userProfile?.name || user?.displayName || layoutProfile?.name || (isAdmin ? "Administrator" : "Student");
+  const displayEmail = userProfile?.email || user?.email || "";
+  const displayRole = isAdmin ? "Administrator" : "Student";
+
+  const getInitials = (name) => {
+    if (!name) return "LM";
+    const parts = name.trim().split(" ");
+    if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+    return name.slice(0, 2).toUpperCase();
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await logout();
+      navigate("/login");
+    } catch (err) {
+      console.error("Sign out error:", err);
+    }
+  };
 
   return (
     <header className="sticky top-0 z-30 flex items-center justify-between h-[70px] px-4 sm:px-6 border-b border-border bg-card/80 backdrop-blur-md">
@@ -49,37 +66,35 @@ const Topbar = ({ toggleSidebar, setIsModalOpen, profile }) => {
         </div>
       </div>
 
-      {/* Right Section: Quick Switcher, Theme, Notifications & Profile */}
+      {/* Right Section: Theme Toggle & Profile Menu */}
       <div className="flex items-center gap-2 sm:gap-3 shrink-0">
         {/* Quick Class Switcher Dropdown */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="outline"
-              size="sm"
-              className="hidden md:flex items-center gap-1.5 h-8 text-xs font-semibold rounded-xl bg-background border-border"
-            >
-              <GraduationCap className="h-3.5 w-3.5 text-primary" />
-              <span>Switch Class</span>
-              <ChevronDown className="h-3 w-3 text-muted-foreground ml-0.5" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-48">
-            <DropdownMenuLabel className="text-[11px] text-muted-foreground uppercase font-bold">
-              Classes 8 to 12
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {classes.map((cls) => (
-              <DropdownMenuItem
-                key={cls.id}
-                onClick={() => navigate(`/classes/${cls.id}`)}
-                className="cursor-pointer text-xs font-medium"
+        {classes.length > 0 && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                className="hidden md:flex items-center gap-1.5 h-8 text-xs font-semibold rounded-xl bg-background border-border"
               >
-                {cls.name} ({cls.level.split("(")[0].trim()})
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+                <GraduationCap className="h-3.5 w-3.5 text-primary" />
+                <span>Switch Class</span>
+                <ChevronDown className="h-3 w-3 text-muted-foreground ml-0.5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              {classes.map((cls) => (
+                <DropdownMenuItem
+                  key={cls.id}
+                  onClick={() => navigate(`/classes/${cls.id}/subjects`)}
+                  className="cursor-pointer text-xs font-medium"
+                >
+                  {cls.name} (Grade {cls.grade || cls.name})
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
 
         {/* Theme Toggle Button */}
         <Button
@@ -96,46 +111,6 @@ const Topbar = ({ toggleSidebar, setIsModalOpen, profile }) => {
           )}
         </Button>
 
-        {/* Notifications Dropdown */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="relative h-9 w-9 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted"
-            >
-              <Bell className="h-4 w-4" />
-              <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-primary" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-72 p-2">
-            <div className="flex items-center justify-between px-2 py-1.5 border-b border-border mb-1">
-              <span className="text-xs font-bold text-foreground">
-                School Notifications
-              </span>
-              <span className="text-[10px] text-primary font-medium cursor-pointer" onClick={() => navigate("/announcements")}>
-                View all
-              </span>
-            </div>
-            <div className="space-y-1 max-h-60 overflow-y-auto">
-              {announcements.slice(0, 3).map((ann) => (
-                <div
-                  key={ann.id}
-                  onClick={() => navigate("/announcements")}
-                  className="p-2 rounded-lg hover:bg-muted text-xs cursor-pointer space-y-0.5"
-                >
-                  <div className="font-semibold text-foreground truncate">
-                    {ann.title}
-                  </div>
-                  <div className="text-[11px] text-muted-foreground truncate">
-                    {ann.content}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </DropdownMenuContent>
-        </DropdownMenu>
-
         {/* User Profile Menu */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -144,17 +119,17 @@ const Topbar = ({ toggleSidebar, setIsModalOpen, profile }) => {
               className="flex items-center gap-2 p-1 sm:px-2 sm:py-1.5 rounded-xl hover:bg-muted h-auto"
             >
               <Avatar className="h-8 w-8 border border-border">
-                <AvatarImage src={profile?.image || "/images/profile.png"} />
+                <AvatarImage src={userProfile?.photoURL || layoutProfile?.image} />
                 <AvatarFallback className="bg-primary/10 text-primary font-bold text-xs">
-                  IA
+                  {getInitials(displayName)}
                 </AvatarFallback>
               </Avatar>
               <div className="hidden lg:flex flex-col text-left">
                 <span className="text-xs font-bold text-foreground leading-none">
-                  {profile?.name || "IRFAN ALI"}
+                  {displayName}
                 </span>
-                <span className="text-[10px] text-muted-foreground leading-none mt-0.5">
-                  LMS Admin
+                <span className="text-[10px] text-muted-foreground leading-none mt-0.5 capitalize">
+                  {displayRole}
                 </span>
               </div>
               <ChevronDown className="hidden lg:block h-3 w-3 text-muted-foreground" />
@@ -163,37 +138,29 @@ const Topbar = ({ toggleSidebar, setIsModalOpen, profile }) => {
 
           <DropdownMenuContent
             align="end"
-            className="w-52 rounded-xl border border-border bg-card shadow-lg p-1"
+            className="w-56 rounded-xl border border-border bg-card shadow-lg p-1"
           >
             <div className="px-3 py-2 border-b border-border/80">
-              <div className="text-xs font-bold text-foreground">
-                {profile?.name || "IRFAN ALI"}
+              <div className="text-xs font-bold text-foreground truncate">
+                {displayName}
               </div>
-              <div className="text-[10px] text-muted-foreground">
-                admin@schoolsystem.edu
+              <div className="text-[10px] text-muted-foreground truncate">
+                {displayEmail}
               </div>
             </div>
 
             <DropdownMenuItem
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => navigate("/profile")}
               className="cursor-pointer gap-2 text-xs font-medium py-2 rounded-lg"
             >
               <User className="h-4 w-4 text-primary" />
-              Edit Profile
-            </DropdownMenuItem>
-
-            <DropdownMenuItem
-              onClick={() => navigate("/settings")}
-              className="cursor-pointer gap-2 text-xs font-medium py-2 rounded-lg"
-            >
-              <Settings className="h-4 w-4 text-blue-500" />
-              LMS Settings
+              My Profile
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />
 
             <DropdownMenuItem
-              onClick={() => navigate("/login")}
+              onClick={handleSignOut}
               className="cursor-pointer gap-2 text-xs font-medium text-destructive focus:text-destructive py-2 rounded-lg"
             >
               <LogOut className="h-4 w-4" />

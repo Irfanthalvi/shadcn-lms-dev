@@ -3,331 +3,206 @@ import { useLms } from "@/context/LmsContext";
 import {
   Users,
   Search,
-  Plus,
-  Filter,
-  GraduationCap,
-  Mail,
-  Phone,
-  CheckCircle,
-  Clock,
+  CheckCircle2,
+  XCircle,
   Trash2,
-  Eye,
-  X,
+  ShieldCheck,
+  Clock,
+  UserCheck,
+  UserX,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { toast } from "sonner";
 
 export default function StudentsPage() {
-  const { students, classes, addStudent, deleteStudent } = useLms();
+  const { students, updateStudentApproval, deleteStudent } = useLms();
   const [search, setSearch] = useState("");
-  const [selectedClass, setSelectedClass] = useState("all");
-  const [addModalOpen, setAddModalOpen] = useState(false);
-
-  // New Student Form State
-  const [newStudent, setNewStudent] = useState({
-    name: "",
-    rollNo: "",
-    classId: "10",
-    section: "Science",
-    email: "",
-    guardian: "",
-    gpa: "3.80",
-    score: "88%",
-    attendance: "95%",
-  });
+  const [filter, setFilter] = useState("all"); // "all" | "approved" | "pending"
 
   const filteredStudents = students.filter((s) => {
     const matchesSearch =
-      s.name.toLowerCase().includes(search.toLowerCase()) ||
-      s.rollNo.toLowerCase().includes(search.toLowerCase()) ||
-      s.email.toLowerCase().includes(search.toLowerCase());
-    const matchesClass =
-      selectedClass === "all" || String(s.classId) === String(selectedClass);
-    return matchesSearch && matchesClass;
+      (s.name || "").toLowerCase().includes(search.toLowerCase()) ||
+      (s.email || "").toLowerCase().includes(search.toLowerCase());
+
+    if (filter === "approved") return matchesSearch && s.isApproved === true;
+    if (filter === "pending") return matchesSearch && s.isApproved !== true;
+    return matchesSearch;
   });
 
-  const handleAddSubmit = (e) => {
-    e.preventDefault();
-    if (!newStudent.name.trim() || !newStudent.rollNo.trim()) {
-      toast.warning("Please fill in Student Name and Roll Number");
-      return;
+  const handleToggleApproval = async (student) => {
+    const nextStatus = !student.isApproved;
+    await updateStudentApproval(student.uid, nextStatus);
+  };
+
+  const handleDelete = async (student) => {
+    if (window.confirm(`Are you sure you want to remove student "${student.name || student.email}"?`)) {
+      await deleteStudent(student.uid);
     }
-    addStudent(newStudent);
-    setNewStudent({
-      name: "",
-      rollNo: "",
-      classId: "10",
-      section: "Science",
-      email: "",
-      guardian: "",
-      gpa: "3.80",
-      score: "88%",
-      attendance: "95%",
-    });
-    setAddModalOpen(false);
   };
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6 animate-in fade-in duration-300">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs px-2.5 py-0.5 rounded-full font-semibold bg-primary/10 text-primary border border-primary/20">
-              Student Directory
+            <span className="text-xs px-2.5 py-0.5 rounded-full font-bold bg-primary/10 text-primary border border-primary/20">
+              Admin Control
             </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground mt-1">
-            Enrolled Students Roster
+            Registered Students
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Manage academic records, attendance standing, and grade profiles across Classes 8 through 12.
+          <p className="text-sm text-muted-foreground mt-0.5">
+            Review registered student accounts and authorize access to curriculum content.
           </p>
         </div>
-
-        <Button onClick={() => setAddModalOpen(true)} className="gap-2 shadow-sm font-semibold">
-          <Plus className="h-4 w-4" />
-          Enroll New Student
-        </Button>
       </div>
 
-      {/* Filter Bar */}
-      <div className="bg-card border border-border rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm">
+      {/* Search & Filter Toolbar */}
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-4 rounded-2xl bg-card border border-border">
         <div className="relative flex-1 w-full max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
-            placeholder="Search student by name, roll number, or email..."
+            placeholder="Search by student name or email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="pl-9 h-9 text-xs"
           />
         </div>
 
-        {/* Class Filter Tabs */}
-        <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto text-xs pb-1 sm:pb-0">
-          <button
-            onClick={() => setSelectedClass("all")}
-            className={`px-3 py-1 rounded-full font-medium transition whitespace-nowrap ${
-              selectedClass === "all"
-                ? "bg-primary text-primary-foreground"
-                : "bg-muted text-muted-foreground hover:text-foreground"
-            }`}
+        {/* Filter Pills */}
+        <div className="flex items-center gap-1.5 text-xs">
+          <Button
+            variant={filter === "all" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setFilter("all")}
+            className="h-8 text-xs rounded-full"
           >
             All ({students.length})
-          </button>
-          {classes.map((c) => {
-            const count = students.filter((s) => String(s.classId) === String(c.id)).length;
-            const isSelected = selectedClass === String(c.id);
-            return (
-              <button
-                key={c.id}
-                onClick={() => setSelectedClass(String(c.id))}
-                className={`px-3 py-1 rounded-full font-medium transition whitespace-nowrap ${
-                  isSelected
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {c.name} ({count})
-              </button>
-            );
-          })}
+          </Button>
+          <Button
+            variant={filter === "approved" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setFilter("approved")}
+            className="h-8 text-xs rounded-full"
+          >
+            Approved ({students.filter((s) => s.isApproved).length})
+          </Button>
+          <Button
+            variant={filter === "pending" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setFilter("pending")}
+            className="h-8 text-xs rounded-full"
+          >
+            Pending ({students.filter((s) => !s.isApproved).length})
+          </Button>
         </div>
       </div>
 
-      {/* Students Table */}
-      <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-muted/50 text-muted-foreground text-xs uppercase border-b border-border">
-              <tr>
-                <th className="px-5 py-3.5 font-semibold">Roll No</th>
-                <th className="px-5 py-3.5 font-semibold">Student Name</th>
-                <th className="px-4 py-3.5 font-semibold">Class & Section</th>
-                <th className="px-4 py-3.5 font-semibold">GPA / Score</th>
-                <th className="px-4 py-3.5 font-semibold">Attendance</th>
-                <th className="px-4 py-3.5 font-semibold">Status</th>
-                <th className="px-5 py-3.5 font-semibold text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {filteredStudents.map((student) => (
-                <tr key={student.id} className="hover:bg-muted/30 transition">
-                  <td className="px-5 py-3.5 font-mono text-xs font-bold text-primary">
-                    {student.rollNo}
-                  </td>
-                  <td className="px-5 py-3.5">
-                    <div className="font-semibold text-foreground">{student.name}</div>
-                    <div className="text-xs text-muted-foreground">{student.email}</div>
-                  </td>
-                  <td className="px-4 py-3.5">
-                    <span className="font-medium text-foreground">{student.className}</span>
-                    <span className="text-xs text-muted-foreground ml-1">({student.section})</span>
-                  </td>
-                  <td className="px-4 py-3.5">
-                    <div className="font-bold text-foreground text-xs">{student.gpa} GPA</div>
-                    <div className="text-[11px] text-muted-foreground">Avg: {student.score}</div>
-                  </td>
-                  <td className="px-4 py-3.5">
-                    <span className="font-semibold text-emerald-600 dark:text-emerald-400 text-xs">
-                      {student.attendance}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3.5">
-                    <span
-                      className={`text-xs px-2.5 py-0.5 rounded-full font-medium border ${
-                        student.status === "Active"
-                          ? "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800"
-                          : "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800"
-                      }`}
-                    >
-                      {student.status}
-                    </span>
-                  </td>
-                  <td className="px-5 py-3.5 text-right">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 text-destructive hover:bg-destructive/10"
-                      onClick={() => deleteStudent(student.id)}
-                      title="Remove Student"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </td>
+      {/* Students Table / Card List */}
+      {filteredStudents.length === 0 ? (
+        <div className="text-center py-16 px-4 bg-card border border-dashed border-border rounded-2xl space-y-3">
+          <Users className="w-12 h-12 text-muted-foreground mx-auto" />
+          <h3 className="text-base font-bold text-foreground">No students found</h3>
+          <p className="text-xs text-muted-foreground">
+            {search ? "No students matching your search criteria." : "No student accounts are registered yet."}
+          </p>
+        </div>
+      ) : (
+        <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-muted/40 text-muted-foreground text-xs uppercase border-b border-border font-semibold">
+                <tr>
+                  <th className="px-5 py-3.5">Student</th>
+                  <th className="px-5 py-3.5">Email</th>
+                  <th className="px-4 py-3.5">Role</th>
+                  <th className="px-4 py-3.5">Status</th>
+                  <th className="px-5 py-3.5 text-right">Access Control</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+              </thead>
+              <tbody className="divide-y divide-border text-xs sm:text-sm">
+                {filteredStudents.map((student) => (
+                  <tr key={student.uid} className="hover:bg-muted/30 transition-colors">
+                    <td className="px-5 py-4 font-bold text-foreground">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-full bg-primary/10 text-primary font-bold text-xs flex items-center justify-center shrink-0">
+                          {(student.name || "ST").slice(0, 2).toUpperCase()}
+                        </div>
+                        <div>
+                          <div>{student.name || "Unnamed Student"}</div>
+                          <div className="text-[11px] text-muted-foreground font-mono truncate max-w-[140px]">
+                            {student.uid}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
 
-      {/* Add Student Modal */}
-      {addModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-card text-card-foreground border border-border rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-muted/40">
-              <h2 className="text-lg font-bold">Enroll New Student</h2>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setAddModalOpen(false)}
-                className="rounded-full"
-              >
-                <X className="h-5 w-5" />
-              </Button>
-            </div>
+                    <td className="px-5 py-4 text-muted-foreground">
+                      {student.email || "No email provided"}
+                    </td>
 
-            <form onSubmit={handleAddSubmit} className="p-6 space-y-4">
-              <div className="space-y-1.5">
-                <Label htmlFor="sName">Full Name *</Label>
-                <Input
-                  id="sName"
-                  placeholder="e.g. Ahmad Tariq"
-                  value={newStudent.name}
-                  onChange={(e) =>
-                    setNewStudent((p) => ({ ...p, name: e.target.value }))
-                  }
-                  required
-                />
-              </div>
+                    <td className="px-4 py-4">
+                      <span className="capitalize font-medium text-foreground">
+                        {student.role || "student"}
+                      </span>
+                    </td>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <Label htmlFor="sRoll">Roll Number *</Label>
-                  <Input
-                    id="sRoll"
-                    placeholder="e.g. 10-05"
-                    value={newStudent.rollNo}
-                    onChange={(e) =>
-                      setNewStudent((p) => ({ ...p, rollNo: e.target.value }))
-                    }
-                    required
-                  />
-                </div>
+                    <td className="px-4 py-4">
+                      <span
+                        className={`inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full font-semibold border ${
+                          student.isApproved
+                            ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20"
+                            : "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20"
+                        }`}
+                      >
+                        {student.isApproved ? (
+                          <>
+                            <CheckCircle2 className="w-3.5 h-3.5" /> Approved
+                          </>
+                        ) : (
+                          <>
+                            <Clock className="w-3.5 h-3.5" /> Pending
+                          </>
+                        )}
+                      </span>
+                    </td>
 
-                <div className="space-y-1.5">
-                  <Label htmlFor="sClass">Assigned Class *</Label>
-                  <Select
-                    value={newStudent.classId}
-                    onValueChange={(val) =>
-                      setNewStudent((p) => ({ ...p, classId: val }))
-                    }
-                  >
-                    <SelectTrigger id="sClass">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="8">Class 8</SelectItem>
-                      <SelectItem value="9">Class 9</SelectItem>
-                      <SelectItem value="10">Class 10</SelectItem>
-                      <SelectItem value="11">Class 11</SelectItem>
-                      <SelectItem value="12">Class 12</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
+                    <td className="px-5 py-4 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <Button
+                          size="sm"
+                          variant={student.isApproved ? "outline" : "default"}
+                          className="h-8 text-xs gap-1.5"
+                          onClick={() => handleToggleApproval(student)}
+                        >
+                          {student.isApproved ? (
+                            <>
+                              <UserX className="w-3.5 h-3.5" /> Revoke
+                            </>
+                          ) : (
+                            <>
+                              <UserCheck className="w-3.5 h-3.5" /> Approve
+                            </>
+                          )}
+                        </Button>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <Label htmlFor="sSection">Section / Stream</Label>
-                  <Input
-                    id="sSection"
-                    placeholder="Science / Pre-Eng"
-                    value={newStudent.section}
-                    onChange={(e) =>
-                      setNewStudent((p) => ({ ...p, section: e.target.value }))
-                    }
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <Label htmlFor="sEmail">Student Email</Label>
-                  <Input
-                    id="sEmail"
-                    type="email"
-                    placeholder="student@school.edu"
-                    value={newStudent.email}
-                    onChange={(e) =>
-                      setNewStudent((p) => ({ ...p, email: e.target.value }))
-                    }
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-1.5">
-                <Label htmlFor="sGuardian">Parent / Guardian Contact</Label>
-                <Input
-                  id="sGuardian"
-                  placeholder="Guardian Name & Phone"
-                  value={newStudent.guardian}
-                  onChange={(e) =>
-                    setNewStudent((p) => ({ ...p, guardian: e.target.value }))
-                  }
-                />
-              </div>
-
-              <div className="flex justify-end gap-3 pt-4 border-t border-border">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setAddModalOpen(false)}
-                >
-                  Cancel
-                </Button>
-                <Button type="submit">Enroll Student</Button>
-              </div>
-            </form>
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                          onClick={() => handleDelete(student)}
+                          title="Delete Account"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       )}
