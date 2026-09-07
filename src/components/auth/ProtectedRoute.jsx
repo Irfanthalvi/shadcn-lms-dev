@@ -28,6 +28,20 @@ export default function ProtectedRoute({ children, requireAdmin = true }) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
+  // User is authenticated but Firestore profile hasn't loaded yet — show spinner
+  if (!userProfile) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-background text-foreground gap-4">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="w-10 h-10 animate-spin text-primary" />
+          <p className="text-sm text-muted-foreground font-medium">
+            Loading your profile...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   // Admin route requested but user is not an approved admin
   if (requireAdmin && !isAdmin) {
     const role = userProfile?.role || "user";

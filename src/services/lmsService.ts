@@ -15,6 +15,12 @@ import {
   type Unsubscribe,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import {
+  sindhBoardClasses,
+  sindhBoardSubjects,
+  sindhBoardBooks,
+  sindhBoardChapters,
+} from "@/data/sindhBoardCurriculum";
 
 // ==========================================
 // Types & Interfaces
@@ -39,13 +45,33 @@ export interface SubjectItem {
   createdAt?: any;
 }
 
+export interface BookItem {
+  id: string;
+  classId: string;
+  subjectId: string;
+  title: string;
+  author?: string;
+  board?: string;
+  edition?: string;
+  description?: string;
+  coverUrl?: string;
+  totalChapters?: number;
+  pdfUrl?: string;
+  createdAt?: any;
+}
+
 export interface ChapterItem {
   id: string;
   subjectId: string;
   classId: string;
+  bookId?: string;
   chapterNumber: number;
   title: string;
   description?: string;
+  learningObjectives?: string[];
+  theoryNotes?: string;
+  keyFormulas?: string;
+  resourceLink?: string;
   createdAt?: any;
 }
 
@@ -85,6 +111,32 @@ export interface QuizAttempt {
   percentage: number;
   passed: boolean;
   selectedAnswers: Record<number, number>;
+  submittedAt?: any;
+  autoSubmitted?: boolean;
+  timeTakenSeconds?: number;
+}
+
+export interface AssignmentItem {
+  id: string;
+  classId: string;
+  className?: string;
+  title: string;
+  description: string;
+  dueDate?: string; // ISO string
+  totalMarks: number;
+  passingMarks: number;
+  attachmentUrl?: string;
+  createdAt?: any;
+}
+
+export interface AssignmentSubmission {
+  id?: string;
+  assignmentId: string;
+  userId: string;
+  userName: string;
+  userEmail: string;
+  classId: string;
+  response: string;
   submittedAt?: any;
 }
 
@@ -297,7 +349,119 @@ export const deleteSubject = async (subjectId: string): Promise<void> => {
 };
 
 // ==========================================
-// 3. Chapters Operations
+// 3. Books Operations (Sindh Textbook Board)
+// ==========================================
+
+export const subscribeToBooks = (
+  subjectId: string | null | undefined,
+  callback: (books: BookItem[]) => void
+): Unsubscribe => {
+  const col = collection(db, "books");
+  const q = subjectId
+    ? query(col, where("subjectId", "==", subjectId))
+    : query(col);
+
+  return onSnapshot(
+    q,
+    (snapshot) => {
+      const list: BookItem[] = snapshot.docs.map((d) => ({
+        id: d.id,
+        classId: d.data().classId || "",
+        subjectId: d.data().subjectId || "",
+        title: d.data().title || "",
+        author: d.data().author || "Sindh Textbook Board",
+        board: d.data().board || "Sindh Textbook Board, Jamshoro",
+        edition: d.data().edition || "Latest Revised Edition",
+        description: d.data().description || "",
+        coverUrl: d.data().coverUrl || "",
+        totalChapters: Number(d.data().totalChapters) || 0,
+        pdfUrl: d.data().pdfUrl || "",
+        createdAt: d.data().createdAt,
+      }));
+      callback(list);
+    },
+    (err) => {
+      console.error("Error subscribing to books:", err);
+      callback([]);
+    }
+  );
+};
+
+export const getBooks = async (subjectId?: string): Promise<BookItem[]> => {
+  try {
+    const col = collection(db, "books");
+    const q = subjectId
+      ? query(col, where("subjectId", "==", subjectId))
+      : query(col);
+    const snap = await getDocs(q);
+    return snap.docs.map((d) => ({
+      id: d.id,
+      classId: d.data().classId || "",
+      subjectId: d.data().subjectId || "",
+      title: d.data().title || "",
+      author: d.data().author || "Sindh Textbook Board",
+      board: d.data().board || "Sindh Textbook Board, Jamshoro",
+      edition: d.data().edition || "Latest Revised Edition",
+      description: d.data().description || "",
+      coverUrl: d.data().coverUrl || "",
+      totalChapters: Number(d.data().totalChapters) || 0,
+      pdfUrl: d.data().pdfUrl || "",
+      createdAt: d.data().createdAt,
+    }));
+  } catch (error) {
+    console.error("Error fetching books:", error);
+    return [];
+  }
+};
+
+export const addBook = async (
+  data: Omit<BookItem, "id">
+): Promise<string> => {
+  const payload: Record<string, any> = {
+    classId: String(data.classId),
+    subjectId: String(data.subjectId),
+    title: data.title.trim(),
+    author: data.author ? data.author.trim() : "Sindh Textbook Board",
+    board: data.board ? data.board.trim() : "Sindh Textbook Board, Jamshoro",
+    edition: data.edition ? data.edition.trim() : "Latest Revised Edition",
+    description: data.description ? data.description.trim() : "",
+    coverUrl: data.coverUrl || "",
+    totalChapters: Number(data.totalChapters) || 0,
+    pdfUrl: data.pdfUrl || "",
+    createdAt: serverTimestamp(),
+  };
+
+  const docRef = await addDoc(collection(db, "books"), payload);
+  return docRef.id;
+};
+
+export const updateBook = async (
+  bookId: string,
+  data: Partial<BookItem>
+): Promise<void> => {
+  const payload: Record<string, any> = {
+    updatedAt: serverTimestamp(),
+  };
+  if (data.title !== undefined) payload.title = data.title.trim();
+  if (data.author !== undefined) payload.author = data.author.trim();
+  if (data.board !== undefined) payload.board = data.board.trim();
+  if (data.edition !== undefined) payload.edition = data.edition.trim();
+  if (data.description !== undefined) payload.description = data.description.trim();
+  if (data.coverUrl !== undefined) payload.coverUrl = data.coverUrl;
+  if (data.totalChapters !== undefined) payload.totalChapters = Number(data.totalChapters);
+  if (data.pdfUrl !== undefined) payload.pdfUrl = data.pdfUrl;
+
+  const docRef = doc(db, "books", bookId);
+  await updateDoc(docRef, payload);
+};
+
+export const deleteBook = async (bookId: string): Promise<void> => {
+  const docRef = doc(db, "books", bookId);
+  await deleteDoc(docRef);
+};
+
+// ==========================================
+// 3.2 Chapters Operations
 // ==========================================
 
 export const subscribeToChapters = (
@@ -316,9 +480,14 @@ export const subscribeToChapters = (
         id: d.id,
         subjectId: d.data().subjectId || "",
         classId: d.data().classId || "",
+        bookId: d.data().bookId || "",
         chapterNumber: Number(d.data().chapterNumber) || 1,
         title: d.data().title || "",
         description: d.data().description || "",
+        learningObjectives: d.data().learningObjectives || [],
+        theoryNotes: d.data().theoryNotes || "",
+        keyFormulas: d.data().keyFormulas || "",
+        resourceLink: d.data().resourceLink || "",
         createdAt: d.data().createdAt,
       })) as ChapterItem[];
       list.sort((a, b) => Number(a.chapterNumber || 0) - Number(b.chapterNumber || 0));
@@ -344,9 +513,14 @@ export const getChapters = async (
       id: d.id,
       subjectId: d.data().subjectId || "",
       classId: d.data().classId || "",
+      bookId: d.data().bookId || "",
       chapterNumber: Number(d.data().chapterNumber) || 1,
       title: d.data().title || "",
       description: d.data().description || "",
+      learningObjectives: d.data().learningObjectives || [],
+      theoryNotes: d.data().theoryNotes || "",
+      keyFormulas: d.data().keyFormulas || "",
+      resourceLink: d.data().resourceLink || "",
       createdAt: d.data().createdAt,
     })) as ChapterItem[];
     list.sort((a, b) => Number(a.chapterNumber || 0) - Number(b.chapterNumber || 0));
@@ -363,9 +537,14 @@ export const addChapter = async (
   const payload: Record<string, any> = {
     classId: String(data.classId),
     subjectId: String(data.subjectId),
+    bookId: data.bookId ? String(data.bookId) : "",
     chapterNumber: Number(data.chapterNumber) || 1,
     title: data.title.trim(),
     description: data.description ? data.description.trim() : "",
+    learningObjectives: data.learningObjectives || [],
+    theoryNotes: data.theoryNotes || "",
+    keyFormulas: data.keyFormulas || "",
+    resourceLink: data.resourceLink || "",
     createdAt: serverTimestamp(),
   };
 
@@ -383,6 +562,11 @@ export const updateChapter = async (
   if (data.title !== undefined) payload.title = data.title.trim();
   if (data.chapterNumber !== undefined) payload.chapterNumber = Number(data.chapterNumber) || 1;
   if (data.description !== undefined) payload.description = data.description.trim();
+  if (data.bookId !== undefined) payload.bookId = String(data.bookId);
+  if (data.learningObjectives !== undefined) payload.learningObjectives = data.learningObjectives;
+  if (data.theoryNotes !== undefined) payload.theoryNotes = data.theoryNotes;
+  if (data.keyFormulas !== undefined) payload.keyFormulas = data.keyFormulas;
+  if (data.resourceLink !== undefined) payload.resourceLink = data.resourceLink;
 
   const docRef = doc(db, "chapters", chapterId);
   await updateDoc(docRef, payload);
@@ -606,6 +790,36 @@ export const getAllQuizAttempts = async (): Promise<QuizAttempt[]> => {
   }
 };
 
+export const subscribeToQuizAttempts = (
+  callback: (attempts: QuizAttempt[]) => void,
+  userId?: string
+): Unsubscribe => {
+  const col = collection(db, "quiz_attempts");
+  const q = userId
+    ? query(col, where("userId", "==", userId))
+    : query(col);
+
+  return onSnapshot(
+    q,
+    (snapshot) => {
+      const list: QuizAttempt[] = snapshot.docs.map((d) => ({
+        id: d.id,
+        ...d.data(),
+      })) as QuizAttempt[];
+      list.sort((a, b) => {
+        const tA = a.submittedAt?.seconds || 0;
+        const tB = b.submittedAt?.seconds || 0;
+        return tB - tA;
+      });
+      callback(list);
+    },
+    (err) => {
+      console.error("Error subscribing to quiz attempts:", err);
+      callback([]);
+    }
+  );
+};
+
 // ==========================================
 // 6. Students Directory (Admin)
 // ==========================================
@@ -661,109 +875,331 @@ export const deleteStudentAccount = async (uid: string): Promise<void> => {
 
 export const seedInitialLmsDataIfEmpty = async (): Promise<void> => {
   try {
+    // 1. Check or seed classes
     const classSnap = await getDocs(collection(db, "classes"));
-    if (!classSnap.empty) {
-      return; // Already initialized
+    const existingClassesMap = new Map<string, string>(); // grade -> docId
+
+    if (classSnap.empty) {
+      console.log("[LMS Seeder] Seeding Sindh Board Classes 8 through 12...");
+      for (const c of sindhBoardClasses) {
+        const docRef = await addDoc(collection(db, "classes"), {
+          name: c.name,
+          grade: c.grade,
+          description: c.description,
+          createdAt: serverTimestamp(),
+        });
+        existingClassesMap.set(String(c.grade), docRef.id);
+      }
+    } else {
+      classSnap.docs.forEach((d) => {
+        existingClassesMap.set(String(d.data().grade || d.data().name), d.id);
+        existingClassesMap.set(String(d.data().name), d.id);
+      });
     }
 
-    console.log("[LMS Seeder] Initializing standard classes 8 - 12...");
+    // 2. Check or seed subjects
+    const subSnap = await getDocs(collection(db, "subjects"));
+    const existingSubjectsMap = new Map<string, string>(); // "classGrade_subjectName" -> docId
 
-    const standardClasses = [
-      { name: "Class 8", grade: 8, description: "Middle Section - Foundational Core Curriculum" },
-      { name: "Class 9", grade: 9, description: "Matric Part I - Secondary School Certificate" },
-      { name: "Class 10", grade: 10, description: "Matric Part II - Secondary School Certificate" },
-      { name: "Class 11", grade: 11, description: "FSc / Intermediate Part I" },
-      { name: "Class 12", grade: 12, description: "FSc / Intermediate Part II" },
-    ];
+    if (subSnap.empty) {
+      console.log("[LMS Seeder] Seeding Sindh Board Subjects for all classes...");
+      for (const s of sindhBoardSubjects) {
+        const targetClass = sindhBoardClasses.find((c) => c.id === s.classId);
+        const gradeKey = targetClass ? String(targetClass.grade) : "9";
+        const realClassDocId = existingClassesMap.get(gradeKey) || existingClassesMap.get(`Class ${gradeKey}`);
 
-    for (const c of standardClasses) {
-      const classRef = await addDoc(collection(db, "classes"), {
-        ...c,
-        createdAt: serverTimestamp(),
-      });
-
-      // Add default subjects for Class 9 and 10
-      if (c.grade === 9 || c.grade === 10) {
-        const defaultSubjects = [
-          { name: "Physics", code: "PHY", color: "blue", description: "Mechanics, Energy, and Waves" },
-          { name: "Chemistry", code: "CHEM", color: "emerald", description: "Atomic Structure and Chemical Bonding" },
-          { name: "Mathematics", code: "MATH", color: "amber", description: "Algebra, Geometry, and Trigonometry" },
-          { name: "Biology", code: "BIO", color: "teal", description: "Cell Structure and Physiology" },
-          { name: "English", code: "ENG", color: "purple", description: "Grammar, Comprehension, and Literature" },
-        ];
-
-        for (const s of defaultSubjects) {
-          const subRef = await addDoc(collection(db, "subjects"), {
-            ...s,
-            classId: classRef.id,
+        if (realClassDocId) {
+          const docRef = await addDoc(collection(db, "subjects"), {
+            classId: realClassDocId,
+            name: s.name,
+            code: s.code,
+            icon: s.icon,
+            color: s.color,
+            description: s.description,
             createdAt: serverTimestamp(),
           });
+          existingSubjectsMap.set(`${gradeKey}_${s.name.toLowerCase()}`, docRef.id);
+        }
+      }
+    } else {
+      subSnap.docs.forEach((d) => {
+        const name = (d.data().name || "").toLowerCase();
+        existingSubjectsMap.set(`${d.data().classId}_${name}`, d.id);
+        existingSubjectsMap.set(name, d.id);
+      });
+    }
 
-          // If Physics, seed Chapter 1 & 2 + Quizzes
-          if (s.name === "Physics") {
-            const chap1Ref = await addDoc(collection(db, "chapters"), {
-              chapterNumber: 1,
-              title: "Physical Quantities and Measurement",
-              description: "Introduction to physical quantities, SI units, and measurement instruments.",
-              subjectId: subRef.id,
-              classId: classRef.id,
-              createdAt: serverTimestamp(),
-            });
+    // 3. Check or seed books
+    const bookSnap = await getDocs(collection(db, "books"));
+    const existingBooksMap = new Map<string, string>();
 
-            await addDoc(collection(db, "quizzes"), {
-              chapterId: chap1Ref.id,
-              subjectId: subRef.id,
-              classId: classRef.id,
-              title: "Chapter 1 Self-Assessment Test",
-              timeLimitMinutes: 15,
-              totalMarks: 5,
-              passingScore: 60,
-              questions: [
-                {
-                  id: "q1",
-                  question: "Which of the following is a base SI quantity?",
-                  options: ["Speed", "Electric Current", "Force", "Volume"],
-                  correctAnswer: 1,
-                  explanation: "Electric current is one of the seven fundamental SI base quantities (Unit: Ampere).",
-                },
-                {
-                  id: "q2",
-                  question: "The least count of a standard Vernier Calipers is typically:",
-                  options: ["0.1 mm", "0.01 mm", "1 mm", "0.001 mm"],
-                  correctAnswer: 0,
-                  explanation: "Standard vernier calipers have a least count of 0.1 mm (or 0.01 cm).",
-                },
-                {
-                  id: "q3",
-                  question: "Which instrument is most suitable to measure the internal diameter of a test tube?",
-                  options: ["Meter rule", "Vernier Calipers", "Screw Gauge", "Measuring Cylinder"],
-                  correctAnswer: 1,
-                  explanation: "The upper jaws of Vernier Calipers are designed to measure internal diameters.",
-                },
-                {
-                  id: "q4",
-                  question: "What is the SI unit of mass?",
-                  options: ["Gram", "Kilogram", "Milligram", "Newton"],
-                  correctAnswer: 1,
-                  explanation: "The base SI unit of mass is the Kilogram (kg).",
-                },
-                {
-                  id: "q5",
-                  question: "How many significant figures are in 0.00450?",
-                  options: ["2", "3", "5", "6"],
-                  correctAnswer: 1,
-                  explanation: "Leading zeros are not significant; trailing zeros after a decimal point are significant (4, 5, 0 = 3 sig figs).",
-                },
-              ],
-              createdAt: serverTimestamp(),
-            });
-          }
+    if (bookSnap.empty) {
+      console.log("[LMS Seeder] Seeding Sindh Textbook Board Books...");
+      for (const b of sindhBoardBooks) {
+        const targetSubject = sindhBoardSubjects.find((s) => s.id === b.subjectId);
+        const targetClass = sindhBoardClasses.find((c) => c.id === b.classId);
+        const gradeKey = targetClass ? String(targetClass.grade) : "9";
+        const realClassDocId = existingClassesMap.get(gradeKey) || existingClassesMap.get(`Class ${gradeKey}`);
+
+        // Find matching subject
+        let realSubDocId = "";
+        if (targetSubject) {
+          realSubDocId =
+            existingSubjectsMap.get(`${gradeKey}_${targetSubject.name.toLowerCase()}`) ||
+            existingSubjectsMap.get(targetSubject.name.toLowerCase()) ||
+            "";
+        }
+
+        const bookDocRef = await addDoc(collection(db, "books"), {
+          classId: realClassDocId || b.classId,
+          subjectId: realSubDocId || b.subjectId,
+          title: b.title,
+          author: b.author,
+          board: b.board,
+          edition: b.edition,
+          description: b.description,
+          coverUrl: b.coverUrl,
+          totalChapters: b.totalChapters,
+          createdAt: serverTimestamp(),
+        });
+        existingBooksMap.set(b.id, bookDocRef.id);
+        existingBooksMap.set(b.title.toLowerCase(), bookDocRef.id);
+      }
+    } else {
+      bookSnap.docs.forEach((d) => {
+        existingBooksMap.set(d.id, d.id);
+        existingBooksMap.set((d.data().title || "").toLowerCase(), d.id);
+      });
+    }
+
+    // 4. Check or seed chapters with content
+    const chapSnap = await getDocs(collection(db, "chapters"));
+    if (chapSnap.empty) {
+      console.log("[LMS Seeder] Seeding Sindh Board Chapters and Notes...");
+      for (const ch of sindhBoardChapters) {
+        const targetClass = sindhBoardClasses.find((c) => c.id === ch.classId);
+        const gradeKey = targetClass ? String(targetClass.grade) : "9";
+        const realClassDocId = existingClassesMap.get(gradeKey) || existingClassesMap.get(`Class ${gradeKey}`) || ch.classId;
+
+        const targetSubject = sindhBoardSubjects.find((s) => s.id === ch.subjectId);
+        let realSubDocId = ch.subjectId;
+        if (targetSubject) {
+          realSubDocId =
+            existingSubjectsMap.get(`${gradeKey}_${targetSubject.name.toLowerCase()}`) ||
+            existingSubjectsMap.get(targetSubject.name.toLowerCase()) ||
+            ch.subjectId;
+        }
+
+        const realBookDocId = existingBooksMap.get(ch.bookId) || "";
+
+        const chapRef = await addDoc(collection(db, "chapters"), {
+          classId: realClassDocId,
+          subjectId: realSubDocId,
+          bookId: realBookDocId,
+          chapterNumber: ch.chapterNumber,
+          title: ch.title,
+          description: ch.description,
+          learningObjectives: ch.learningObjectives || [],
+          theoryNotes: ch.theoryNotes || "",
+          keyFormulas: ch.keyFormulas || "",
+          resourceLink: ch.resourceLink || "",
+          createdAt: serverTimestamp(),
+        });
+
+        // If Chapter 1 of Class 9 Physics, seed initial quiz test
+        if (ch.chapterNumber === 1 && targetSubject?.name === "Physics" && gradeKey === "9") {
+          await addDoc(collection(db, "quizzes"), {
+            chapterId: chapRef.id,
+            subjectId: realSubDocId,
+            classId: realClassDocId,
+            title: "Physics Ch 1: Physical Quantities Self-Assessment",
+            timeLimitMinutes: 15,
+            totalMarks: 5,
+            passingScore: 60,
+            questions: [
+              {
+                id: "q1",
+                question: "Which of the following is a base SI quantity in the Sindh Board curriculum?",
+                options: ["Speed", "Electric Current", "Force", "Volume"],
+                correctAnswer: 1,
+                explanation: "Electric current is one of the seven fundamental SI base quantities (Unit: Ampere).",
+              },
+              {
+                id: "q2",
+                question: "The least count of a standard Vernier Calipers is typically:",
+                options: ["0.1 mm", "0.01 mm", "1 mm", "0.001 mm"],
+                correctAnswer: 0,
+                explanation: "Standard vernier calipers have a least count of 0.1 mm (or 0.01 cm).",
+              },
+              {
+                id: "q3",
+                question: "Which instrument is most suitable to measure the internal diameter of a test tube?",
+                options: ["Meter rule", "Vernier Calipers", "Screw Gauge", "Measuring Cylinder"],
+                correctAnswer: 1,
+                explanation: "The upper jaws of Vernier Calipers are designed to measure internal diameters.",
+              },
+              {
+                id: "q4",
+                question: "What is the SI unit of mass?",
+                options: ["Gram", "Kilogram", "Milligram", "Newton"],
+                correctAnswer: 1,
+                explanation: "The base SI unit of mass is the Kilogram (kg).",
+              },
+              {
+                id: "q5",
+                question: "How many significant figures are in 0.00450?",
+                options: ["2", "3", "5", "6"],
+                correctAnswer: 1,
+                explanation: "Leading zeros are not significant; trailing zeros after a decimal point are significant (4, 5, 0 = 3 sig figs).",
+              },
+            ],
+            createdAt: serverTimestamp(),
+          });
         }
       }
     }
 
-    console.log("[LMS Seeder] Standard LMS seed complete.");
+    console.log("[LMS Seeder] Complete Sindh Board Curriculum initialized successfully.");
   } catch (error) {
     console.error("[LMS Seeder] Seeding error:", error);
   }
 };
+
+// ==========================================
+// 8. Assignment Operations (Firestore)
+// ==========================================
+
+export const subscribeToAssignments = (
+  callback: (assignments: AssignmentItem[]) => void,
+  classId?: string
+): Unsubscribe => {
+  let q;
+  if (classId) {
+    q = query(
+      collection(db, "assignments"),
+      where("classId", "==", classId),
+      orderBy("createdAt", "desc")
+    );
+  } else {
+    q = query(collection(db, "assignments"), orderBy("createdAt", "desc"));
+  }
+
+  return onSnapshot(
+    q,
+    (snapshot) => {
+      const list: AssignmentItem[] = snapshot.docs.map((d) => ({
+        id: d.id,
+        classId: d.data().classId || "",
+        className: d.data().className || "",
+        title: d.data().title || "",
+        description: d.data().description || "",
+        dueDate: d.data().dueDate || "",
+        totalMarks: Number(d.data().totalMarks) || 0,
+        passingMarks: Number(d.data().passingMarks) || 0,
+        attachmentUrl: d.data().attachmentUrl || "",
+        createdAt: d.data().createdAt,
+      }));
+      callback(list);
+    },
+    (err) => {
+      console.error("Error subscribing to assignments:", err);
+      callback([]);
+    }
+  );
+};
+
+export const addAssignment = async (
+  data: Omit<AssignmentItem, "id">
+): Promise<string> => {
+  const docRef = await addDoc(collection(db, "assignments"), {
+    ...data,
+    createdAt: serverTimestamp(),
+  });
+  return docRef.id;
+};
+
+export const updateAssignment = async (
+  id: string,
+  data: Partial<AssignmentItem>
+): Promise<void> => {
+  const ref = doc(db, "assignments", id);
+  await updateDoc(ref, { ...data, updatedAt: serverTimestamp() });
+};
+
+export const deleteAssignment = async (id: string): Promise<void> => {
+  await deleteDoc(doc(db, "assignments", id));
+};
+
+export const submitAssignment = async (
+  data: Omit<AssignmentSubmission, "id">
+): Promise<string> => {
+  const docRef = await addDoc(collection(db, "assignment_submissions"), {
+    ...data,
+    submittedAt: serverTimestamp(),
+  });
+  return docRef.id;
+};
+
+export const getAssignmentSubmissions = async (
+  assignmentId: string
+): Promise<AssignmentSubmission[]> => {
+  const q = query(
+    collection(db, "assignment_submissions"),
+    where("assignmentId", "==", assignmentId)
+  );
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => ({
+    id: d.id,
+    assignmentId: d.data().assignmentId,
+    userId: d.data().userId,
+    userName: d.data().userName,
+    userEmail: d.data().userEmail,
+    classId: d.data().classId,
+    response: d.data().response || "",
+    submittedAt: d.data().submittedAt,
+  }));
+};
+
+export const getUserAssignmentSubmission = async (
+  assignmentId: string,
+  userId: string
+): Promise<AssignmentSubmission | null> => {
+  const q = query(
+    collection(db, "assignment_submissions"),
+    where("assignmentId", "==", assignmentId),
+    where("userId", "==", userId)
+  );
+  const snap = await getDocs(q);
+  if (snap.empty) return null;
+  const d = snap.docs[0];
+  return {
+    id: d.id,
+    assignmentId: d.data().assignmentId,
+    userId: d.data().userId,
+    userName: d.data().userName,
+    userEmail: d.data().userEmail,
+    classId: d.data().classId,
+    response: d.data().response || "",
+    submittedAt: d.data().submittedAt,
+  };
+};
+
+// ==========================================
+// 9. Quiz Attempt Helpers
+// ==========================================
+
+export const getQuizAttemptByUser = async (
+  quizId: string,
+  userId: string
+): Promise<QuizAttempt | null> => {
+  const q = query(
+    collection(db, "quiz_attempts"),
+    where("quizId", "==", quizId),
+    where("userId", "==", userId)
+  );
+  const snap = await getDocs(q);
+  if (snap.empty) return null;
+  const d = snap.docs[0];
+  return { id: d.id, ...d.data() } as QuizAttempt;
+};
+

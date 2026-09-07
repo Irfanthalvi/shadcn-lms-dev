@@ -1,27 +1,26 @@
-"use client";
-import { useState, useEffect, useRef } from "react";
-import { Loader } from "lucide-react";
-import ProfileModal from "@/components/subject/profile-model";
+import React, { useState, useEffect } from "react";
 import Topbar from "@/components/topbar";
 import Sidebar from "@/components/sidebar";
+import MobileNav from "@/components/mobile-nav";
+import GlobalSearchModal from "@/components/global-search-modal";
 
-const DashboardLayout = ({ children }) => {
-  const [screen, setScreen] = useState("desktop"); // "mobile" | "tablet" | "desktop"
+export default function DashboardLayout({ children }) {
+  const [screen, setScreen] = useState("desktop");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [profile, setProfile] = useState({ name: "IRFAN ALI", image: null });
-  const [loading, setLoading] = useState(true);
-  const dropdownRef = useRef(null);
 
-  // detect screen size
   useEffect(() => {
     const handleResize = () => {
       const w = window.innerWidth;
-
-      if (w < 768) setScreen("mobile");
-      else if (w < 1024) setScreen("tablet");
-      else setScreen("desktop");
+      if (w < 768) {
+        setScreen("mobile");
+        setIsSidebarOpen(false);
+      } else if (w < 1024) {
+        setScreen("tablet");
+        setIsSidebarOpen(false);
+      } else {
+        setScreen("desktop");
+        setIsSidebarOpen(true);
+      }
     };
 
     handleResize();
@@ -29,95 +28,53 @@ const DashboardLayout = ({ children }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // open / close sidebar depending on screen
-  useEffect(() => {
-    if (screen === "desktop") setIsSidebarOpen(true);
-    else setIsSidebarOpen(false);
-  }, [screen]);
+  const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
+  const closeSidebar = () => {
+    if (screen === "mobile" || screen === "tablet") {
+      setIsSidebarOpen(false);
+    }
+  };
 
-  // close dropdown on outside click
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setIsDropdownOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  // fake loading
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 600);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const toggleSidebar = () => setIsSidebarOpen((p) => !p);
-  const closeSidebar = () =>
-    (screen === "mobile" || screen === "tablet") && setIsSidebarOpen(false);
-
-  // ----- choose margin for main content -----
   const mainMargin = (() => {
-    if (screen === "desktop") return isSidebarOpen ? "ml-[260px]" : "ml-[70px]";
-    if (screen === "tablet") return isSidebarOpen ? "ml-[220px]" : "ml-0";
-    return "ml-0"; // mobile
+    if (screen === "desktop") return isSidebarOpen ? "lg:ml-[240px]" : "lg:ml-[72px]";
+    if (screen === "tablet") return isSidebarOpen ? "md:ml-[240px]" : "md:ml-0";
+    return "ml-0";
   })();
 
   return (
-    <div className="flex min-h-screen bg-background text-foreground relative">
-      {/* Sidebar */}
+    <div className="min-h-screen bg-background text-foreground flex flex-col relative antialiased">
+      {/* Global Search Modal */}
+      <GlobalSearchModal />
+
+      {/* Sidebar for Desktop & Tablet */}
       <Sidebar
         isSidebarOpen={isSidebarOpen}
         isMobile={screen === "mobile" || screen === "tablet"}
         toggleSidebar={toggleSidebar}
         closeSidebar={closeSidebar}
-        className="fixed left-0 top-0 h-full z-40"
       />
 
-      {/* Overlay for mobile / tablet */}
+      {/* Backdrop overlay for mobile/tablet when sidebar is open */}
       {(screen === "mobile" || screen === "tablet") && isSidebarOpen && (
         <div
-          className="fixed inset-0 z-30 bg-black/40"
-          onClick={toggleSidebar}
+          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-xs transition-opacity"
+          onClick={closeSidebar}
         />
       )}
 
-      {/* Main content */}
-      <main
-        className={`flex flex-col flex-1 min-w-0 transition-all duration-300 ml-0 ${mainMargin}`}
+      {/* Main Content Area */}
+      <div
+        className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${mainMargin} pb-16 md:pb-0`}
       >
-        {/* Topbar */}
-        <div className="sticky top-0 z-30 bg-background border-b">
-          <Topbar
-            toggleSidebar={toggleSidebar}
-            dropdownRef={dropdownRef}
-            isDropdownOpen={isDropdownOpen}
-            setIsDropdownOpen={setIsDropdownOpen}
-            setIsModalOpen={setIsModalOpen}
-            profile={profile}
-            isMobile={screen === "mobile"}
-          />
-        </div>
+        <Topbar toggleSidebar={toggleSidebar} />
 
-        {/* Scrollable page */}
-        <div className="flex-1 overflow-y-auto">
-          {loading ? (
-            <div className="h-full flex items-center justify-center text-muted-foreground">
-              <Loader className="w-6 h-6 mr-2 animate-spin" />
-              Loading page...
-            </div>
-          ) : (
-            children
-          )}
-        </div>
-      </main>
+        <main className="flex-1 min-w-0">
+          {children}
+        </main>
+      </div>
 
-      {/* Profile modal */}
-      {isModalOpen && (
-        <ProfileModal setIsModalOpen={setIsModalOpen} setProfile={setProfile} />
-      )}
+      {/* Mobile Bottom Navigation Bar */}
+      <MobileNav />
     </div>
   );
-};
-
-export default DashboardLayout;
+}

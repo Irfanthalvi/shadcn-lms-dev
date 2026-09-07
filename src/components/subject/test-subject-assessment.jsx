@@ -4,7 +4,7 @@ import { loadQuestions } from "@/components/questions";
 import { BadgeCheck, Timer, Repeat, Percent, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 
 const ChapterAssessment = () => {
   const { subject, chapterId } = useParams();

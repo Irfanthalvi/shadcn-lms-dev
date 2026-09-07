@@ -2,9 +2,12 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import {
   subscribeToClasses,
   subscribeToSubjects,
+  subscribeToBooks,
   subscribeToChapters,
   subscribeToQuizzes,
   subscribeToStudents,
+  subscribeToAssignments,
+  subscribeToQuizAttempts,
   seedInitialLmsDataIfEmpty,
   addClass as apiAddClass,
   updateClass as apiUpdateClass,
@@ -12,6 +15,9 @@ import {
   addSubject as apiAddSubject,
   updateSubject as apiUpdateSubject,
   deleteSubject as apiDeleteSubject,
+  addBook as apiAddBook,
+  updateBook as apiUpdateBook,
+  deleteBook as apiDeleteBook,
   addChapter as apiAddChapter,
   updateChapter as apiUpdateChapter,
   deleteChapter as apiDeleteChapter,
@@ -20,12 +26,26 @@ import {
   deleteQuiz as apiDeleteQuiz,
   submitQuizAttempt as apiSubmitQuizAttempt,
   getStudentAttempts as apiGetStudentAttempts,
+  getAllQuizAttempts as apiGetAllQuizAttempts,
   updateStudentApproval as apiUpdateStudentApproval,
   deleteStudentAccount as apiDeleteStudentAccount,
   getQuizById,
+  addAssignment as apiAddAssignment,
+  updateAssignment as apiUpdateAssignment,
+  deleteAssignment as apiDeleteAssignment,
+  submitAssignment as apiSubmitAssignment,
+  getAssignmentSubmissions as apiGetAssignmentSubmissions,
+  getUserAssignmentSubmission as apiGetUserAssignmentSubmission,
+  getQuizAttemptByUser as apiGetQuizAttemptByUser,
 } from "@/services/lmsService";
 import { useAuth } from "@/context/AuthContext";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
+
+import {
+  announcementsList,
+  studyMaterialsList,
+  resultsList,
+} from "@/data/mock-lms-data";
 
 const LmsContext = createContext(null);
 
@@ -54,11 +74,190 @@ export const LmsProvider = ({ children }) => {
   // Realtime LMS Data States from Firestore
   const [classes, setClasses] = useState([]);
   const [subjects, setSubjects] = useState([]);
+  const [books, setBooks] = useState([]);
   const [chapters, setChapters] = useState([]);
   const [quizzes, setQuizzes] = useState([]);
   const [students, setStudents] = useState([]);
   const [studentAttempts, setStudentAttempts] = useState([]);
+  const [allQuizAttempts, setAllQuizAttempts] = useState([]);
+  const [assignments, setAssignments] = useState([]);
   const [loadingLms, setLoadingLms] = useState(true);
+
+  // Supplementary Entities with Local Storage Persistence
+  const [announcements, setAnnouncements] = useState(() => {
+    try {
+      const saved = localStorage.getItem("lms_announcements");
+      return saved ? JSON.parse(saved) : announcementsList;
+    } catch {
+      return announcementsList;
+    }
+  });
+
+  const [studyMaterials, setStudyMaterials] = useState(() => {
+    try {
+      const saved = localStorage.getItem("lms_materials");
+      return saved ? JSON.parse(saved) : studyMaterialsList;
+    } catch {
+      return studyMaterialsList;
+    }
+  });
+
+  const [bookmarks, setBookmarks] = useState(() => {
+    try {
+      const saved = localStorage.getItem("lms_bookmarks");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const [notifications, setNotifications] = useState(() => {
+    try {
+      const saved = localStorage.getItem("lms_notifications");
+      return saved
+        ? JSON.parse(saved)
+        : [
+            {
+              id: "n-1",
+              title: "Welcome to LMS Academy Portal",
+              message: "Explore your academic classes, study materials, and self-assessment quizzes.",
+              time: "Just now",
+              read: false,
+              type: "welcome",
+            },
+            {
+              id: "n-2",
+              title: "Physics Chapter 1 Quiz Available",
+              message: "Test your knowledge on Physical Quantities & Measurement.",
+              time: "1 hour ago",
+              read: false,
+              type: "quiz",
+            },
+            {
+              id: "n-3",
+              title: "Date Sheet Announced",
+              message: "Annual examination dates have been published on the notice board.",
+              time: "1 day ago",
+              read: true,
+              type: "announcement",
+            },
+          ];
+    } catch {
+      return [];
+    }
+  });
+
+  // Global Search Modal State
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  // Sync supplementary states to localStorage
+  useEffect(() => {
+    localStorage.setItem("lms_announcements", JSON.stringify(announcements));
+  }, [announcements]);
+
+  useEffect(() => {
+    localStorage.setItem("lms_bookmarks", JSON.stringify(bookmarks));
+  }, [bookmarks]);
+
+  useEffect(() => {
+    localStorage.setItem("lms_notifications", JSON.stringify(notifications));
+  }, [notifications]);
+
+  // Announcement Actions
+  const handleAddAnnouncement = (data) => {
+    const newAnn = {
+      id: `ann-${Date.now()}`,
+      date: new Date().toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }),
+      ...data,
+    };
+    setAnnouncements((prev) => [newAnn, ...prev]);
+    toast.success("Announcement published successfully.");
+    return newAnn.id;
+  };
+
+  const handleDeleteAnnouncement = (id) => {
+    setAnnouncements((prev) => prev.filter((a) => a.id !== id));
+    toast.success("Announcement removed.");
+  };
+
+  // Assignment Actions (Firestore)
+  const handleAddAssignment = async (data) => {
+    try {
+      const id = await apiAddAssignment(data);
+      toast.success(`Assignment "${data.title}" created.`);
+      return id;
+    } catch (err) {
+      toast.error(err?.message || "Failed to create assignment.");
+      throw err;
+    }
+  };
+
+  const handleUpdateAssignment = async (id, data) => {
+    try {
+      await apiUpdateAssignment(id, data);
+      toast.success("Assignment updated.");
+    } catch (err) {
+      toast.error(err?.message || "Failed to update assignment.");
+      throw err;
+    }
+  };
+
+  const handleDeleteAssignment = async (id) => {
+    try {
+      await apiDeleteAssignment(id);
+      toast.success("Assignment deleted.");
+    } catch (err) {
+      toast.error(err?.message || "Failed to delete assignment.");
+      throw err;
+    }
+  };
+
+  const handleSubmitAssignment = async (assignmentId, data) => {
+    try {
+      const id = await apiSubmitAssignment({ assignmentId, ...data });
+      toast.success("Assignment submitted successfully!");
+      return id;
+    } catch (err) {
+      toast.error(err?.message || "Failed to submit assignment.");
+      throw err;
+    }
+  };
+
+  const getAssignmentSubmissions = async (assignmentId) => {
+    return await apiGetAssignmentSubmissions(assignmentId);
+  };
+
+  const getUserAssignmentSubmission = async (assignmentId, userId) => {
+    return await apiGetUserAssignmentSubmission(assignmentId, userId);
+  };
+
+  const getQuizAttemptByUser = async (quizId, userId) => {
+    return await apiGetQuizAttemptByUser(quizId, userId);
+  };
+
+  // Bookmark Actions
+  const toggleBookmark = (itemId) => {
+    setBookmarks((prev) => {
+      const exists = prev.includes(itemId);
+      const updated = exists ? prev.filter((id) => id !== itemId) : [...prev, itemId];
+      toast.success(exists ? "Removed from bookmarks." : "Added to saved bookmarks.");
+      return updated;
+    });
+  };
+
+  const isBookmarked = (itemId) => bookmarks.includes(itemId);
+
+  // Notification Actions
+  const markNotificationRead = (id) => {
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, read: true } : n))
+    );
+  };
+
+  const clearAllNotifications = () => {
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+    toast.success("All notifications marked as read.");
+  };
 
   // Initialize Seeder if Admin and Collection is empty
   useEffect(() => {
@@ -72,9 +271,12 @@ export const LmsProvider = ({ children }) => {
     if (!user) {
       setClasses([]);
       setSubjects([]);
+      setBooks([]);
       setChapters([]);
       setQuizzes([]);
       setStudents([]);
+      setStudentAttempts([]);
+      setAllQuizAttempts([]);
       setLoadingLms(false);
       return;
     }
@@ -90,12 +292,30 @@ export const LmsProvider = ({ children }) => {
       setSubjects(list);
     });
 
+    const unsubBooks = subscribeToBooks(null, (list) => {
+      setBooks(list);
+    });
+
     const unsubChapters = subscribeToChapters(null, (list) => {
       setChapters(list);
     });
 
     const unsubQuizzes = subscribeToQuizzes(null, (list) => {
       setQuizzes(list);
+    });
+
+    const unsubAssignments = subscribeToAssignments((list) => {
+      setAssignments(list);
+    });
+
+    // Realtime quiz attempts
+    const unsubAttempts = subscribeToQuizAttempts((list) => {
+      setAllQuizAttempts(list);
+      if (!isAdmin && user) {
+        setStudentAttempts(list.filter((a) => a.userId === user.uid));
+      } else {
+        setStudentAttempts(list);
+      }
     });
 
     let unsubStudents = () => {};
@@ -108,19 +328,13 @@ export const LmsProvider = ({ children }) => {
     return () => {
       unsubClasses();
       unsubSubjects();
+      unsubBooks();
       unsubChapters();
       unsubQuizzes();
+      unsubAssignments();
+      unsubAttempts();
       unsubStudents();
     };
-  }, [user, isAdmin]);
-
-  // Load student attempts when user is present
-  useEffect(() => {
-    if (user && !isAdmin) {
-      apiGetStudentAttempts(user.uid).then((res) => {
-        setStudentAttempts(res);
-      });
-    }
   }, [user, isAdmin]);
 
   // Class Actions
@@ -189,6 +403,41 @@ export const LmsProvider = ({ children }) => {
     } catch (err) {
       console.error("Error deleting subject:", err);
       toast.error(err?.message || "Failed to delete subject.");
+      throw err;
+    }
+  };
+
+  // Book Actions (Sindh Textbook Board)
+  const handleAddBook = async (data) => {
+    try {
+      const id = await apiAddBook(data);
+      toast.success(`Book "${data.title}" added successfully.`);
+      return id;
+    } catch (err) {
+      console.error("Error adding book:", err);
+      toast.error(err?.message || "Failed to add book.");
+      throw err;
+    }
+  };
+
+  const handleUpdateBook = async (id, data) => {
+    try {
+      await apiUpdateBook(id, data);
+      toast.success("Book updated successfully.");
+    } catch (err) {
+      console.error("Error updating book:", err);
+      toast.error(err?.message || "Failed to update book.");
+      throw err;
+    }
+  };
+
+  const handleDeleteBook = async (id) => {
+    try {
+      await apiDeleteBook(id);
+      toast.success("Book deleted successfully.");
+    } catch (err) {
+      console.error("Error deleting book:", err);
+      toast.error(err?.message || "Failed to delete book.");
       throw err;
     }
   };
@@ -312,10 +561,12 @@ export const LmsProvider = ({ children }) => {
         toggleTheme,
         classes,
         subjects,
+        books,
         chapters,
         quizzes,
         students,
         studentAttempts,
+        allQuizAttempts,
         loadingLms,
         // Class methods
         addClass: handleAddClass,
@@ -325,6 +576,10 @@ export const LmsProvider = ({ children }) => {
         addSubject: handleAddSubject,
         updateSubject: handleUpdateSubject,
         deleteSubject: handleDeleteSubject,
+        // Book methods
+        addBook: handleAddBook,
+        updateBook: handleUpdateBook,
+        deleteBook: handleDeleteBook,
         // Chapter methods
         addChapter: handleAddChapter,
         updateChapter: handleUpdateChapter,
@@ -338,6 +593,28 @@ export const LmsProvider = ({ children }) => {
         // Student Admin methods
         updateStudentApproval: handleUpdateStudentApproval,
         deleteStudent: handleDeleteStudent,
+        // Supplementary Entities & Actions
+        announcements,
+        addAnnouncement: handleAddAnnouncement,
+        deleteAnnouncement: handleDeleteAnnouncement,
+        assignments,
+        addAssignment: handleAddAssignment,
+        updateAssignment: handleUpdateAssignment,
+        deleteAssignment: handleDeleteAssignment,
+        submitAssignment: handleSubmitAssignment,
+        getAssignmentSubmissions,
+        getUserAssignmentSubmission,
+        getQuizAttemptByUser,
+        studyMaterials,
+        bookmarks,
+        toggleBookmark,
+        isBookmarked,
+        notifications,
+        markNotificationRead,
+        clearAllNotifications,
+        results: resultsList,
+        isSearchOpen,
+        setIsSearchOpen,
       }}
     >
       {children}

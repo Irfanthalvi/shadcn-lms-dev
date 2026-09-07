@@ -11,7 +11,7 @@ import {
   updateUserProfileDoc,
   getAuthErrorMessage,
 } from "@/services/authService";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 
 const AuthContext = createContext(null);
 
@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }) => {
 
       if (profile.role !== "admin") {
         // Not an admin
-        toast.info("Logged in as " + (profile.name || email));
+        toast.success("Logged in as " + (profile.name || email));
       } else {
         toast.success(`Welcome back, ${profile.name || "Administrator"}!`);
       }
@@ -93,12 +93,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Register handler
-  const register = async (name, email, password) => {
+  const register = async (name, email, password, classId, className) => {
     try {
       const { user: registeredUser, profile } = await registerWithEmail(
         name,
         email,
-        password
+        password,
+        classId,
+        className
       );
       setUser(registeredUser);
       setUserProfile(profile);

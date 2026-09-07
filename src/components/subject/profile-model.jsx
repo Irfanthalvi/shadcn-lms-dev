@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/context/AuthContext";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 
 const ProfileModal = ({ setIsModalOpen, setProfile }) => {
   const { user, userProfile, updateProfile } = useAuth();

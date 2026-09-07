@@ -35,6 +35,8 @@ export interface UserProfile {
   photoURL?: string;
   phone?: string;
   bio?: string;
+  classId?: string;
+  className?: string;
 }
 
 /**
@@ -213,7 +215,9 @@ export const loginWithEmail = async (
 export const registerWithEmail = async (
   name: string,
   email: string,
-  password: string
+  password: string,
+  classId?: string,
+  className?: string
 ): Promise<{ user: User; profile: UserProfile }> => {
   const userCredential: UserCredential = await createUserWithEmailAndPassword(
     auth,
@@ -240,6 +244,7 @@ export const registerWithEmail = async (
     role: isPrimaryAdmin ? "admin" : "student",
     isApproved: isPrimaryAdmin ? true : false,
     createdAt: serverTimestamp(),
+    ...((!isPrimaryAdmin && classId) ? { classId, className: className || classId } : {}),
   };
 
   const userRef = doc(db, "users", user.uid);
@@ -252,6 +257,7 @@ export const registerWithEmail = async (
     role: profileData.role as "admin" | "student",
     isApproved: profileData.isApproved,
     createdAt: profileData.createdAt,
+    ...( (!isPrimaryAdmin && classId) ? { classId, className: className || classId } : {}),
   };
 
   return { user, profile };
