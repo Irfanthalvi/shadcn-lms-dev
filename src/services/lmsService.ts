@@ -14,7 +14,7 @@ import {
   serverTimestamp,
   type Unsubscribe,
 } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { auth, db } from "@/lib/firebase";
 import {
   sindhBoardClasses,
   sindhBoardSubjects,
@@ -864,9 +864,35 @@ export const updateStudentApproval = async (
 };
 
 export const deleteStudentAccount = async (uid: string): Promise<void> => {
-  if (!uid) throw new Error("Student UID is required to delete account.");
-  const docRef = doc(db, "users", uid);
-  await deleteDoc(docRef);
+  if (!uid) {
+    throw new Error("Student UID is required to delete account.");
+  }
+
+  const currentUser = auth.currentUser;
+
+  if (!currentUser) {
+    throw new Error("You must be logged in.");
+  }
+
+  const idToken = await currentUser.getIdToken();
+
+  const response = await fetch(
+    `${import.meta.env.VITE_API_BASE_URL}/api/admin/delete-student`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${idToken}`,
+      },
+      body: JSON.stringify({ uid }),
+    }
+  );
+
+  const data = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    throw new Error(data.error || "Failed to remove student account.");
+  }
 };
 
 // ==========================================
