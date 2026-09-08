@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerSchema, CLASS_OPTIONS } from "../validation/auth/logout-schema";
+import { registerSchema } from "../validation/auth/logout-schema";
 import {
   Eye,
   EyeOff,
@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/context/AuthContext";
+import { subscribeToClasses } from "@/services/lmsService";
 import toast from "react-hot-toast";
 
 export default function RegisterForm({ setActive }) {
@@ -28,10 +29,26 @@ export default function RegisterForm({ setActive }) {
   const [authError, setAuthError] = useState("");
   const [successNotice, setSuccessNotice] = useState(false);
 
+  const [classes, setClasses] = useState([]);
+  const [classesLoading, setClassesLoading] = useState(true);
+
   const { register: registerAuthUser } = useAuth();
 
   useEffect(() => {
     document.title = "Student Admission Registration — LMS Academy";
+  }, []);
+
+  // Load real classes from Firestore.
+  // This ensures registration uses the actual Firestore class document ID.
+  useEffect(() => {
+    setClassesLoading(true);
+
+    const unsubscribe = subscribeToClasses((list) => {
+      setClasses(list);
+      setClassesLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const {
@@ -42,6 +59,12 @@ export default function RegisterForm({ setActive }) {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      classId: "",
+    },
   });
 
   const selectedClassId = watch("classId");
@@ -50,26 +73,38 @@ export default function RegisterForm({ setActive }) {
     setIsLoading(true);
     setAuthError("");
 
-    const selectedClass = CLASS_OPTIONS.find((c) => c.value === data.classId);
+    // Find the selected class from the actual Firestore classes.
+    const selectedClass = classes.find(
+      (classItem) => String(classItem.id) === String(data.classId)
+    );
+
+    if (!selectedClass) {
+      setAuthError("Please select a valid class.");
+      setIsLoading(false);
+      return;
+    }
 
     try {
       await registerAuthUser(
-        data.name,
-        data.email,
+        data.name.trim(),
+        data.email.trim(),
         data.password,
-        data.classId,
-        selectedClass?.label || data.classId
+        selectedClass.id,
+        selectedClass.name
       );
 
       setSuccessNotice(true);
+
       toast.success(
         "Application submitted! Awaiting administrator approval before account activation.",
         { duration: 7000 }
       );
     } catch (err) {
       console.error("Registration error:", err);
+
       setAuthError(
-        err.message || "Registration failed. Please review your details."
+        err?.message ||
+        "Registration failed. Please review your details and try again."
       );
     } finally {
       setIsLoading(false);
@@ -87,14 +122,20 @@ export default function RegisterForm({ setActive }) {
           <h2 className="text-2xl font-black text-foreground">
             Admission Registered!
           </h2>
+
           <p className="text-xs sm:text-sm text-muted-foreground max-w-sm mx-auto leading-relaxed">
-            Your admission profile has been created and submitted to the institutional admin directory. You will be able to sign in as soon as your account is approved.
+            Your admission profile has been created and submitted to the
+            institutional admin directory. You will be able to sign in as
+            soon as your account is approved.
           </p>
         </div>
 
         <div className="p-3.5 rounded-2xl bg-muted/40 border border-border text-xs text-muted-foreground flex items-center justify-center gap-2">
           <ShieldAlert className="w-4 h-4 text-primary shrink-0" />
-          <span>Class access is restricted until administrator authorization.</span>
+
+          <span>
+            Class access is restricted until administrator authorization.
+          </span>
         </div>
 
         <Button
@@ -114,9 +155,11 @@ export default function RegisterForm({ setActive }) {
         <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-primary/10 text-primary border border-primary/20 mb-3 shadow-[0_0_15px_var(--color-accent-glow)]">
           <GraduationCap className="w-6 h-6" />
         </div>
+
         <h2 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">
           Student Admission
         </h2>
+
         <p className="text-xs sm:text-sm text-muted-foreground mt-1">
           Register for your official Sindh Board curriculum class
         </p>
@@ -126,7 +169,10 @@ export default function RegisterForm({ setActive }) {
       {authError && (
         <div className="mb-5 p-3.5 rounded-2xl bg-destructive/10 border border-destructive/20 text-destructive text-xs flex items-start gap-2.5 animate-in shake duration-200">
           <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-          <div className="flex-1 leading-relaxed font-medium">{authError}</div>
+
+          <div className="flex-1 leading-relaxed font-medium">
+            {authError}
+          </div>
         </div>
       )}
 
@@ -134,11 +180,16 @@ export default function RegisterForm({ setActive }) {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Full Name */}
         <div className="space-y-1.5">
-          <Label htmlFor="reg-name" className="text-xs font-bold text-foreground">
+          <Label
+            htmlFor="reg-name"
+            className="text-xs font-bold text-foreground"
+          >
             Student Full Name
           </Label>
+
           <div className="relative">
             <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+
             <Input
               id="reg-name"
               type="text"
@@ -149,6 +200,7 @@ export default function RegisterForm({ setActive }) {
               {...register("name")}
             />
           </div>
+
           {errors.name && (
             <p className="text-[11px] font-medium text-destructive">
               {errors.name.message}
@@ -158,11 +210,16 @@ export default function RegisterForm({ setActive }) {
 
         {/* Email */}
         <div className="space-y-1.5">
-          <Label htmlFor="reg-email" className="text-xs font-bold text-foreground">
+          <Label
+            htmlFor="reg-email"
+            className="text-xs font-bold text-foreground"
+          >
             Email Address
           </Label>
+
           <div className="relative">
             <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+
             <Input
               id="reg-email"
               type="email"
@@ -173,6 +230,7 @@ export default function RegisterForm({ setActive }) {
               {...register("email")}
             />
           </div>
+
           {errors.email && (
             <p className="text-[11px] font-medium text-destructive">
               {errors.email.message}
@@ -180,45 +238,68 @@ export default function RegisterForm({ setActive }) {
           )}
         </div>
 
-        {/* Class Selection (Mandatory Class 8–12) */}
+        {/* Class Selection */}
         <div className="space-y-1.5">
           <div className="flex justify-between items-center">
-            <Label htmlFor="reg-class" className="text-xs font-bold text-foreground">
+            <Label
+              htmlFor="reg-class"
+              className="text-xs font-bold text-foreground"
+            >
               Select Enrolled Class (8 - 12)
             </Label>
+
             <span className="text-[10px] font-mono text-primary font-bold">
               Sindh Board
             </span>
           </div>
+
           <div className="relative">
             <GraduationCap className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-primary pointer-events-none" />
+
             <select
               id="reg-class"
-              disabled={isLoading}
+              disabled={isLoading || classesLoading}
               value={selectedClassId || ""}
               onChange={(e) =>
-                setValue("classId", e.target.value, { shouldValidate: true })
+                setValue("classId", e.target.value, {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                })
               }
               className="w-full h-11 pl-10 pr-10 rounded-xl border border-border bg-background/70 text-xs font-semibold text-foreground appearance-none focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary disabled:opacity-50"
             >
               <option value="" disabled>
-                Select your academic class...
+                {classesLoading
+                  ? "Loading classes..."
+                  : classes.length === 0
+                    ? "No classes available"
+                    : "Select your academic class..."}
               </option>
-              {CLASS_OPTIONS.map((c) => (
-                <option key={c.value} value={c.value} className="bg-card text-foreground">
-                  {c.label}
-                </option>
-              ))}
+
+              {!classesLoading &&
+                classes.map((classItem) => (
+                  <option
+                    key={classItem.id}
+                    value={classItem.id}
+                    className="bg-card text-foreground"
+                  >
+                    {classItem.name}
+                  </option>
+                ))}
             </select>
+
             <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
           </div>
+
           {errors.classId && (
             <p className="text-[11px] font-medium text-destructive">
               {errors.classId.message}
             </p>
           )}
+
           <p className="text-[11px] text-muted-foreground leading-snug">
-            Your admission will restrict access strictly to this class's textbooks, quizzes, and learning materials.
+            Your admission will restrict access strictly to this class's
+            textbooks, quizzes, and learning materials.
           </p>
         </div>
 
@@ -230,26 +311,31 @@ export default function RegisterForm({ setActive }) {
           >
             Create Password
           </Label>
+
           <div className="relative">
             <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+
             <Input
               id="reg-password"
               type={showPassword ? "text" : "password"}
-              placeholder="Minimum 6 characters"
+              placeholder="Minimum 8 characters"
               disabled={isLoading}
               autoComplete="new-password"
               className="pl-10 pr-10 h-11 text-xs rounded-xl bg-background/70 border-border focus:border-primary"
               {...register("password")}
             />
+
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
               className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
               tabIndex={-1}
+              aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
             </button>
           </div>
+
           {errors.password && (
             <p className="text-[11px] font-medium text-destructive">
               {errors.password.message}
@@ -261,12 +347,17 @@ export default function RegisterForm({ setActive }) {
         <Button
           type="submit"
           className="w-full h-11 text-sm font-bold rounded-xl bg-gradient-to-r from-teal-600 via-teal-500 to-cyan-500 text-white shadow-[0_4px_20px_var(--color-accent-glow)] hover:shadow-[0_6px_28px_var(--color-accent-glow)] hover:brightness-110 hover:-translate-y-0.5 active:translate-y-0 transition-all gap-2 mt-2"
-          disabled={isLoading}
+          disabled={isLoading || classesLoading || classes.length === 0}
         >
           {isLoading ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin" />
               Submitting Admission...
+            </>
+          ) : classesLoading ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              Loading Classes...
             </>
           ) : (
             <>

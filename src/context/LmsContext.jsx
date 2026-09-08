@@ -28,6 +28,7 @@ import {
   getStudentAttempts as apiGetStudentAttempts,
   getAllQuizAttempts as apiGetAllQuizAttempts,
   updateStudentApproval as apiUpdateStudentApproval,
+  updateStudentClass as apiUpdateStudentClass,
   deleteStudentAccount as apiDeleteStudentAccount,
   getQuizById,
   addAssignment as apiAddAssignment,
@@ -117,31 +118,31 @@ export const LmsProvider = ({ children }) => {
       return saved
         ? JSON.parse(saved)
         : [
-            {
-              id: "n-1",
-              title: "Welcome to LMS Academy Portal",
-              message: "Explore your academic classes, study materials, and self-assessment quizzes.",
-              time: "Just now",
-              read: false,
-              type: "welcome",
-            },
-            {
-              id: "n-2",
-              title: "Physics Chapter 1 Quiz Available",
-              message: "Test your knowledge on Physical Quantities & Measurement.",
-              time: "1 hour ago",
-              read: false,
-              type: "quiz",
-            },
-            {
-              id: "n-3",
-              title: "Date Sheet Announced",
-              message: "Annual examination dates have been published on the notice board.",
-              time: "1 day ago",
-              read: true,
-              type: "announcement",
-            },
-          ];
+          {
+            id: "n-1",
+            title: "Welcome to LMS Academy Portal",
+            message: "Explore your academic classes, study materials, and self-assessment quizzes.",
+            time: "Just now",
+            read: false,
+            type: "welcome",
+          },
+          {
+            id: "n-2",
+            title: "Physics Chapter 1 Quiz Available",
+            message: "Test your knowledge on Physical Quantities & Measurement.",
+            time: "1 hour ago",
+            read: false,
+            type: "quiz",
+          },
+          {
+            id: "n-3",
+            title: "Date Sheet Announced",
+            message: "Annual examination dates have been published on the notice board.",
+            time: "1 day ago",
+            read: true,
+            type: "announcement",
+          },
+        ];
     } catch {
       return [];
     }
@@ -318,7 +319,7 @@ export const LmsProvider = ({ children }) => {
       }
     });
 
-    let unsubStudents = () => {};
+    let unsubStudents = () => { };
     if (isAdmin) {
       unsubStudents = subscribeToStudents((list) => {
         setStudents(list);
@@ -542,7 +543,16 @@ export const LmsProvider = ({ children }) => {
       throw err;
     }
   };
-
+  const handleUpdateStudentClass = async (uid, classId, className) => {
+    try {
+      await apiUpdateStudentClass(uid, classId, className);
+      toast.success("Student class updated successfully.");
+    } catch (err) {
+      console.error("Error updating student class:", err);
+      toast.error(err?.message || "Failed to update student class.");
+      throw err;
+    }
+  };
   const handleDeleteStudent = async (uid) => {
     try {
       await apiDeleteStudentAccount(uid);
@@ -592,6 +602,7 @@ export const LmsProvider = ({ children }) => {
         submitQuizAttempt: handleQuizSubmit,
         // Student Admin methods
         updateStudentApproval: handleUpdateStudentApproval,
+        updateStudentClass: handleUpdateStudentClass,
         deleteStudent: handleDeleteStudent,
         // Supplementary Entities & Actions
         announcements,

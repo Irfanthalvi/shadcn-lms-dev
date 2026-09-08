@@ -146,6 +146,8 @@ export interface StudentUser {
   email: string;
   role: string;
   isApproved: boolean;
+  classId?: string;
+  className?: string;
   createdAt?: any;
   photoURL?: string;
 }
@@ -838,6 +840,8 @@ export const subscribeToStudents = (
           email: d.data().email || "",
           role: d.data().role || "student",
           isApproved: Boolean(d.data().isApproved),
+          classId: d.data().classId || "",
+          className: d.data().className || "",
           createdAt: d.data().createdAt,
           photoURL: d.data().photoURL,
         }))
@@ -862,7 +866,27 @@ export const updateStudentApproval = async (
     updatedAt: serverTimestamp(),
   });
 };
+export const updateStudentClass = async (
+  uid: string,
+  classId: string,
+  className: string
+): Promise<void> => {
+  if (!uid) {
+    throw new Error("Student UID is required.");
+  }
 
+  if (!classId) {
+    throw new Error("Class is required.");
+  }
+
+  const docRef = doc(db, "users", uid);
+
+  await updateDoc(docRef, {
+    classId: String(classId),
+    className: String(className || ""),
+    updatedAt: serverTimestamp(),
+  });
+};
 export const deleteStudentAccount = async (uid: string): Promise<void> => {
   if (!uid) {
     throw new Error("Student UID is required to delete account.");
