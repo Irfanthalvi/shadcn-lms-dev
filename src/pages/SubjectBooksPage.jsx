@@ -30,7 +30,6 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { sindhBoardBooks } from "@/data/sindhBoardCurriculum";
 import toast from "react-hot-toast";
 
 export default function SubjectBooksPage() {
@@ -61,35 +60,14 @@ export default function SubjectBooksPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Strict Class Access: Students can only access their assigned class
-  useEffect(() => {
-    if (!isAdmin && userProfile?.classId && classId && classId !== userProfile.classId) {
-      toast.error("Access restricted: You can only view your enrolled class.");
-      navigate(`/classes/${userProfile.classId}/subjects`, { replace: true });
-    }
-  }, [isAdmin, userProfile, classId, navigate]);
-
   const currentClass = classes.find((c) => String(c.id) === String(classId));
   const currentSubject = subjects.find((s) => String(s.id) === String(subjectId));
 
-  // Combine Firestore books with fallback curriculum books for this subject
   const subjectBooks = useMemo(() => {
-    // 1. First check Firestore books
-    const fromFirestore = books.filter(
-      (b) => String(b.subjectId) === String(subjectId) || String(b.classId) === String(classId)
+    // Firestore books for this subject
+    let list = books.filter(
+      (b) => String(b.subjectId) === String(subjectId)
     );
-
-    let list = fromFirestore;
-
-    // If no firestore books exist for this subject, provide matching default Sindh Board books
-    if (list.length === 0 && currentSubject) {
-      const defaultBooks = sindhBoardBooks.filter(
-        (b) =>
-          b.classId === classId ||
-          (currentSubject.name && b.title.toLowerCase().includes(currentSubject.name.toLowerCase()))
-      );
-      list = defaultBooks.map((b) => ({ ...b, subjectId }));
-    }
 
     if (search.trim()) {
       const q = search.toLowerCase();
@@ -102,7 +80,7 @@ export default function SubjectBooksPage() {
     }
 
     return list;
-  }, [books, subjectId, classId, currentSubject, search]);
+  }, [books, subjectId, classId, search]);
 
   const openAddModal = () => {
     setEditingBook(null);

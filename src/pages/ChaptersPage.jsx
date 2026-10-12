@@ -30,7 +30,6 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { sindhBoardChapters } from "@/data/sindhBoardCurriculum";
 import toast from "react-hot-toast";
 
 export default function ChaptersPage() {
@@ -66,6 +65,8 @@ export default function ChaptersPage() {
     theoryNotes: "",
     keyFormulas: "",
     learningObjectives: "",
+    videoUrl: "",
+    textbookContent: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -78,13 +79,8 @@ export default function ChaptersPage() {
     }
   }, [isAdmin, studentClassId]);
 
-  // Combine Firestore chapters with Sindh Board Curriculum chapters
   const allChaptersList = useMemo(() => {
-    let list = [...chapters];
-    if (list.length === 0) {
-      list = [...sindhBoardChapters];
-    }
-    return list;
+    return [...chapters];
   }, [chapters]);
 
   // Filtered Chapters
@@ -119,7 +115,7 @@ export default function ChaptersPage() {
 
   const openAddModal = () => {
     setEditingChapter(null);
-    const initialClassId = selectedClass !== "all" ? selectedClass : classes[0]?.id || "class-9";
+    const initialClassId = selectedClass !== "all" ? selectedClass : classes[0]?.id || "";
     const initialSub = subjects.find((s) => String(s.classId) === String(initialClassId));
     setFormData({
       title: "",
@@ -130,6 +126,8 @@ export default function ChaptersPage() {
       theoryNotes: "",
       keyFormulas: "",
       learningObjectives: "",
+      videoUrl: "",
+      textbookContent: "",
     });
     setIsModalOpen(true);
   };
@@ -148,6 +146,8 @@ export default function ChaptersPage() {
       learningObjectives: Array.isArray(chapter.learningObjectives)
         ? chapter.learningObjectives.join("\n")
         : chapter.learningObjectives || "",
+      videoUrl: chapter.videoUrl || "",
+      textbookContent: chapter.textbookContent || "",
     });
     setIsModalOpen(true);
   };
@@ -195,6 +195,8 @@ export default function ChaptersPage() {
           theoryNotes: formData.theoryNotes.trim(),
           keyFormulas: formData.keyFormulas.trim(),
           learningObjectives: sloArray,
+          videoUrl: formData.videoUrl.trim(),
+          textbookContent: formData.textbookContent.trim(),
         });
       } else {
         await addChapter({
@@ -206,6 +208,8 @@ export default function ChaptersPage() {
           theoryNotes: formData.theoryNotes.trim(),
           keyFormulas: formData.keyFormulas.trim(),
           learningObjectives: sloArray,
+          videoUrl: formData.videoUrl.trim(),
+          textbookContent: formData.textbookContent.trim(),
         });
       }
       setIsModalOpen(false);
@@ -395,7 +399,7 @@ export default function ChaptersPage() {
                       variant="outline"
                       onClick={() =>
                         navigate(
-                          `/classes/${chapter.classId || "class-9"}/subjects/${chapter.subjectId || "sub"}/chapters/${chapter.id}/content`
+                          `/classes/${chapter.classId}/subjects/${chapter.subjectId}/chapters/${chapter.id}/content`
                         )
                       }
                       className="text-xs font-semibold rounded-xl h-8 gap-1.5 flex-1"
@@ -407,7 +411,7 @@ export default function ChaptersPage() {
                       size="sm"
                       onClick={() =>
                         navigate(
-                          `/classes/${chapter.classId || "class-9"}/subjects/${chapter.subjectId || "sub"}/chapters/${chapter.id}/quiz`
+                          `/classes/${chapter.classId}/subjects/${chapter.subjectId}/chapters/${chapter.id}/quiz`
                         )
                       }
                       className="text-xs font-bold rounded-xl h-8 gap-1.5 shadow-xs"
@@ -504,13 +508,25 @@ export default function ChaptersPage() {
                   required
                 >
                   <option value="" disabled>Select Subject...</option>
-                  {subjects.map((s) => (
-                    <option key={s.id} value={s.id}>
-                      {s.name} ({s.code || s.classId})
-                    </option>
-                  ))}
+                  {subjects
+                    .filter((s) => !formData.classId || String(s.classId) === String(formData.classId))
+                    .map((s) => (
+                      <option key={s.id} value={s.id}>
+                        {s.name} ({s.code || s.classId})
+                      </option>
+                    ))}
                 </select>
               </div>
+            </div>
+
+            <div className="space-y-1">
+              <Label className="text-xs font-bold">YouTube Video URL / ID (optional)</Label>
+              <Input
+                placeholder="https://www.youtube.com/watch?v=... or 11-char ID"
+                value={formData.videoUrl}
+                onChange={(e) => setFormData({ ...formData, videoUrl: e.target.value })}
+                className="h-9 text-xs rounded-xl"
+              />
             </div>
 
             <div className="space-y-1">
@@ -520,6 +536,28 @@ export default function ChaptersPage() {
                 placeholder="Overview of the chapter..."
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                className="text-xs rounded-xl"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <Label className="text-xs font-bold">Textbook Content (optional)</Label>
+              <Textarea
+                rows={3}
+                placeholder="Transcribed reading content for the textbook reader..."
+                value={formData.textbookContent}
+                onChange={(e) => setFormData({ ...formData, textbookContent: e.target.value })}
+                className="text-xs rounded-xl"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <Label className="text-xs font-bold">Theory Notes & Concepts (optional)</Label>
+              <Textarea
+                rows={3}
+                placeholder="Core theory notes, summaries, and key definitions..."
+                value={formData.theoryNotes}
+                onChange={(e) => setFormData({ ...formData, theoryNotes: e.target.value })}
                 className="text-xs rounded-xl"
               />
             </div>

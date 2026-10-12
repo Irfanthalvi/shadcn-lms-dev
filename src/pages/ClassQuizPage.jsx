@@ -40,11 +40,6 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import {
-  sindhBoardClasses,
-  sindhBoardSubjects,
-  sindhBoardChapters,
-} from "@/data/sindhBoardCurriculum";
 import toast from "react-hot-toast";
 
 export default function ClassQuizPage() {
@@ -73,21 +68,19 @@ export default function ClassQuizPage() {
     }
   }, [isAdmin, userProfile, classId, navigate]);
 
-  // Resolve Class, Subject, Chapter with reliable fallback to Sindh Board curriculum
+  // Resolve Class, Subject, Chapter from real Firestore data only
   const currentClass = useMemo(() => {
     return (
-      classes.find((c) => String(c.id) === String(classId)) ||
-      sindhBoardClasses.find((c) => String(c.id) === String(classId)) || {
+      classes.find((c) => String(c.id) === String(classId)) || {
         id: classId,
-        name: `Class ${String(classId).replace("class-", "")}`,
+        name: "Class",
       }
     );
   }, [classes, classId]);
 
   const currentSubject = useMemo(() => {
     return (
-      subjects.find((s) => String(s.id) === String(subjectId)) ||
-      sindhBoardSubjects.find((s) => String(s.id) === String(subjectId)) || {
+      subjects.find((s) => String(s.id) === String(subjectId)) || {
         id: subjectId,
         name: "Academic Subject",
         code: "STBB",
@@ -97,8 +90,7 @@ export default function ClassQuizPage() {
 
   const currentChapter = useMemo(() => {
     return (
-      chapters.find((c) => String(c.id) === String(chapterId)) ||
-      sindhBoardChapters.find((c) => String(c.id) === String(chapterId)) || {
+      chapters.find((c) => String(c.id) === String(chapterId)) || {
         id: chapterId,
         title: "Chapter Assessment",
         chapterNumber: 1,
@@ -106,86 +98,13 @@ export default function ClassQuizPage() {
     );
   }, [chapters, chapterId]);
 
-  // Quizzes for this chapter
   const chapterQuizzes = useMemo(() => {
-    // Check Firestore quizzes for this chapter
-    const list = quizzes.filter(
+    return quizzes.filter(
       (q) =>
         String(q.chapterId) === String(chapterId) ||
         (q.subjectId === subjectId && q.classId === classId)
     );
-
-    // Fallback default sample quiz if none exists yet
-    if (list.length === 0 && currentChapter) {
-      return [
-        {
-          id: `sample_quiz_${chapterId}`,
-          title: `${currentChapter.title} — Self-Assessment Test`,
-          chapterId: String(chapterId),
-          subjectId: String(subjectId),
-          classId: String(classId),
-          timeLimitMinutes: 15,
-          totalMarks: 5,
-          passingScore: 50,
-          description: "Sindh Textbook Board curriculum based chapter self-assessment test.",
-          questions: [
-            {
-              id: "q1",
-              question: `Which of the following best represents the fundamental concept of ${currentChapter.title}?`,
-              options: [
-                "Standard SI measurement units",
-                "Theoretical baseline law",
-                "Experimental empirical evidence",
-                "Applied board definition",
-              ],
-              correctAnswer: 1,
-              explanation: "Core definition per the Sindh Textbook Board syllabus guidelines.",
-            },
-            {
-              id: "q2",
-              question: "What is the standard unit of measurement according to the International System of Units (SI)?",
-              options: [
-                "Foot-Pound-Second (FPS)",
-                "Meter-Kilogram-Second (MKS / SI)",
-                "Centimeter-Gram-Second (CGS)",
-                "Imperial measure",
-              ],
-              correctAnswer: 1,
-              explanation: "SI unit system standardizes meters, kilograms, and seconds across all scientific calculations.",
-            },
-            {
-              id: "q3",
-              question: "Which of these is classified as a derived physical quantity?",
-              options: ["Length", "Mass", "Velocity", "Time"],
-              correctAnswer: 2,
-              explanation: "Velocity is derived from dividing length (displacement) by time (m/s).",
-            },
-            {
-              id: "q4",
-              question: "What is the primary function of a vernier caliper in laboratory measurements?",
-              options: [
-                "To measure high electrical voltage",
-                "To measure internal/external dimensions with high precision",
-                "To measure atmospheric pressure",
-                "To determine chemical concentration",
-              ],
-              correctAnswer: 1,
-              explanation: "Vernier calipers measure internal, external diameters and depth up to 0.01 cm precision.",
-            },
-            {
-              id: "q5",
-              question: "What is the minimum passing requirement for the Sindh Board examination assessments?",
-              options: ["33%", "50%", "75%", "90%"],
-              correctAnswer: 1,
-              explanation: "Students must achieve at least 50% on chapter quizzes to receive pass status.",
-            },
-          ],
-        },
-      ];
-    }
-
-    return list;
-  }, [quizzes, chapterId, subjectId, classId, currentChapter]);
+  }, [quizzes, chapterId, subjectId, classId]);
 
   // Admin Modal: Create / Edit Quiz
   const [isQuizModalOpen, setIsQuizModalOpen] = useState(false);

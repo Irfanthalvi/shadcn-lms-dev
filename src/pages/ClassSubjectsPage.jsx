@@ -26,7 +26,6 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 
-import { sindhBoardSubjects } from "@/data/sindhBoardCurriculum";
 import toast from "react-hot-toast";
 
 export default function ClassSubjectsPage() {
@@ -41,30 +40,15 @@ export default function ClassSubjectsPage() {
   const [formData, setFormData] = useState({ name: "", code: "", description: "", classId: classId || "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Strict Class Protection for Students
-  useEffect(() => {
-    if (!isAdmin && userProfile?.classId && classId && String(classId) !== String(userProfile.classId)) {
-      toast.error("Access restricted: You can only view your enrolled class.");
-      navigate(`/classes/${userProfile.classId}/subjects`, { replace: true });
-    }
-  }, [isAdmin, userProfile, classId, navigate]);
-
-  // If classId is in route, use that class; for students always default to their enrolled class
-  const effectiveClassId = !isAdmin && userProfile?.classId ? userProfile.classId : classId;
-  const currentClass = classes.find((c) => String(c.id) === String(effectiveClassId));
+  // Resolve effective class from route params, user profile, or first class
+  const effectiveClassId = classId || userProfile?.classId || (classes[0] ? classes[0].id : "");
+  const currentClass = classes.find((c) => String(c.id) === String(effectiveClassId)) || { id: effectiveClassId, name: "Academic Class" };
   const activeClassId = effectiveClassId || (classes[0] ? classes[0].id : "");
 
   const classSubjects = useMemo(() => {
     let list = subjects;
     if (effectiveClassId) {
       list = list.filter((s) => String(s.classId) === String(effectiveClassId));
-    }
-
-    // If no subjects found yet for this class, fallback to Sindh Board curriculum subjects
-    if (list.length === 0 && effectiveClassId) {
-      list = sindhBoardSubjects.filter(
-        (s) => s.classId === effectiveClassId || s.classId.includes(effectiveClassId)
-      );
     }
 
     if (search.trim()) {
@@ -219,11 +203,15 @@ export default function ClassSubjectsPage() {
         <div className="text-center py-16 px-4 bg-card border border-dashed border-border rounded-2xl space-y-4">
           <BookOpen className="w-12 h-12 text-muted-foreground/60 mx-auto" />
           <div className="max-w-sm mx-auto space-y-1">
-            <h3 className="text-base font-bold text-foreground">No subjects found</h3>
+            <h3 className="text-base font-bold text-foreground">
+              {search ? "No matching subjects found" : "No subjects added yet"}
+            </h3>
             <p className="text-xs text-muted-foreground">
-              {isAdmin
-                ? "Click 'Add Subject' to configure the first subject."
-                : "No subjects are currently listed for this view."}
+              {search
+                ? "Try adjusting your search query."
+                : isAdmin
+                ? `Click 'Add Subject' to configure the first subject for ${currentClass?.name || "this class"}.`
+                : `No subjects have been published yet for ${currentClass?.name || "this class"}. Check back soon.`}
             </p>
           </div>
           {isAdmin && (
@@ -244,26 +232,26 @@ export default function ClassSubjectsPage() {
                 key={subject.id}
                 onClick={() =>
                   navigate(
-                    `/classes/${subject.classId || classId}/subjects/${subject.id}/books`
+                    `/classes/${subject.classId || classId}/subjects/${subject.id}/chapters`
                   )
                 }
-                className="group relative bg-card text-card-foreground border border-border/80 rounded-2xl p-6 hover:border-primary/50 hover:shadow-lg transition-all duration-200 cursor-pointer flex flex-col justify-between"
+                className="group relative bg-card text-card-foreground border border-border/80 rounded-3xl p-6 sm:p-7 hover:border-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col justify-between"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-lg bg-primary/10 text-primary border border-primary/20">
+                      <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">
                         {subject.code || "SUB"}
                       </span>
                       {parentClass && !classId && (
-                        <span className="text-[10px] font-bold text-muted-foreground">
+                        <span className="text-xs font-semibold text-muted-foreground">
                           {parentClass.name}
                         </span>
                       )}
                     </div>
 
                     {isAdmin && (
-                      <div className="flex items-center gap-1 opacity-90 group-hover:opacity-100 transition">
+                      <div className="flex items-center gap-1 opacity-90 group-hover:opacity-100 transition" onClick={(e) => e.stopPropagation()}>
                         <Button
                           variant="ghost"
                           size="icon"
@@ -286,7 +274,7 @@ export default function ClassSubjectsPage() {
                     )}
                   </div>
 
-                  <h2 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
+                  <h2 className="text-2xl font-black text-foreground group-hover:text-primary transition-colors">
                     {subject.name}
                   </h2>
                   <p className="text-xs text-muted-foreground mt-1 line-clamp-2 leading-relaxed">

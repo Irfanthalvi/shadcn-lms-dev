@@ -72,6 +72,8 @@ export interface ChapterItem {
   theoryNotes?: string;
   keyFormulas?: string;
   resourceLink?: string;
+  videoUrl?: string;        // YouTube URL or 11-char video ID
+  textbookContent?: string; // Textbook / reading content for the chapter
   createdAt?: any;
 }
 
@@ -490,6 +492,8 @@ export const subscribeToChapters = (
         theoryNotes: d.data().theoryNotes || "",
         keyFormulas: d.data().keyFormulas || "",
         resourceLink: d.data().resourceLink || "",
+        videoUrl: d.data().videoUrl || "",
+        textbookContent: d.data().textbookContent || "",
         createdAt: d.data().createdAt,
       })) as ChapterItem[];
       list.sort((a, b) => Number(a.chapterNumber || 0) - Number(b.chapterNumber || 0));
@@ -523,6 +527,8 @@ export const getChapters = async (
       theoryNotes: d.data().theoryNotes || "",
       keyFormulas: d.data().keyFormulas || "",
       resourceLink: d.data().resourceLink || "",
+      videoUrl: d.data().videoUrl || "",
+      textbookContent: d.data().textbookContent || "",
       createdAt: d.data().createdAt,
     })) as ChapterItem[];
     list.sort((a, b) => Number(a.chapterNumber || 0) - Number(b.chapterNumber || 0));
@@ -547,6 +553,8 @@ export const addChapter = async (
     theoryNotes: data.theoryNotes || "",
     keyFormulas: data.keyFormulas || "",
     resourceLink: data.resourceLink || "",
+    videoUrl: data.videoUrl || "",
+    textbookContent: data.textbookContent || "",
     createdAt: serverTimestamp(),
   };
 
@@ -569,6 +577,8 @@ export const updateChapter = async (
   if (data.theoryNotes !== undefined) payload.theoryNotes = data.theoryNotes;
   if (data.keyFormulas !== undefined) payload.keyFormulas = data.keyFormulas;
   if (data.resourceLink !== undefined) payload.resourceLink = data.resourceLink;
+  if (data.videoUrl !== undefined) payload.videoUrl = data.videoUrl;
+  if (data.textbookContent !== undefined) payload.textbookContent = data.textbookContent;
 
   const docRef = doc(db, "chapters", chapterId);
   await updateDoc(docRef, payload);

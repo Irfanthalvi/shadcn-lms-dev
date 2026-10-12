@@ -28,7 +28,6 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { sindhBoardBooks } from "@/data/sindhBoardCurriculum";
 import toast from "react-hot-toast";
 
 export default function BooksPage() {
@@ -65,13 +64,8 @@ export default function BooksPage() {
     }
   }, [isAdmin, studentClassId]);
 
-  // Combine Firestore books with fallback curriculum books
   const allBooksList = useMemo(() => {
-    let list = [...books];
-    if (list.length === 0) {
-      list = [...sindhBoardBooks];
-    }
-    return list;
+    return [...books];
   }, [books]);
 
   // Filtered books
@@ -107,7 +101,7 @@ export default function BooksPage() {
 
   const openAddModal = () => {
     setEditingBook(null);
-    const initialClassId = selectedClass !== "all" ? selectedClass : classes[0]?.id || "class-9";
+    const initialClassId = selectedClass !== "all" ? selectedClass : classes[0]?.id || "";
     const initialSub = subjects.find((s) => String(s.classId) === String(initialClassId));
     setFormData({
       title: "",
@@ -359,7 +353,7 @@ export default function BooksPage() {
                     size="sm"
                     onClick={() =>
                       navigate(
-                        `/classes/${book.classId || "class-9"}/subjects/${book.subjectId || "sub"}/books/${book.id}/chapters`
+                        `/classes/${book.classId}/subjects/${book.subjectId}/books/${book.id}/chapters`
                       )
                     }
                     className="text-xs font-bold rounded-xl h-8 gap-1.5 flex-1 shadow-xs"

@@ -44,11 +44,6 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import {
-  sindhBoardClasses,
-  sindhBoardSubjects,
-  sindhBoardChapters,
-} from "@/data/sindhBoardCurriculum";
 import toast from "react-hot-toast";
 
 export default function QuizzesPage() {
@@ -110,23 +105,14 @@ export default function QuizzesPage() {
   });
   const [isSubmittingQuiz, setIsSubmittingQuiz] = useState(false);
 
-  // Dynamic Subject and Chapter options for Admin Quiz Form
   const formSubjects = useMemo(() => {
     if (!quizForm.classId) return [];
-    const list = subjects.filter((s) => String(s.classId) === String(quizForm.classId));
-    if (list.length === 0) {
-      return sindhBoardSubjects.filter((s) => String(s.classId) === String(quizForm.classId));
-    }
-    return list;
+    return subjects.filter((s) => String(s.classId) === String(quizForm.classId));
   }, [subjects, quizForm.classId]);
 
   const formChapters = useMemo(() => {
     if (!quizForm.subjectId) return [];
-    const list = chapters.filter((c) => String(c.subjectId) === String(quizForm.subjectId));
-    if (list.length === 0) {
-      return sindhBoardChapters.filter((c) => String(c.subjectId) === String(quizForm.subjectId));
-    }
-    return list;
+    return chapters.filter((c) => String(c.subjectId) === String(quizForm.subjectId));
   }, [chapters, quizForm.subjectId]);
 
   // Student Active Quiz Taking State
@@ -212,13 +198,10 @@ export default function QuizzesPage() {
   // Admin: Open Create Quiz Modal
   const openCreateQuizModal = () => {
     setEditingQuiz(null);
-    const initialClassId = selectedClassFilter !== "all" ? selectedClassFilter : classes[0]?.id || "class-9";
-    const initialSubject =
-      subjects.find((s) => String(s.classId) === String(initialClassId)) ||
-      sindhBoardSubjects.find((s) => String(s.classId) === String(initialClassId));
+    const initialClassId = selectedClassFilter !== "all" ? selectedClassFilter : classes[0]?.id || "";
+    const initialSubject = subjects.find((s) => String(s.classId) === String(initialClassId));
     const initialChapter = initialSubject
-      ? chapters.find((c) => String(c.subjectId) === String(initialSubject.id)) ||
-        sindhBoardChapters.find((c) => String(c.subjectId) === String(initialSubject.id))
+      ? chapters.find((c) => String(c.subjectId) === String(initialSubject.id))
       : null;
 
     setQuizForm({
@@ -677,12 +660,8 @@ export default function QuizzesPage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {filteredQuizzes.map((quiz) => {
-                const matchSubject =
-                  subjects.find((s) => String(s.id) === String(quiz.subjectId)) ||
-                  sindhBoardSubjects.find((s) => String(s.id) === String(quiz.subjectId));
-                const matchClass =
-                  classes.find((c) => String(c.id) === String(quiz.classId)) ||
-                  sindhBoardClasses.find((c) => String(c.id) === String(quiz.classId));
+                const matchSubject = subjects.find((s) => String(s.id) === String(quiz.subjectId));
+                const matchClass = classes.find((c) => String(c.id) === String(quiz.classId));
 
                 // Student attempt status
                 const userAttempt = studentAttempts.find(
@@ -818,9 +797,7 @@ export default function QuizzesPage() {
                   </thead>
                   <tbody className="divide-y divide-border/60">
                     {displayAttempts.map((attempt, idx) => {
-                      const matchClass =
-                        classes.find((c) => String(c.id) === String(attempt.classId)) ||
-                        sindhBoardClasses.find((c) => String(c.id) === String(attempt.classId));
+                      const matchClass = classes.find((c) => String(c.id) === String(attempt.classId));
 
                       return (
                         <tr key={attempt.id || idx} className="hover:bg-muted/20 transition-colors">

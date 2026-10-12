@@ -34,20 +34,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import {
-  sindhBoardClasses,
-  sindhBoardSubjects,
-  sindhBoardChapters,
-} from "@/data/sindhBoardCurriculum";
 import toast from "react-hot-toast";
-
-const CLASS_OPTIONS = [
-  { value: "class-8", label: "Class 8" },
-  { value: "class-9", label: "Class 9" },
-  { value: "class-10", label: "Class 10" },
-  { value: "class-11", label: "Class 11" },
-  { value: "class-12", label: "Class 12" },
-];
 
 export default function AssignmentsPage() {
   const {
@@ -93,20 +80,12 @@ export default function AssignmentsPage() {
   // Cascading options for Admin form
   const formSubjects = useMemo(() => {
     if (!formData.classId) return [];
-    const list = subjects.filter((s) => String(s.classId) === String(formData.classId));
-    if (list.length === 0) {
-      return sindhBoardSubjects.filter((s) => String(s.classId) === String(formData.classId));
-    }
-    return list;
+    return subjects.filter((s) => String(s.classId) === String(formData.classId));
   }, [subjects, formData.classId]);
 
   const formChapters = useMemo(() => {
     if (!formData.subjectId) return [];
-    const list = chapters.filter((c) => String(c.subjectId) === String(formData.subjectId));
-    if (list.length === 0) {
-      return sindhBoardChapters.filter((c) => String(c.subjectId) === String(formData.subjectId));
-    }
-    return list;
+    return chapters.filter((c) => String(c.subjectId) === String(formData.subjectId));
   }, [chapters, formData.subjectId]);
 
   // Admin Submissions View
@@ -182,7 +161,7 @@ export default function AssignmentsPage() {
 
   const openCreateModal = () => {
     setEditingAssignment(null);
-    const initialClassId = classFilter !== "all" ? classFilter : classes[0]?.id || "class-9";
+    const initialClassId = classFilter !== "all" ? classFilter : classes[0]?.id || "";
     const initialSub = subjects.find((s) => String(s.classId) === String(initialClassId));
     setFormData({
       title: "",
@@ -418,12 +397,8 @@ export default function AssignmentsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {filteredAssignments.map((assignment) => {
             const hasSubmitted = Boolean(userSubmissionsMap[assignment.id]);
-            const matchSubject =
-              subjects.find((s) => String(s.id) === String(assignment.subjectId)) ||
-              sindhBoardSubjects.find((s) => String(s.id) === String(assignment.subjectId));
-            const matchClass =
-              classes.find((c) => String(c.id) === String(assignment.classId)) ||
-              sindhBoardClasses.find((c) => String(c.id) === String(assignment.classId));
+            const matchSubject = subjects.find((s) => String(s.id) === String(assignment.subjectId));
+            const matchClass = classes.find((c) => String(c.id) === String(assignment.classId));
 
             const isPastDue = assignment.dueDate && new Date(assignment.dueDate) < new Date();
 
